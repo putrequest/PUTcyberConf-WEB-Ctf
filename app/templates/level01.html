@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Level 01</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Zadanie 1{% endblock %}
+
+{% block body %}
     <h1>Tu nic nie ma!</h1>
-    <!--putrequest{0c3ec482d41a198b58a4eaf9da8bc740}-->
-</body>
-</html>
+
+    <!--putrequest{{ flag }}-->
+{% endblock %}

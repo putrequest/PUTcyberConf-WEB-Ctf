@@ -11,16 +11,43 @@ def get_db_connection():
     return conn
 
 @app.route("/favicon.ico")
-def favicon():
+def main_css():
 	return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsof.icon')
 
+@app.route("/main.css")
+def favicon():
+	return send_from_directory(os.path.join(app.root_path, 'static'),'main.css')
+
 @app.route("/")
-def hello_world():
+def index():
     conn = get_db_connection()
-    names = conn.execute('select level_name from flags').fetchall()
+    names = conn.execute('select level_name from flags where hidden = 0').fetchall()
     conn.close()
-    print(names)
     return render_template('index.html', data=names)
+
+@app.route("/level1")
+def level_01():
+    conn = get_db_connection()
+    flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
+    conn.close()
+    return render_template('level01.html', flag='{'+flag+'}')
+
+@app.route('/level2', methods=['GET', 'POST'])
+def level_02():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'putrequest' or request.form['password'] != 'ce7664fdd1b2863dc28c718c15b911ed':
+            error = 'Niepoprawne dane logowania.'
+        else:
+            return redirect(url_for('level_02_flag'))
+    return render_template('level02.html', error=error)
+
+@app.route("/level2flag")
+def level_02_flag():
+    conn = get_db_connection()
+    flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+    conn.close()
+    return render_template('level02flag.html', flag='{'+flag+'}')
 
 if __name__ == '__main__':
     db.init_database()

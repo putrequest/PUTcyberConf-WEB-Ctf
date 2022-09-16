@@ -7,8 +7,8 @@ def init_database():
     connection = sqlite3.connect('database.db')
 
 
-    with open('schema.sql') as f:
-        connection.executescript(f.read())
+    # with open('schema.sql') as f:
+    #     connection.executescript(f.read())
 
     cur = connection.cursor()
 
@@ -17,6 +17,7 @@ def init_database():
       id integer primary key autoincrement,
       level_name TEXT unique not null,
       flag TEXT unique not null,
+      hidden integer,
       solved integer
     );''')
 
@@ -31,10 +32,12 @@ def init_database():
             flags.append(flag)
         else:
             continue
-
+    hidden = 0
     for i, flag in enumerate(flags):
-        cur.execute("insert into flags (level_name, flag, solved) values (?, ?, ?)",
-                        ('Zadanie {}'.format(i), flag, 0)
+        if (i + 1) >= 8:
+            hidden = 1
+        cur.execute("insert into flags (level_name, flag, hidden, solved) values (?, ?, ?, ?)",
+                        ('Zadanie {}'.format(i + 1), flag, hidden, 0)
                         )
 
     connection.commit()
