@@ -2,6 +2,7 @@ from flask import *
 import os
 import db
 import sqlite3
+import base64
 
 app = Flask(__name__)
 
@@ -48,6 +49,14 @@ def level_02_flag():
     flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
     conn.close()
     return render_template('level02flag.html', flag='{'+flag+'}')
+
+@app.route("/level3")
+def level_03():
+    conn = get_db_connection()
+    flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
+    conn.close()
+    f = 'putrequest{'+flag+'}'
+    return render_template('level03.html', flag=base64.b64encode(f.encode('ascii')).decode("ascii"))
 
 if __name__ == '__main__':
     db.init_database()
