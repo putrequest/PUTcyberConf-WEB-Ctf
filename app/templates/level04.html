@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Zadanie 4 - strona główna{% endblock %}
+
+{% block body %}
+    <div class="col-md-8">
+        <h1>Dostępne posty:</h1>
+            {% for post in posts %}
+                <article class="media content-section">
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-2" >Autor: {{ post.author }}</a>
+                    </div>
+                    <h2><a class="article-title" href="level4/post/{{ post.id }}">{{ post.title }}</a></h2>
+                    <p class="article-content">{{ post.content }}</p>
+                  </div>
+                </article>
+            {% endfor %}
+    </div>
+{% endblock %}

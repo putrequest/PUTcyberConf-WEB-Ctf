@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Zadanie 4 - post {{ object.id }}{% endblock %}
+
+{% block body %}
+    <h1>Pełny wpis:</h1>
+    <div class="col-md-8">
+      <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            Autor: {{ object.author }}</a>
+          </div>
+          <h2 class="article-title">{{ object.title }}</h2>
+          <p class="article-content">{{ object.content }}</p>
+        </div>
+      </article>
+    </div>
+{% endblock %}

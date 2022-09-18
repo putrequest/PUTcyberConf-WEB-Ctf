@@ -13,6 +13,7 @@ def init_database():
     cur = connection.cursor()
 
     cur.execute('drop table if exists flags;')
+    cur.execute('drop table if exists posts;')
     cur.execute('''create table flags (
       id integer primary key autoincrement,
       level_name TEXT unique not null,
@@ -39,6 +40,30 @@ def init_database():
         cur.execute("insert into flags (level_name, flag, hidden, solved) values (?, ?, ?, ?)",
                         ('Zadanie {}'.format(i + 1), flag, hidden, 0)
                         )
+
+    cur.execute('''create table posts (
+      id integer primary key,
+      author TEXT,
+      title TEXT not null,
+      content TEXT,
+      hidden int
+    );''')
+    cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (1, 'a', 'Test', '''Content Content Content Content Content Content Content Content Content Content 
+                Content Content Content Content Content Content Content Content Content Content Content Content Content 
+                Content Content Content Content Content Content Content Content ''', 0)
+                )
+
+    cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (2, 'b', 'Test1', '''Content1 Content Content Content Content Content Content Content Content Content 
+                Content Content Content Content Content Content Content Content Content Content Content Content Content 
+                Content Content Content Content Content Content Content Content ''', 1)
+                )
+    cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (3, 'c', 'Test1', '''Content1 Content Content Content Content Content Content Content Content Content 
+                Content Content Content Content Content Content Content Content Content Content Content Content Content 
+                Content Content Content Content Content Content Content Content ''', 0)
+                )
 
     connection.commit()
     connection.close()

@@ -48,7 +48,7 @@ def level_02_flag():
     conn = get_db_connection()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
     conn.close()
-    return render_template('level02flag.html', flag='{'+flag+'}')
+    return render_template('level02_flag.html', flag='{'+flag+'}')
 
 @app.route("/level3")
 def level_03():
@@ -57,6 +57,36 @@ def level_03():
     conn.close()
     f = 'putrequest{'+flag+'}'
     return render_template('level03.html', flag=base64.b64encode(f.encode('ascii')).decode("ascii"))
+
+@app.route("/level4")
+def level_04():
+    conn = get_db_connection()
+    p = conn.execute('select * from posts where hidden = 0').fetchall()
+    conn.close()
+    print(p)
+    return render_template('level04.html', posts=p)
+
+@app.route("/level4/post/<id>")
+def level_04_post(id):
+    try:
+        conn = get_db_connection()
+        query = """select * from posts where id = ?"""
+        p = conn.execute(query, (id)).fetchall()[0]
+        conn.close()
+        return render_template('level04_post.html', object=p)
+    except:
+        return render_template('404.html')
+
+@app.route('/level5')
+def hello():
+    return redirect("/level5/test.txt", code=302)
+
+
+@app.route('/level5/<filename>')
+def level_05(filename):
+    with open('static\\files\\{}'.format(filename), 'r') as file:
+        return file.read()
+
 
 if __name__ == '__main__':
     db.init_database()
