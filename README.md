@@ -5,7 +5,7 @@
     3. Flaga ukryta w źródle strony, ale zakodowane w base64
     4. Prosty IDOR np lista postów i jeden "ukryty"
     5. Jakiś błąd z directory traversal
-    6. Ciasteczko z polem admin 0, zmiana na 1 i po odświeżeniu dostanie się flagę
+    6. Ciasteczko z polem admin 0, zmiana na 1 i po odświeżeniu dostanie się flagę. Dodałem jeszcze brute force logowania 
     7. Strona posiada pole tekstowe, atakujący ma zapytać sie o flagę wtedy ją dostanie, jednak słowo będzie to blokowane na froncie, będzie musiał zmodyfikować sobie request, gdy już to zrobi w odpowiedzi nie dostanie flagi pytanie czy to na pewno wszystkie
 
 ### Dodatkowe zadania (będzie trzeba ich sobie poszukać samemu):

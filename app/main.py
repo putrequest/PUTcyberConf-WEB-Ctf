@@ -87,6 +87,26 @@ def level_05(filename):
     with open('static\\files\\{}'.format(filename), 'r') as file:
         return file.read()
 
+@app.route('/level6', methods=['GET', 'POST'])
+def level_06():
+    error = None
+    if request.cookies.get('admin'):
+        if request.cookies.get('admin') == "1":
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
+            conn.close()
+            resp = make_response(render_template('level06_flag.html', flag = 'putrequest{' + flag + '}'))
+            resp.set_cookie('admin', '1')
+            return resp
+    if request.method == 'POST':
+        if request.form['username'] != 'putrequest' or request.form['password'] != 'ce7664fdd1b2863dc28c718c15b911ed':
+            error = 'Niepoprawne dane logowania.'
+        else:
+            resp = make_response(render_template('level06_page.html'))
+            resp.set_cookie('admin', '0')
+            return resp
+
+    return render_template('level06_login.html', error=error)
 
 if __name__ == '__main__':
     db.init_database()
