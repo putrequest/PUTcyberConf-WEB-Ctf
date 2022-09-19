@@ -108,6 +108,10 @@ def level_06():
 
     return render_template('level06_login.html', error=error)
 
+@app.route('/level7')
+def level_07():
+    return render_template('level07.html', data={})
+
 if __name__ == '__main__':
     db.init_database()
     app.run(host='127.0.0.1', port=8000, debug=True)
