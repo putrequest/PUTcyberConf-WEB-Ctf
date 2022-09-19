@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Zadanie 8{% endblock %}
+
+{% block body %}
+    <div class="container">
+      <h1>Aby dostać flagę musisz się zapytać o nią (ale teraz już nie jest tak prosto):</h1>
+      <br>
+      <form name="form" action="" onsubmit="submitForm(event)" method="post">
+        <input id="query" type="text" placeholder="Zapytanie" name="query" value="{{
+          request.form.query }}">
+        <input class="btn btn-default" type="submit" value="Zaloguj">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Błąd:</strong> {{ error }}
+      {% endif %}
+    </div>
+
+<script type="text/javascript">
+        function submitForm(event) {
+         event.preventDefault();
+            var restrictedWords = new Array("flag");
+            var txtInput = document.getElementById("query").value;
+            var error = 0;
+            for (var i = 0; i < restrictedWords.length; i++) {
+                var val = restrictedWords[i];
+                if ((txtInput.toLowerCase()).indexOf(val.toString()) > -1) {
+                    error = error + 1;
+                }
+            }
+
+            if (error > 0) {
+                alert('Nie wolno pytać o flagę!')
+            return false;
+            }
+            else {
+              document.form.submit()
+            }
+        }
+    </script>
+{% endblock %}

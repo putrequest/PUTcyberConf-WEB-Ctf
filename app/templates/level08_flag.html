@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Zadanie 8{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Twoje zapytanie:</h2>
+        {% autoescape false %}
+            {{ data }}
+        {% endautoescape %}
+    </div>
+
+{% endblock %}

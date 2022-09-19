@@ -116,10 +116,22 @@ def level_07():
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
             conn.close()
-            return render_template('level07_flag.html', data= 'putrequest{' + flag + '}')
+            return render_template('level07_flag.html', data = 'putrequest{' + flag + '}')
         else:
-            return render_template('level07_flag.html', data=request.form['query'].lower().strip())
+            return render_template('level07_flag.html', data = request.form['query'].lower().strip())
     return render_template('level07.html', data={})
+
+@app.route('/level8', methods=['GET', 'POST'])
+def level_08():
+    if request.method == 'POST':
+        if 'alert(\'flag\')' in request.form['query'].lower().strip():
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 8"').fetchall()[0][0]
+            conn.close()
+            return render_template('level08_flag.html', data = '<script>alert(\"putrequest{' + flag + '}\")</script>')
+        else:
+            return render_template('level08_flag.html', data = request.form['query'].lower().strip())
+    return render_template('level08.html', data={})
 
 if __name__ == '__main__':
     db.init_database()
