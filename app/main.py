@@ -108,8 +108,17 @@ def level_06():
 
     return render_template('level06_login.html', error=error)
 
-@app.route('/level7')
+@app.route('/level7', methods=['GET', 'POST'])
 def level_07():
+    print(request)
+    if request.method == 'POST':
+        if request.form['query'].lower().strip() == 'flag':
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
+            conn.close()
+            return render_template('level07_flag.html', data= 'putrequest{' + flag + '}')
+        else:
+            return render_template('level07_flag.html', data=request.form['query'].lower().strip())
     return render_template('level07.html', data={})
 
 if __name__ == '__main__':

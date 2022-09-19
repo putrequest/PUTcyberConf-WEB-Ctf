@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Zadanie 6{% endblock %}
+{% block title %}Zadanie 7{% endblock %}
 
 {% block body %}
     <div class="container">
       <h1>Aby dostać flagę musisz się zapytać o nią:</h1>
       <br>
-      <form action="" onsubmit="submitForm(event)" method="post">
+      <form name="form" action="" onsubmit="submitForm(event)" method="post">
         <input id="query" type="text" placeholder="Zapytanie" name="query" value="{{
           request.form.query }}">
-        <input class="button" onclick="fnCheckForRestrictedWords();" type="submit" value="Zaloguj">
+        <input class="btn btn-default" type="submit" value="Zaloguj">
       </form>
       {% if error %}
         <p class="error"><strong>Błąd:</strong> {{ error }}
@@ -30,13 +30,11 @@
             }
 
             if (error > 0) {
-                alert('You h1ave entered some restricted words.')
-<!--                return false;-->
-<!--                 returnToPreviousPage();-->
+                alert('Nie wolno pytać o flagę!')
             return false;
             }
             else {
-                return true;
+              document.form.submit()
             }
         }
     </script>
