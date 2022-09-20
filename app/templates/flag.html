@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Zgłoś flagę{% endblock %}
+
+{% block body %}
+    {% if congrats is defined %}
+        <h1>{{ congrats }}</h1>
+<button class="btn btn-link default" onclick="location.href='/'" type="button">
+         Do strony głównej</button>
+    {% else %}
+      <div class="container">
+        <h1>Zgłoś flagę:</h1>
+        <br>
+        <form name="form" method="post">
+          <input id="query" type="text" placeholder="putrequest{...}" name="flag" value="{{
+            request.form.flag }}">
+          <input class="btn btn-default" type="submit" value="Zgłoś">
+        </form>
+        {% if error %}
+          <p class="error"><strong>Błąd:</strong> {{ error }}
+        {% endif %}
+      </div>
+    {% endif %}
+
+
+{% endblock %}

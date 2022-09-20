@@ -30,7 +30,7 @@ def init_database():
     for i in range(1, 10):
         flag = get_random_string(10)
         if flag not in flags:
-            flags.append(flag)
+            flags.append('putrequest{'+flag+'}')
         else:
             continue
     hidden = 0

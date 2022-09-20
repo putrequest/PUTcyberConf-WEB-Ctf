@@ -4,9 +4,19 @@
 
 {% block body %}
     <h1>Zadania:</h1>
-    <ul>
+<!--    <ul>-->
         {% for item in data %}
-            <li>{{ item['level_name'] }}</li>
+            {% if item['solved'] == 1 %}
+<!--                <li><a class="link-solved" href="level{{ item['id'] }}">{{ item['level_name'] }}</a></li>-->
+                <button class="btn btn-link default" onclick="location.href='level{{ item['id'] }}'" type="button">
+         {{ item['level_name'] }}</button>
+            {% else %}
+        <button class="btn btn-link default" onclick="location.href='level{{ item['id'] }}'" type="button">
+         {{ item['level_name'] }}</button>
+<!--                <li><a class="link-unsolved" href="level{{ item['id'] }}">{{ item['level_name'] }}</a></li>-->
+            {% endif %}
         {% endfor %}
-    </ul>
+<!--    </ul>-->
+<button class="btn btn-link default" onclick="location.href='flag'" type="button">
+         Złoś flagę</button>
 {% endblock %}
