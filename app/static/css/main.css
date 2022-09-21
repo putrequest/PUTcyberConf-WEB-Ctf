@@ -11,6 +11,11 @@
   cursor: pointer;
 }
 
+.level2 {
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
 body {
   background: #fafafa;
   color: #333333;

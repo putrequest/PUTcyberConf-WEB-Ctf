@@ -3,19 +3,19 @@
 {% block title %}Zadanie 2{% endblock %}
 
 {% block body %}
-    <div class="container">
       <h1>Flaga dostępna po zalogowaniu:</h1>
-      <br>
+
       <form action="" method="post">
-        <input type="text" placeholder="Nazwa użytkownika" name="username" value="{{
+           <div class="form-group">
+        <input type="text" class="form-control level2" placeholder="Nazwa użytkownika" name="username" value="{{
           request.form.username }}">
-         <input type="password" placeholder="Hasło" name="password" value="{{
+         <input type="password" class="form-control level2" placeholder="Hasło" name="password" value="{{
           request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Zaloguj">
+        <input class="btn btn-dark level2 btn-lg" type="submit" value="Zaloguj">
+               </div>
       </form>
       {% if error %}
-        <p class="error"><strong>Błąd:</strong> {{ error }}
+        <p class="error"><strong>Błąd:</strong> {{ error }}</p>
       {% endif %}
 <!--Karol co chwila zapominasz hasła, zapisz je wreszcie: ce7664fdd1b2863dc28c718c15b911ed-->
-    </div>
 {% endblock %}

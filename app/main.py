@@ -24,8 +24,8 @@ def index():
     conn = get_db_connection()
     names = conn.execute('select id, level_name, solved from flags where hidden = 0').fetchall()
     conn.close()
-    for item in names:
-        print('{} {} {}'.format(item['id'], item['level_name'], item['solved']))
+    # for item in names:
+    #     print('{} {} {}'.format(item['id'], item['level_name'], item['solved']))
     return render_template('index.html', data=names)
 
 @app.route("/level1")
@@ -77,19 +77,6 @@ def level_04_post(id):
     except:
         return render_template('404.html')
 
-# @app.route('/level5')
-# def hello():
-#     return redirect("/level5/test.txt", code=302)
-
-
-# @app.route('/level5/<filename>', defaults={'filename': 'test.txt'})
-# def level_05(filename):
-#
-#     print(filename)
-#     with open('static\\files\\{}'.format(filename), 'r') as file:
-#         return file.read()
-
-
 @app.route('/level5')
 def level_05():
     print(request.args)
@@ -127,7 +114,6 @@ def level_06():
 
 @app.route('/level7', methods=['GET', 'POST'])
 def level_07():
-    print(request)
     if request.method == 'POST':
         if request.form['query'].lower().strip() == 'flag':
             conn = get_db_connection()
@@ -168,7 +154,7 @@ def flag():
                 conn.close()
                 return render_template('flag.html', congrats= 'Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']))
             else:
-                return render_template('flag.html')
+                return render_template('flag.html', congrats = 'Nieprawidowa flaga.')
         else:
             return redirect(url_for('flag'))
     return render_template('flag.html')

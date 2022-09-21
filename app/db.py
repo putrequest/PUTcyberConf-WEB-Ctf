@@ -42,7 +42,7 @@ def init_database():
                         )
 
     with open('static\\files\\flag.txt', 'w') as file:
-        file.write('putrequest{' + flags[4] + '}')
+        file.write(flags[4])
 
     cur.execute('''create table posts (
       id integer primary key,

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -9,8 +11,17 @@
   </head>
 
   <body>
-    {% block body %}
-    {% endblock %}
+
+      <main role="main" class="container"  align="center">
+      <div class="row">
+        <div class="col-md-6">
+          {% block body %}{% endblock %}
+        </div>
+      </div>
+    </main>
   </body>
 
+
+
 </html>
+

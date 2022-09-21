@@ -3,20 +3,29 @@
 {% block title %}Zadania{% endblock %}
 
 {% block body %}
+
     <h1>Zadania:</h1>
 <!--    <ul>-->
+<div class="d-grid gap-4 col-14 mx-auto">
         {% for item in data %}
             {% if item['solved'] == 1 %}
-<!--                <li><a class="link-solved" href="level{{ item['id'] }}">{{ item['level_name'] }}</a></li>-->
-                <button class="btn btn-link default" onclick="location.href='level{{ item['id'] }}'" type="button">
-         {{ item['level_name'] }}</button>
+                {% if item['id'] == 5 %}
+                    <button class="btn default btn-success btn-lg btn-block" onclick="location.href='level{{ item['id'] }}?filename=test.txt'" type="button">{{ item['level_name'] }}</button>
+                {% else %}
+                    <button class="btn default btn-success btn-lg btn-block" onclick="location.href='level{{ item['id'] }}'" type="button">{{ item['level_name'] }}</button>
+                {% endif %}
             {% else %}
-        <button class="btn btn-link default" onclick="location.href='level{{ item['id'] }}'" type="button">
-         {{ item['level_name'] }}</button>
-<!--                <li><a class="link-unsolved" href="level{{ item['id'] }}">{{ item['level_name'] }}</a></li>-->
+                {% if item['id'] == 5 %}
+                    <button class="btn default btn-dark btn-lg btn-block" onclick="location.href='level{{ item['id'] }}?filename=test.txt'" type="button">{{ item['level_name'] }}</button>
+                {% else %}
+                    <button class="btn default btn-dark btn-lg btn-block" onclick="location.href='level{{ item['id'] }}'" type="button">{{ item['level_name'] }}</button>
+                {% endif %}
+
             {% endif %}
         {% endfor %}
-<!--    </ul>-->
-<button class="btn btn-link default" onclick="location.href='flag'" type="button">
+
+<button class="btn default btn-success btn-lg btn-block" onclick="location.href='flag'" type="button">
          Złoś flagę</button>
+
+    </div>
 {% endblock %}
