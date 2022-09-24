@@ -115,7 +115,6 @@ def level_06():
 
 @app.route('/level7', methods=['GET', 'POST'])
 def level_07():
-    print(request)
     if request.method == 'POST':
         if request.form['query'].lower().strip() == 'flag':
             conn = get_db_connection()
@@ -138,6 +137,10 @@ def level_08():
             return render_template('level08_flag.html', data = request.form['query'].lower().strip())
     return render_template('level08.html', data={})
 
+@app.route('/help')
+def help():
+    return render_template('help.html', page = 'Podręcznik')
+
 @app.route('/flag', methods=['GET', 'POST'])
 def flag():
     if request.method == 'POST':
@@ -154,12 +157,12 @@ def flag():
                 # print(e)
                 conn.commit()
                 conn.close()
-                return render_template('flag.html', congrats= 'Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']))
+                return render_template('flag.html', congrats= 'Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']), page = 'Zadanie 8')
             else:
-                return render_template('flag.html', congrats = 'Nieprawidowa flaga.')
+                return render_template('flag.html', congrats = 'Nieprawidowa flaga.', page = 'Zadanie 8')
         else:
-            return redirect(url_for('flag'))
-    return render_template('flag.html')
+            return redirect(url_for('flag'), page = 'Zadanie 8')
+    return render_template('flag.html', page = 'Zadanie 8')
 
 if __name__ == '__main__':
     db.init_database()
