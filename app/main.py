@@ -67,21 +67,16 @@ def level_04():
 @app.route("/level4/post/<id>")
 def level_04_post(id):
     try:
-
         conn = get_db_connection()
         query = """select * from posts where id = ?"""
-        p = conn.execute(query, (id)).fetchall()[0]
+        p = conn.execute(query, (id,)).fetchall()[0]
         conn.close()
-
         return render_template('level04_post.html', object=p, page='Zadanie 4')
     except Exception as e:
-        print(e)
         return render_template('404.html')
 
 @app.route('/level5')
 def level_05():
-    print(request.args)
-
     filename = request.args.get('filename', default='test.txt', type=str)
     path = 'static\\files\\{}'.format(filename)
     if os.path.isdir(path):
@@ -132,10 +127,10 @@ def level_08():
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 8"').fetchall()[0][0]
             conn.close()
-            return render_template('level08_flag.html', data = '<script>alert(\"' + flag + '\")</script>')
+            return render_template('level08_flag.html', data = '<script>alert(\"' + flag + '\")</script>', page='Zadanie 8')
         else:
-            return render_template('level08_flag.html', data = request.form['query'].lower().strip())
-    return render_template('level08.html', data={})
+            return render_template('level08_flag.html', data = request.form['query'].lower().strip(), page='Zadanie 8')
+    return render_template('level08.html', data={}, page='Zadanie 8')
 
 @app.route('/help')
 def help():
@@ -157,12 +152,12 @@ def flag():
                 # print(e)
                 conn.commit()
                 conn.close()
-                return render_template('flag.html', congrats= 'Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']), page = 'Zadanie 8')
+                return render_template('flag.html', congrats= 'Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']), page = 'Zgłoś flagę')
             else:
-                return render_template('flag.html', congrats = 'Nieprawidowa flaga.', page = 'Zadanie 8')
+                return render_template('flag.html', congrats = 'Nieprawidowa flaga.', page = 'Zgłoś flagę')
         else:
-            return redirect(url_for('flag'), page = 'Zadanie 8')
-    return render_template('flag.html', page = 'Zadanie 8')
+            return redirect(url_for('flag'))
+    return render_template('flag.html', page = 'Złoś flagę')
 
 if __name__ == '__main__':
     db.init_database()
