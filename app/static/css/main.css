@@ -2,6 +2,10 @@
  * Login: putrequest
  */
 
+ .navbar {
+  margin-bottom: 20px;
+}
+
 .btn {
   border: 2px solid black;
   background-color: white;
