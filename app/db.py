@@ -45,28 +45,26 @@ def init_database():
         file.write(flags[4])
 
     cur.execute('''create table posts (
-      id integer primary key,
+      key integer primary key autoincrement,
+      id integer,
       author TEXT,
       title TEXT not null,
       content TEXT,
       hidden int
     );''')
     cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
-                (1, 'a', 'Test', '''Content Content Content Content Content Content Content Content Content Content 
-                Content Content Content Content Content Content Content Content Content Content Content Content Content 
-                Content Content Content Content Content Content Content Content ''', 0)
+                (1, 'Administrator', 'Cześć', '''Miło mi że wszedłeś na naszego bloga. Wraz ze znajomymi będziemy umieszczać tu relacje z naszego życia. Do zobaczenia w następnych postach.''', 0)
                 )
 
     cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
-                (2, 'b', 'Test1', '''Content1 Content Content Content Content Content Content Content Content Content 
-                Content Content Content Content Content Content Content Content Content Content Content Content Content 
-                Content Content Content Content Content Content Content Content ''', 1)
+                (2, 'Adam', 'Przedstawienie', '''Pora abyście poznali naszę ekipę. Jesteśmy grupą trzech osób pozytywnie zakręconych na punkcie pieszych wycieczek i aktywnego spędzania czasu wolnego. W następnych postach będziemy dzieli się informacjami jak sprawinie i bezpiecznie podróżować. Do zobaczenia na szlaku: Adam, Artur, Andrzej! ''', 0)
                 )
     cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
-                (3, 'c', 'Test1', '''Content1 Content Content Content Content Content Content Content Content Content 
-                Content Content Content Content Content Content Content Content Content Content Content Content Content 
-                Content Content Content Content Content Content Content Content ''', 0)
+                (3, 'Drużyna AAA', 'Porada', '''Nigdy nie zapominaj o zabraniu na wyprawę koca termicznego - w kryzysowej sytuacji może posłużyć on do budoty prowizorycznego schronienia.''', 0)
                 )
 
+    cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (27, 'Administrator', 'Flaga', flags[3], 1)
+                )
     connection.commit()
     connection.close()
