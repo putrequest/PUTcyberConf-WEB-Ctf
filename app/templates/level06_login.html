@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Zadanie 6{% endblock %}
+{% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-      <h1>Flaga dostępna po zalogowaniu:</h1>
-      <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Nazwa użytkownika" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Hasło" name="password" value="{{
-          request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Zaloguj">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Błąd:</strong> {{ error }}
-      {% endif %}
-    </div>
+    <h1>Logowanie:</h1>
+
+    <form method="post"  class="form-group">
+        <div class="form-group m-4 row justify-content-center">
+            <input type="text" class="form-control col-8" placeholder="Nazwa użytkownika" name="username" value="{{
+            request.form.username }}">
+        </div>
+        <div class="form-group m-4  row justify-content-center">
+            <input type="password" class="form-control col-8" placeholder="Hasło" name="password" value="{{
+            request.form.password }}">
+        </div>
+        <div class="form-group m-2  row justify-content-center">
+            <input class="btn btn-dark level2 btn-lg col-6" type="submit" value="Zaloguj">
+        </div>
+    </form>
 {% endblock %}

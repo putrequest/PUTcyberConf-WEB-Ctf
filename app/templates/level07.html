@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Zadanie 7{% endblock %}
+{% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-      <h1>Aby dostać flagę musisz się zapytać o nią:</h1>
-      <br>
-      <form name="form" action="" onsubmit="submitForm(event)" method="post">
-        <input id="query" type="text" placeholder="Zapytanie" name="query" value="{{
+    <h1>Po prostu zapytaj się o flagę:</h1>
+    <form name="form" method="post"  class="form-group" onsubmit="submitForm(event)">
+        <div class="form-group m-4 row justify-content-center">
+            <input id="query" type="text" class="form-control col-8" placeholder="Zapytanie" name="query" value="{{
           request.form.query }}">
-        <input class="btn btn-default" type="submit" value="Zaloguj">
-      </form>
+        </div>
+        <div class="form-group m-2  row justify-content-center">
+            <input class="btn btn-dark btn-lg col-6" type="submit" value="Wyślij">
+        </div>
+    </form>
       {% if error %}
         <p class="error"><strong>Błąd:</strong> {{ error }}
       {% endif %}
-    </div>
+
 
 <script type="text/javascript">
         function submitForm(event) {
@@ -30,11 +32,11 @@
             }
 
             if (error > 0) {
-                alert('Nie wolno pytać o flagę!')
+                alert('Nie wolno pytać o flagę!');
             return false;
             }
             else {
-              document.form.submit()
+              document.form.submit();
             }
         }
     </script>

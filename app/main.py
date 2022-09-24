@@ -100,30 +100,31 @@ def level_06():
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
             conn.close()
-            resp = make_response(render_template('level06_flag.html', flag = flag))
+            resp = make_response(render_template('level06_flag.html', flag = flag, page='Zadanie 6'))
             resp.set_cookie('admin', '1')
             return resp
     if request.method == 'POST':
         if request.form['username'] != 'putrequest' or request.form['password'] != 'ce7664fdd1b2863dc28c718c15b911ed':
             error = 'Niepoprawne dane logowania.'
         else:
-            resp = make_response(render_template('level06_page.html'))
+            resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
             resp.set_cookie('admin', '0')
             return resp
 
-    return render_template('level06_login.html', error=error)
+    return render_template('level06_login.html', error=error, page='Zadanie 6')
 
 @app.route('/level7', methods=['GET', 'POST'])
 def level_07():
+    print(request)
     if request.method == 'POST':
         if request.form['query'].lower().strip() == 'flag':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
             conn.close()
-            return render_template('level07_flag.html', data = flag)
+            return render_template('level07_flag.html', data = flag, page='Zadanie 7')
         else:
-            return render_template('level07_flag.html', data = request.form['query'].lower().strip())
-    return render_template('level07.html', data={})
+            return render_template('level07_flag.html', data = request.form['query'].lower().strip(), page='Zadanie 7')
+    return render_template('level07.html', data={}, page='Zadanie 7')
 
 @app.route('/level8', methods=['GET', 'POST'])
 def level_08():
