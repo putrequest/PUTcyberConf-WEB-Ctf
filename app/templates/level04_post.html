@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Zadanie 4 - post {{ object.id }}{% endblock %}
+{% block title %}{{ page }} - {{ object.title }} {% endblock %}
 
 {% block body %}
-    <h1>Pełny wpis:</h1>
-    <div class="col-md-8">
-      <article class="media content-section">
-        <div class="media-body">
-          <div class="article-metadata">
-            Autor: {{ object.author }}</a>
-          </div>
-          <h2 class="article-title">{{ object.title }}</h2>
-          <p class="article-content">{{ object.content }}</p>
+        <div class="row  justify-content-center m-2">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                    <a class="mr-2" >Autor: {{ object.author }}</a>
+                </div>
+                    <h2><a class="article-title" href="level4/post/{{ object.id }}">{{ object.title }}</a></h2>
+                <p class="article-content">{{ object.content }}</p>
+            </div>
+            </article>
         </div>
-      </article>
-    </div>
+
+
 {% endblock %}

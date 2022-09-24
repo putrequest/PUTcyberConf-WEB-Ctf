@@ -31,7 +31,7 @@ def level_01():
     conn = get_db_connection()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     conn.close()
-    return render_template('level01.html', flag = flag)
+    return render_template('level01.html', flag = flag, page='Zadanie 1')
 
 @app.route('/level2', methods=['GET', 'POST'])
 def level_02():
@@ -41,38 +41,41 @@ def level_02():
             error = 'Niepoprawne dane logowania.'
         else:
             return redirect(url_for('level_02_flag'))
-    return render_template('level02.html', error=error)
+    return render_template('level02.html', error=error, page='Zadanie 2')
 
 @app.route("/level2flag")
 def level_02_flag():
     conn = get_db_connection()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
     conn.close()
-    return render_template('level02_flag.html', flag=flag)
+    return render_template('level02_flag.html', flag=flag, page='Zadanie 2')
 
 @app.route("/level3")
 def level_03():
     conn = get_db_connection()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
     conn.close()
-    return render_template('level03.html', flag=base64.b64encode(flag.encode('ascii')).decode("ascii"))
+    return render_template('level03.html', flag=base64.b64encode(flag.encode('ascii')).decode("ascii"), page='Zadanie 3')
 
 @app.route("/level4")
 def level_04():
     conn = get_db_connection()
     p = conn.execute('select * from posts where hidden = 0').fetchall()
     conn.close()
-    return render_template('level04.html', posts=p)
+    return render_template('level04.html', posts=p, page='Zadanie 4')
 
 @app.route("/level4/post/<id>")
 def level_04_post(id):
     try:
+
         conn = get_db_connection()
         query = """select * from posts where id = ?"""
         p = conn.execute(query, (id)).fetchall()[0]
         conn.close()
-        return render_template('level04_post.html', object=p)
-    except:
+
+        return render_template('level04_post.html', object=p, page='Zadanie 4')
+    except Exception as e:
+        print(e)
         return render_template('404.html')
 
 @app.route('/level5')
