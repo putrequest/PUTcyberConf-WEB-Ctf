@@ -5,26 +5,27 @@
 {% block body %}
 
     <h1>Zadania:</h1>
-<!--    <ul>-->
-<div class="d-grid gap-4 col-14 mx-auto">
+
         {% for item in data %}
+            <div class="row justify-content-center m-2">
             {% if item['solved'] == 1 %}
                 {% if item['id'] == 5 %}
-                    <button class="btn default btn-success btn-lg btn-block" onclick="location.href='level{{ item['id'] }}?filename=test.txt'" type="button">{{ item['level_name'] }}</button>
+
+                    <button class="btn default btn-success btn-lg btn-block col-6" onclick="location.href='level{{ item['id'] }}?filename=test.txt'" type="button">{{ item['level_name'] }}</button>
                 {% else %}
-                    <button class="btn default btn-success btn-lg btn-block" onclick="location.href='level{{ item['id'] }}'" type="button">{{ item['level_name'] }}</button>
+                    <button class="btn default btn-success btn-lg btn-block col-6" onclick="location.href='level{{ item['id'] }}'" type="button">{{ item['level_name'] }}</button>
                 {% endif %}
             {% else %}
                 {% if item['id'] == 5 %}
-                    <button class="btn default btn-dark btn-lg btn-block" onclick="location.href='level{{ item['id'] }}?filename=test.txt'" type="button">{{ item['level_name'] }}</button>
+                    <button class="btn default btn-dark btn-lg btn-block col-6" onclick="location.href='level{{ item['id'] }}?filename=test.txt'" type="button">{{ item['level_name'] }}</button>
                 {% else %}
-                    <button class="btn default btn-dark btn-lg btn-block" onclick="location.href='level{{ item['id'] }}'" type="button">{{ item['level_name'] }}</button>
+                    <button class="btn default btn-dark btn-lg btn-block col-6" onclick="location.href='level{{ item['id'] }}'" type="button">{{ item['level_name'] }}</button>
                 {% endif %}
-
             {% endif %}
+                </div>
         {% endfor %}
-
-<button class="btn default btn-success btn-lg btn-block" onclick="location.href='flag'" type="button">
+<div class="row justify-content-center  m-2">
+<button class="btn default btn-success btn-lg btn-block col-6" onclick="location.href='flag'" type="button">
          Złoś flagę</button>
 
     </div>

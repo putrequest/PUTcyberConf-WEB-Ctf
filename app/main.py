@@ -24,8 +24,6 @@ def index():
     conn = get_db_connection()
     names = conn.execute('select id, level_name, solved from flags where hidden = 0').fetchall()
     conn.close()
-    # for item in names:
-    #     print('{} {} {}'.format(item['id'], item['level_name'], item['solved']))
     return render_template('index.html', data=names)
 
 @app.route("/level1")
