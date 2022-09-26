@@ -5,22 +5,24 @@
 {% block body %}
     {% if congrats is defined %}
         <h1>{{ congrats }}</h1>
-<button class="btn btn-link default" onclick="location.href='/'" type="button">
+            <button class="btn btn-link default" onclick="location.href='/'" type="button">
          Do strony głównej</button>
     {% else %}
-      <div class="container">
+    <div class="justify-content-center">
         <h1>Zgłoś flagę:</h1>
         <br>
-        <form name="form" method="post">
-          <input id="query" type="text" class="form-control level2" placeholder="putrequest{...}" name="flag" value="{{
-            request.form.flag }}">
-          <input class="btn btn-default btn-dark btn-lg" class="level2" type="submit" value="Zgłoś">
-        </form>
-        {% if error %}
-          <p class="error"><strong>Błąd:</strong> {{ error }}
+            <form name="form" method="post">
+                <div class="row justify-content-center">
+                    <input id="query" type="text" class="form-control m-2 col-6" placeholder="putrequest{...}" name="flag" value="{{
+                    request.form.flag }}">
+                </div>
+                <div class="row justify-content-center">
+                    <input class="btn btn-default btn-dark btn-lg m-2 col-6" type="submit" value="Zgłoś">
+                </div>
+            </form>
+            {% if error %}
+              <p class="error"><strong>Błąd:</strong> {{ error }}
+            {% endif %}
         {% endif %}
-      </div>
-    {% endif %}
-
-
+    </div>
 {% endblock %}
