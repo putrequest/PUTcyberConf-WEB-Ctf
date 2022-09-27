@@ -120,7 +120,7 @@ def level_07():
             return render_template('level07_flag.html', data = request.form['query'].lower().strip(), page='Zadanie 7')
     return render_template('level07.html', data={}, page='Zadanie 7')
 
-@app.route('/level8', methods=['GET', 'POST'])
+@app.route('/hidden9182', methods=['GET', 'POST'])
 def level_08():
     if request.method == 'POST':
         if 'alert(\'flag\')' in request.form['query'].lower().strip():

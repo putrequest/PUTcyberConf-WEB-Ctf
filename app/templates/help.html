@@ -12,20 +12,33 @@
 
     <div class="row justify-content-center">
         <h2>Ujawnienie informacji</h2>
+        <p>
         Jednym z błędów który poznasz od praktycznej strony jest ujawnienie informacji. Można go również nazwać jako wyciek informacji. Pojawia się gdy strona lub aplikacja w jakiś sposób udostępnia wrażliwe dane użytkownikom. Zależnie od sytuacji przykładami danych wrażliwych mogą być:
         <ul>
             <li>szczegóły techniczne serwisu</li>
             <li>loginy i hasła użytkowników</li>
         </ul>
         Niebezpieczeństwa związane z ujawnieniem takich informacji mogą wiązać się z ujawnieniem wektora ataku (miejsce, które może zostać wykorzystane do ataku), jak i również stwarzają ryzyko otrzymania kary finansowej oraz utraty reputacji marki. Błędy tej klasy często powstają przez przypadek — podczas tworzenia serwisu któryś programista może po prostu zrobić sobie notatki na stronie i zapomnieć o nich. Najprostsze wycieki informacji można próbować śledzić przez podglądanie kodu strony. Aby zobaczyć kod, strony naciśnij prawy przycisk myszy i wybierz opcję 'Pokaż źródło'. Pamiętaj, że strona nie składa tylko się z jednego pliku.
+        </p>
     </div>
 
     <div class="row justify-content-center">
         <h2>Kodowanie a szyfrowanie</h2>
+        <p>
+            Kodowanie i szyfrowanie z pozoru może wyglądać tak samo — ale to tylko pozory. Kodowanie polega na zmianie formatu danych, aby możliwa była wymiana danych pomiędzy wieloma różnymi systemami. Procesem odwrotnym jest dekodowanie. Kodowanie i dekodowanie są prostymi operacjami niewymagającymi żadnych dodatkowy danych. W internecie znajduje się wiele serwisów umożliwiających kodowanie i dekodowanie danych, jednym z najpopularniejszych formatów kodowań jest base64. Szyfrowanie natomiast ma za zadanie ochronić poufne informacje przed dostępem do nich osób niepowołanych. Odczytać zaszyfrowane dane mogą jedynie osoby posiadające odpowiedni klucz.
+        </p>
     </div>
 
     <div class="row justify-content-center">
         <h2>Odnajdywanie "ukrytej zawartości"</h2>
+        <p>
+            Prawdopodobnie podczas codziennej aktywności w Internecie zauważyłeś, że strony i serwisy internetowe często są rozbudowane. Często jest tak, że jedna strona posiada wiele wewnętrznych odwołań, przykładami mogą być: logowanie, koszyk, przeglądanie postów. Do każdej z tych funkcjonalności prowadzi unikalny link — zdecydowana większość z nich jest umieszczana na stronie i dostępna dla użytkownika, jednak niektóre adresy mogą być znane jedynie właścicielom aplikacji — przykładami takich funkcjonalności może być logowanie do panelu administracyjnego. Istnienie takich zasobów może też wynikać z błędów konfiguracyjnych. Podczas konkursów CTF warto jest, przeszukać aplikację w celu odnalezienia takich zasobów. Z uwagi na to, że wykonanie tego zadania ręcznie jest bardzo czasochłonne, stworzono do tego dedykowane narzędzia. Na szczęście istnieją narzędzia, które automatycznie wyszukują istniejące katalogi na stronie. Jednym z takich narzędzi jest program DirBuster. Jego zasada działania jest prosta: podajemy link do strony, od której program ma rozpocząć poszukiwanie (najlepiej zacząć od strony głównej). Następnie musimy wybrać plik tekstowy, w którym znajdują się nazwy katalogów, które program ma sprawdzić. Przygotowaliśmy do tego gotowy plik o nazwie keywords.txt. Następnie zaznaczamy opcję "Use Blank Extention" i klikamy przycisk start. Program powinien wyświetlić nam znalezione zasoby. Większość z nich już znamy, pytanie tylko, czy nie znalazło się coś wcześniej przed nami ukrytego. Poniżej screenshot z zaznaczonymi ważnymi dla nas miejscami w programie.
+        </p>
+            <img src="/static/files/dirbuster.png" class="m-4" alt="BirBuster">
+        <p>
+            Plik który który powinieneś wykorzystać jako słownik znajduje się <a href="/static/files/common.txt">tutaj</a>.
+        </p>
+
     </div>
 
     <div class="row justify-content-center">
