@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <h2>Wprowadzenie:</h2>
         <p>
-        Miło nam, że wziąłeś udział w warsztatach hakowania. Przygotowane zadania mają na celu przybliżyć Ci wybrane podstawowe podatności, na które można natknąć się w internecie. Zajęcia mają formę konkursu CTF - w każdym z zadań należy odszukać flagę. Flaga ma format: putrequest{...} pomiędzy ostrymi nawiasami znajdują się losowe znaki. Odnalezioną flagę należy zgłosić przez zakładkę Zgłoś flagę. Po zgłoszeniu prawidłowej flagi odnośnik do zadania na stronie głównej zmieni kolor na zielony. W poniższych sekcjach zawarliśmy materiały, które będą pomocne podczas rozwiązywania zadań. Znajdziesz tam opisy błędów oraz w niektórych wypadkach sposoby na ich wykorzystanie. Pamiętaj też, że zawsze możesz zadać pytania wolontariuszom z koła naukowego PUTrequest_. Życzymy owocnej we flagi zabawy, powodzenia!
+        Miło nam, że wziąłeś udział w warsztatach hakowania. Przygotowane zadania mają na celu przybliżyć Ci wybrane podstawowe podatności, na które można natknąć się w internecie. Zajęcia mają formę konkursu CTF - w każdym z zadań należy odszukać flagę. Flaga ma format: putrequest{...} pomiędzy ostrymi nawiasami znajdują się losowe znaki. Odnalezioną flagę należy zgłosić przez zakładkę Zgłoś flagę. Po zgłoszeniu prawidłowej flagi odnośnik do zadania na stronie głównej zmieni kolor na zielony. W poniższych sekcjach zawarliśmy materiały, które będą pomocne podczas rozwiązywania zadań. Znajdziesz tam opisy błędów oraz w niektórych wypadkach sposoby na ich wykorzystanie. Pamiętaj też, że zawsze możesz zadać pytania wolontariuszom z koła naukowego PUTrequest_. Życzymy owocnej we flagi zabawy, powodzenia! Ps. Podczas zabawy korzystaj z przeglądrki Firefox.
         </p>
     </div>
 
@@ -36,20 +36,77 @@
         </p>
             <img src="/static/files/dirbuster.png" class="m-4" alt="BirBuster">
         <p>
-            Plik który który powinieneś wykorzystać jako słownik znajduje się <a href="/static/files/common.txt">tutaj</a>.
+            Plik który powinieneś wykorzystać jako słownik znajduje się <a href="/static/files/common.txt">tutaj</a>.
         </p>
 
     </div>
 
     <div class="row justify-content-center">
         <h2>Włamywanie się na konto: łamanie siłowe</h2>
+        <p>
+            Jednym ze sposobów, w jaki ktoś niepowołany może dostać się na konto, jest siłowe odgadniecie danych logowania. Aby spróbować złamać siłowo hasło możesz wykorzystać program o nazwie BurpSuite. Program ten pozwala na przechwytywanie żądań wysyłanych przez przeglądarkę ich modyfikację, generowanie jak i przechwytywanie odpowiedzi od serwera. Co oznacza, że umożliwia podsłuchanie i ewentualne zmodyfikowanie całej komunikacji pomiędzy przeglądarką a serwerem. Aby móc skorzystać z tego programu do łamania danych logowania lub podglądania komunikacji, musisz mieć odpowiednio skonfigurowaną przeglądarkę. Na szczęście nie trzeba tego robić — program ma wbudowaną przeglądarkę, którą sugerujemy wykorzystać.
+        </p>
+        <figure>
+            <img src="/static/files/burp_browser.png" class="m-4" alt="BurpSuite">
+            <figcaption>Fig. 2 : W tych miejscach możesz uruchomić skonfigurowaną już przeglądarkę. </figcaption>
+        </figure>
+        <p>
+            Aby wysłane żądania były przechwytywane należy włączyć przechwytywanie:
+        </p>
+        <figure>
+            <img src="/static/files/burp_intercept.png" class="m-4" alt="BurpSuite">
+            <figcaption>Fig. 3 : Uruchomienie przechwytywania, aby zatrzymać użyj tego samego przycisku. </figcaption>
+        </figure>
+        <p>
+            Przykład przechwyconej przechwyconego fragmentu komunikacji:
+        </p>
+        <figure>
+            <img src="/static/files/burp_cap.png" class="m-4" alt="BurpSuite">
+            <figcaption>Fig. 4 : Przechwycony fragment komunikacji. Przechwycone żądanie przesyła dane do logowania - możemy je wykorzystać do ataku siłowego! </figcaption>
+        </figure>
+        <p>
+            Aby przeprowadzenie ataku było możliwe kliknij w dowolnym miejscu ciała żądania prawym klawiszem i wybierz opcję "Send to Intruder"
+        </p>
+        <figure>
+            <img src="/static/files/burp_send_intruder.png" class="m-4" alt="BurpSuite">
+            <figcaption>Fig. 5 : Wysłanie przchwyconego żądania do narzędzia, które pozwala na ataki siłowe. </figcaption>
+        </figure>
+        <p>
+            Po przesłaniu żądania do narzędzia Intruder pownieneś upewnić się, że oczekiwane przez Ciebie miejsca są celem ataku.
+        </p>
+        <figure>
+            <img src="/static/files/burp_value.png" class="m-4" alt="BurpSuite">
+            <figcaption>Fig. 6 : Oznacznie miejsc, które będą atakowane. </figcaption>
+        </figure>
+        <p>
+            Intruder pozwala na przeprowadzanie kilku rodzajów ataków:
+
+            <ul>
+                <li>Sniper: służy do atakowania jednego parametru jednym zestawem danych,</li>
+                <li>Battering ram: wykorzystuje jeden zestaw danych, ale ustawia te same dane we wszystkich wybranych polach,</li>
+                <li>Pitchfork: wykorzystywany jest, gdy trzeba jednocześnie pobierać parametry z wielu plików i wstawiać je w odpowiednie miejsca </li>
+                <li>Cluster bomb: wykorzystywany jest, gdy trzeba przetestować wszystkie kombinacje danych.</li>
+            </ul>
+            W ramach zabawy korzystaj z tego pliku zawierajacego <a href="/static/files/login.txt"> loginy </a> oraz pliku z hasłami <a href="/static/files/passwords.txt"> hasła</a>.
+            Już wiesz z jakiego ataku powinieś skorzystać? Jeśli nie
+        </p>
+
     </div>
 
-    <div class="row justify-content-center">
-        <h2>JavaScript - XSS</h2>
-    </div>
+<!--    <div class="row justify-content-center">-->
+<!--        <h2>JavaScript - XSS</h2>-->
+<!--    </div>-->
 
-    <div class="row justify-content-center">
-        <h2>Omijanie zabepiczeń na stronie</h2>
-    </div>
+<!--    <div class="row justify-content-center">-->
+<!--        <h2>Omijanie zabepiczeń na stronie</h2>-->
+<!--    </div>-->
+
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" >
+         © 2022 Copyright: PUTrequest_
+  </div>
+  <!-- Copyright -->
+</footer>
+
 {% endblock %}

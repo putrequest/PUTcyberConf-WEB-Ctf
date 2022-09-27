@@ -99,14 +99,14 @@ def level_06():
             resp.set_cookie('admin', '1')
             return resp
     if request.method == 'POST':
-        if request.form['username'] != 'putrequest' or request.form['password'] != 'ce7664fdd1b2863dc28c718c15b911ed':
-            error = 'Niepoprawne dane logowania.'
-        else:
+        if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
             resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
             resp.set_cookie('admin', '0')
             return resp
-
-    return render_template('level06_login.html', error=error, page='Zadanie 6')
+        else:
+            error = 'Niepoprawne dane logowania.'
+            return render_template('level06_login.html', error=error, page='Zadanie 6')
+    return render_template('level06_login.html',  page='Zadanie 6')
 
 @app.route('/level7', methods=['GET', 'POST'])
 def level_07():

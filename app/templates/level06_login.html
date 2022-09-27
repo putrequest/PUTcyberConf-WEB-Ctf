@@ -17,5 +17,8 @@
         <div class="form-group m-2  row justify-content-center">
             <input class="btn btn-dark level2 btn-lg col-6" type="submit" value="Zaloguj">
         </div>
+        {% if error %}
+            <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+        {% endif %}
     </form>
 {% endblock %}
