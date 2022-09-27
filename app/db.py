@@ -60,7 +60,7 @@ def init_database():
                 (2, 'Adam', 'Przedstawienie', '''Pora abyście poznali naszę ekipę. Jesteśmy grupą trzech osób pozytywnie zakręconych na punkcie pieszych wycieczek i aktywnego spędzania czasu wolnego. W następnych postach będziemy dzieli się informacjami jak sprawinie i bezpiecznie podróżować. Do zobaczenia na szlaku: Adam, Artur, Andrzej! ''', 0)
                 )
     cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
-                (3, 'Drużyna AAA', 'Porada', '''Nigdy nie zapominaj o zabraniu na wyprawę koca termicznego - w kryzysowej sytuacji może posłużyć on do budoty prowizorycznego schronienia.''', 0)
+                (3, 'Drużyna AAA', 'Porada', '''Nigdy nie zapominaj o zabraniu na wyprawę koca termicznego - w kryzysowej sytuacji może posłużyć on do budowy prowizorycznego schronienia.''', 0)
                 )
 
     cur.execute("insert into posts (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",

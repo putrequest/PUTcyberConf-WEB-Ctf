@@ -87,19 +87,43 @@
                 <li>Pitchfork: wykorzystywany jest, gdy trzeba jednocześnie pobierać parametry z wielu plików i wstawiać je w odpowiednie miejsca </li>
                 <li>Cluster bomb: wykorzystywany jest, gdy trzeba przetestować wszystkie kombinacje danych.</li>
             </ul>
-            W ramach zabawy korzystaj z tego pliku zawierajacego <a href="/static/files/login.txt"> loginy </a> oraz pliku z hasłami <a href="/static/files/passwords.txt"> hasła</a>.
-            Już wiesz z jakiego ataku powinieś skorzystać? Jeśli nie
+            W ramach zabawy korzystaj z tego pliku zawierajacego <a href="/static/files/login.txt">loginy</a> oraz pliku z <a href="/static/files/passwords.txt"> hasłami</a>.
+            Już wiesz z jakiego ataku powinieś skorzystać?
         </p>
 
     </div>
 
-<!--    <div class="row justify-content-center">-->
-<!--        <h2>JavaScript - XSS</h2>-->
-<!--    </div>-->
+    <div class="row justify-content-center">
+        <h2>Ciasteczka</h2>
+        <p>
+            Pewnie nie raz natrafiłeś na ciasteczka (cookies) podczas przeglądania stron internetowych. Czym one tak właściwie są i czemu powinny one przykuć naszą uwagę? Ciasteczka są informacjami zapisywanymi na naszym komputerze przez przeglądarkę. Dzięki nim komputer pamięta niektóre wprowadzone przez nas dane i nie musimy wpisywać ich za każdym razem, kiedy przykładowo wrócimy do poprzedniej strony. Co istotne (zwłaszcza dla nas — amatorów hakowania) ciasteczka można swobodnie podejrzeć, a nawet zmodyfikować. Jest to szczególnie przydatne w przypadku, gdy natrafimy na stronę, gdzie nieuważny programista wykorzystał ciasteczka do przechowywania istotnych informacji, na przykład, czy zalogowany użytkownik ma uprawnienia administratora...
+        </p>
+        <p>
+            Aby podejrzeć ciasteczka w przeglądarce Firefox, kliknij w dowolnym miejscu strony prawym przyciskiem myszy i wybierz opcję Zbadaj, a następnie zakładkę Dane.
+        </p>
+        <figure>
+            <img src="/static/files/cookie.png" class="m-4" alt="cookiee">
+            <figcaption>Fig. 7 : Panel z ciasteczkami. </figcaption>
+        </figure>
+    </div>
 
-<!--    <div class="row justify-content-center">-->
-<!--        <h2>Omijanie zabepiczeń na stronie</h2>-->
-<!--    </div>-->
+    <div class="row justify-content-center">
+        <h2>Omijanie zabepiczeń na stronie</h2>
+        <p>
+            Niekiedy programiści chcąc uchronić się przed atakami hakerskimi, stosują różnorodne zabezpieczenia. Ich celem jest na przykład weryfikowanie wprowadzanych danych pod kątem poprawności lub czy nie zawierają niedozwolnych fraz. Część zabezpieczeń nich jest umieszczona po stronie serwera, tj. dane są sprawdzane już po ich przesłaniu. Z kolei inne znajdują się po stronie aplikacji klienta. Ten drugi typ zabezpieczeń można dość łatwo przechytrzyć. Ponownie skorzystajmy z narzędzia Burp.
+        </p>
+        <p>
+            Spróbujmy przechwycić blokowane zapytanie. Możemy zauważyć, że pomimo wyświetlonej informacji w przeglądarce, Burp niczego nie przechwycił. Świadczy to o tym, że zapytanie zostało "zatrzymane" już na poziomie przeglądarki i nawet nie dotarło do Burpa. Spróbujmy więc wysłać prawidłowe zapytanie — jaki jest efekt? Możemy podejrzeć zapytanie w Burpie? Jeżeli tak: czy możemy je zmodyfikować?
+        </p>
+        <figure>
+            <img src="/static/files/burp_query.PNG" class="m-4" alt="BurpSuite">
+            <figcaption>Fig. 8 : Przechwycone zapytanie. </figcaption>
+        </figure>
+    </div>
+
+   <!-- <div class="row justify-content-center">
+       <h2>JavaScript - XSS</h2>
+    </div> -->
 
 <footer class="bg-light text-center text-lg-start">
   <!-- Copyright -->
