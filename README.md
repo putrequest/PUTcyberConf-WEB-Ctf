@@ -1,3 +1,9 @@
+# Cieższe rzeczy przeniosłem na OneDrive:
+https://putpoznanpl-my.sharepoint.com/:f:/g/personal/piotr_kontowicz_put_poznan_pl/EpxFXjgjMXJHoesM0Th_-NYBsmkXtHzCgy_8689qD7UcMA?e=dkCzBg
+
+## jeśli dodać wpis 127.0.0.1 noc-naukowcow.pl w pliku C:\Windows\System32\drivers\etc\hosts
+To będzie można się w przeglądarce odwoływać po nazwie.
+
 ### Podstawowe zadania:
     1. Flaga ukryta w źródle strony. (gotowe)
     2. Aby zdobyć flagę będzie trzeba się zalogować, dane do logowania będą na stronie w komentarzu, login w pliku strony, hasło w czymś dodatkowym. (gotowe)
