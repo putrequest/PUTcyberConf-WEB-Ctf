@@ -4,6 +4,8 @@ https://putpoznanpl-my.sharepoint.com/:f:/g/personal/piotr_kontowicz_put_poznan_
 ## jeśli dodać wpis 127.0.0.1 noc-naukowcow.pl w pliku C:\Windows\System32\drivers\etc\hosts
 To będzie można się w przeglądarce odwoływać po nazwie.
 
+Zrobiłem też to repozytorium tak żeby można sobie to spakować w kontener dockerowy. Jak ktoś chce przetestować działanie to: docker pull piotrrtoip/noc-naukowcow (powinno działać)
+
 ### Podstawowe zadania:
     1. Flaga ukryta w źródle strony. (gotowe)
     2. Aby zdobyć flagę będzie trzeba się zalogować, dane do logowania będą na stronie w komentarzu, login w pliku strony, hasło w czymś dodatkowym. (gotowe)
