@@ -22,3 +22,4 @@ Zrobiłem też to repozytorium tak żeby można sobie to spakować w kontener do
 # TODO: Zliczanie punktów
 # TODO: Pomoc: opis tego jak należy zgłaszać flagi, format flagi
 # TODO: Opis podatności/błędów: information disclosure, idor, directory travelsal, ciasteczka, potrzebne narzędzia: przeglądarka, burp 
+# TODO: Leaderboard
