@@ -14,6 +14,19 @@ def init_database():
 
     cur.execute('drop table if exists flags;')
     cur.execute('drop table if exists posts;')
+    cur.execute('drop table if exists users;')
+    cur.execute('drop table if exists userFlags;')
+    cur.execute('''create table users(
+    id integer primary key autoincrement,
+    username TEXT unique not null,
+    hash TEXT unique not null
+    );''')
+    cur.execute('''create table userFlags(
+    id integer primary key autoincrement,
+    user_id integer,
+    level_id integer,
+    timestamp timestamp
+    );''')
     cur.execute('''create table flags (
       id integer primary key autoincrement,
       level_name TEXT unique not null,
