@@ -21,6 +21,29 @@ def get_db_connection():
     return conn
 
 
+def checkFlag(request, conn, level):
+    user_id = \
+        conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+
+    # print(request.cookies.get('session_id'));
+    row = conn.execute('select * from flags where flag = "{}"'.format(request.form['flag'])).fetchall()
+
+    conn.close()
+    if len(row) == 1:
+        conn = get_db_connection()
+        q2 = """insert into userFlags(user_id, level_id, timestamp) values (?, ?, ?)"""
+        conn.execute(q2, (user_id, level, datetime.datetime.now()))
+        q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
+        # print(q)
+        e = conn.execute(q)
+        # print(e)
+        conn.commit()
+        conn.close()
+        return render_template('flag.html',
+                               congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
+                               page='Zgłoś flagę')
+
+
 @app.route("/favicon.ico")
 def main_css():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsof.icon')
@@ -64,9 +87,15 @@ def login():
         return render_template('login.html')
 
 
+@app.before_request
+def before_request():
+    if not request.cookies.get('session_id') and request.endpoint != 'login':
+        return redirect(url_for('login'))
+
 @app.route("/")
 def index():
     conn = get_db_connection()
+
     names = conn.execute('select id, level_name, solved from flags where hidden = 0').fetchall()
     conn.close()
     return render_template('index.html', data=names)
@@ -78,26 +107,8 @@ def level_01():
 
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
-        user_id = \
-            conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[
-                0][0]
-        # print(request.cookies.get('session_id'));
-        row = conn.execute('select * from flags where flag = "{}"'.format(request.form['flag'])).fetchall()
+        return checkFlag(request, conn, 1)
 
-        conn.close()
-        if len(row) == 1:
-            conn = get_db_connection()
-            q2 = """insert into userFlags(user_id, level_id, timestamp) values (?, ?, ?)"""
-            conn.execute(q2, (user_id, 1, datetime.datetime.now()))
-            q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
-            # print(q)
-            e = conn.execute(q)
-            # print(e)
-            conn.commit()
-            conn.close()
-            return render_template('flag.html',
-                                   congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
-                                   page='Zgłoś flagę')
     return render_template('level01.html', flag=flag, page='Zadanie 1')
 
 
@@ -112,10 +123,12 @@ def level_02():
     return render_template('level02.html', error=error, page='Zadanie 2')
 
 
-@app.route("/level2flag")
+@app.route("/level2flag", methods=['GET', 'POST'])
 def level_02_flag():
     conn = get_db_connection()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+    if request.method == 'POST':
+        return checkFlag(request, conn, 2)
     conn.close()
     return render_template('level02_flag.html', flag=flag, page='Zadanie 2')
 
