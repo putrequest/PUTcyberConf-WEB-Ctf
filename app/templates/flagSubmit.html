@@ -1,0 +1,17 @@
+
+<div class="justify-content-center">
+    <h1>Zgłoś flagę:</h1>
+    <br>
+    <form name="form" method="post">
+        <div class="row justify-content-center">
+            <input id="query" type="text" class="form-control m-2 col-6" placeholder="putrequest{...}" name="flag"
+                   value="{{ request.form.flag }}">
+        </div>
+        <div class="row justify-content-center">
+            <input class="btn btn-default btn-dark btn-lg m-2 col-6" type="submit" value="Zgłoś">
+        </div>
+    </form>
+    {% if error %}
+        <p class="error"><strong>Błąd:</strong> {{ error }}
+    {% endif %}
+</div>
