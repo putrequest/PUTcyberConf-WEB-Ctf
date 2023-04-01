@@ -115,12 +115,23 @@ def level_01():
 @app.route('/level2', methods=['GET', 'POST'])
 def level_02():
     error = None
+    if request.cookies.get('admin'):
+        if request.cookies.get('admin') == "true":
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+            conn.close()
+            resp = make_response(render_template('level02_flag.html', flag=flag, page='Zadanie 2'))
+            resp.set_cookie('admin', 'true')
+            return resp
     if request.method == 'POST':
-        if request.form['username'] != 'putrequest' or request.form['password'] != 'ce7664fdd1b2863dc28c718c15b911ed':
-            error = 'Niepoprawne dane logowania.'
+        if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
+            resp = make_response(render_template('level02_page.html', page='Zadanie 2'))
+            resp.set_cookie('admin', 'false')
+            return resp
         else:
-            return redirect(url_for('level_02_flag'))
-    return render_template('level02.html', error=error, page='Zadanie 2')
+            error = 'Niepoprawne dane logowania.'
+            return render_template('level02_login.html', error=error, page='Zadanie 2')
+    return render_template('level02_login.html', page='Zadanie 2')
 
 
 @app.route("/level2flag", methods=['GET', 'POST'])

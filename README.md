@@ -7,14 +7,14 @@ To będzie można się w przeglądarce odwoływać po nazwie.
 
 ## Podstawowe zadania:
    1. Grzebanie w kodzie źródłowym strony - śmietnik html
-   2. admin true/false - włamanie admina ->
+   2. admin true/false - włamanie admina - Work in Progress
    3. Robots.txt - odzyskanie pieska. 
        - Lokalizacja pieska/flagi pieskowej w tym pliku.
        - Następnie udać się do wskazanego subdir
-   4. Sqli - kod do drzwi w bazie więźniów
+   4. Sqli - kod do drzwi w bazie więźniów - Work in Progress
    5. File upload - plik zastępujący nagranie z kamer. Chcemy dodać mp4 a się nie da
-   6. JWT token - stały secretkey - zawartość karty z prisoner na guard
-   7. IDOR - subdomena  - wychodzi z więzienia i na podglądzie karty widać jego dane i trzeba je zmienić. ID więźniów jest for example od 10-50 a strażników od 0-10.
+   6. JWT token - stały secretkey - zawartość karty z prisoner na guard - Work in Progress
+   7. IDOR - subdomena  - wychodzi z więzienia i na podglądzie karty widać jego dane i trzeba je zmienić. ID więźniów jest for example od 10-50 a strażników od 0-10. - Work in Progress
    8. Zrobić stronkę z wyświetlaniem profilu więźnia i po zmianie id w url-u zmieniać profile na inne.
 
 ### Dodatkowe zadania (będzie trzeba ich sobie poszukać samemu):
