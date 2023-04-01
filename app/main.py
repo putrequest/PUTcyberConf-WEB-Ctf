@@ -121,12 +121,10 @@ def level_02():
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
             conn.close()
             resp = make_response(render_template('level02_flag.html', flag=flag, page='Zadanie 2'))
-            resp.set_cookie('admin', 'true')
             return resp
     if request.method == 'POST':
         if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
             resp = make_response(render_template('level02_page.html', page='Zadanie 2'))
-            resp.set_cookie('admin', 'false')
             return resp
         else:
             error = 'Niepoprawne dane logowania.'
@@ -136,11 +134,19 @@ def level_02():
 
 @app.route("/level2flag", methods=['GET', 'POST'])
 def level_02_flag():
-    conn = get_db_connection()
-    flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
-    if request.method == 'POST':
-        return checkFlag(request, conn, 2)
-    conn.close()
+    if request.cookies.get('admin'):
+        if request.cookies.get('admin') == "true":
+
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+            if request.method == 'POST':
+
+                return checkFlag(request, conn, 2)
+            conn.close()
+        else:
+            return render_template('404.html')
+    else:
+        return render_template('404.html')
     return render_template('level02_flag.html', flag=flag, page='Zadanie 2')
 
 
@@ -159,6 +165,12 @@ def level_04():
     p = conn.execute('select * from posts where hidden = 0').fetchall()
     conn.close()
     return render_template('level04.html', posts=p, page='Zadanie 4')
+
+##def level_04():
+##    conn = get_db_connection()
+##    p = conn.execute('select * from posts where hidden = 0').fetchall()
+##    conn.close()
+##    return render_template('level04.html', posts=p, page='Zadanie 4')
 
 
 @app.route("/level4/post/<id>")
