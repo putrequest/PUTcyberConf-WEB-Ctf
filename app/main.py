@@ -201,7 +201,7 @@ def level_06():
                              JWTsecret, algorithm='HS256')
     
     resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
-    set_token = request.headers.get('token')
+    set_token = request.cookies.get('token')
 
     if set_token is None:
         resp.set_cookie('token', def_token)
