@@ -188,7 +188,7 @@ def level_05():
 
 
 @app.route('/level6', methods=['GET', 'POST'])
-#JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsImZ1bmtjamEiOiJ3acSZemllxYQiLCJrb3BlcmVrIjowfQ.tTCKnVHCU42ch7XFMes9dcIKUZPgfoNcTivvCxQFAYk
+#JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
 def level_06():
     #def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
     error = None
@@ -214,10 +214,6 @@ def level_06():
             resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6'))
             
             return resp
-        
-    resp.set_cookie('token', def_token)
-
-
     return resp
 
 
