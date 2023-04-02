@@ -8,6 +8,7 @@ import sqlite3
 import base64
 from flask import make_response, session
 from flask_session import Session
+import jwt
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -187,25 +188,37 @@ def level_05():
 
 
 @app.route('/level6', methods=['GET', 'POST'])
+#JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsImZ1bmtjamEiOiJ3acSZemllxYQiLCJrb3BlcmVrIjowfQ.tTCKnVHCU42ch7XFMes9dcIKUZPgfoNcTivvCxQFAYk
 def level_06():
+    #def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
     error = None
-    if request.cookies.get('admin'):
-        if request.cookies.get('admin') == "1":
+    JWTsecret = "832p13c2ny_k1uc2"
+    def_token = jwt.encode({'imie': "Robert Witold Makłowicz",
+                             'data_ur': "12.07.1963",
+                             'rola': "więzień",
+                             'EEEEEE': 104,
+                             'delfiny': "ahahahahahahahah"},
+                             JWTsecret, algorithm='HS256')
+    
+    resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
+    set_token = request.headers.get('token')
+
+    if set_token is None:
+        resp.set_cookie('token', def_token)
+        return resp
+    else:
+        if jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola'] == "strażnik":
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
             conn.close()
             resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6'))
-            resp.set_cookie('admin', '1')
+            
             return resp
-    if request.method == 'POST':
-        if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
-            resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
-            resp.set_cookie('admin', '0')
-            return resp
-        else:
-            error = 'Niepoprawne dane logowania.'
-            return render_template('level06_login.html', error=error, page='Zadanie 6')
-    return render_template('level06_login.html', page='Zadanie 6')
+        
+    resp.set_cookie('token', def_token)
+
+
+    return resp
 
 
 @app.route('/level7', methods=['GET', 'POST'])
