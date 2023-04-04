@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }} - {{ object.title }} {% endblock %}
+
+{% block body %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profil Więźnia</title>
+  </head>
+  <body>
+    <h1>Profil Więźnia</h1>
+    <div style="display: flex">
+      <table>
+        <tr>
+          <td>Imię i nazwisko:</td>
+          <td>{{ object.name }}</td>
+        </tr>
+        <tr>
+          <td>Data urodzenia:</td>
+          <td>{{ object.b_date }}</td>
+        </tr>
+        <tr>
+          <td>Data zwolnienia:</td>
+          <td>{{ object.r_date }}</td>
+        </tr>
+        <tr>
+          <td>Blok:</td>
+          <td>{{ object.blok }}</td>
+        </tr>
+        <tr>
+          <td>Numer celi:</td>
+          <td>{{ object.cellnumber }}</td>
+        </tr>
+        <tr>
+          <td>Dieta:</td>
+          <td>{{ object.diet }}</td>
+        </tr>
+        <tr>
+          <td>Wyrok:</td>
+          <td>{{ object.sentence }}</td>
+        </tr>
+        <tr>
+          <td>Praca:</td>
+          <td>{{ object.job }}</td>
+        </tr>
+      </table>
+      <img src="{{ url_for('static', filename='files/p_and_g_photos/'+'10'+'.jpg') }}" alt="Zdjęcie Więźnia" style="width: 250px; height: 300px; margin-left: 50px">
+    </div>
+  </body>
+</html>
+{% endblock %}
