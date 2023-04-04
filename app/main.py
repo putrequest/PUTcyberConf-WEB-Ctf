@@ -22,12 +22,12 @@ def get_db_connection():
     return conn
 
 
-def checkFlag(request, conn, level):
+def checkFlag(request, flag, conn, level):
     user_id = \
         conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
 
     # print(request.cookies.get('session_id'));
-    row = conn.execute('select * from flags where flag = "{}"'.format(request.form['flag'])).fetchall()
+    row = conn.execute('select * from flags where flag = "{}"'.format(flag)).fetchall()
 
     conn.close()
     if len(row) == 1:
@@ -93,6 +93,7 @@ def before_request():
     if not request.cookies.get('session_id') and request.endpoint != 'login':
         return redirect(url_for('login'))
 
+
 @app.route("/")
 def index():
     conn = get_db_connection()
@@ -108,7 +109,8 @@ def level_01():
 
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
-        return checkFlag(request, conn, 1)
+        user_flag = request.form['flag']
+        return checkFlag(request, user_flag, conn, 1)
 
     return render_template('level01.html', flag=flag, page='Zadanie 1')
 
@@ -200,18 +202,18 @@ def level_05():
 
 
 @app.route('/level6', methods=['GET', 'POST'])
-#JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
+# JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
 def level_06():
-    #def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
+    # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
     error = None
     JWTsecret = "832p13c2ny_k1uc2"
     def_token = jwt.encode({'imie': "Robert Witold Makłowicz",
-                             'data_ur': "12.07.1963",
-                             'rola': "więzień",
-                             'EEEEEE': 104,
-                             'delfiny': "ahahahahahahahah"},
-                             JWTsecret, algorithm='HS256')
-    
+                            'data_ur': "12.07.1963",
+                            'rola': "więzień",
+                            'EEEEEE': 104,
+                            'delfiny': "ahahahahahahahah"},
+                           JWTsecret, algorithm='HS256')
+
     resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
     set_token = request.cookies.get('token')
 
@@ -222,9 +224,10 @@ def level_06():
         if jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola'] == "strażnik":
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
+            checkFlag(request, flag, conn, 6)
             conn.close()
             resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6'))
-            
+
             return resp
     return resp
 
@@ -246,7 +249,7 @@ def level_07_dane(id):
             return render_template('level07_guard.html', object=p, page='Zadanie 4')
    # except Exception as e:
    #     return render_template('404.html')
-    
+
 
 """ @app.route('/level7', methods=['GET', 'POST'])
 def level_07():
