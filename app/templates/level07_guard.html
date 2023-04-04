@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }} - {{ object.title }} {% endblock %}
+
+{% block body %}
+<div class="row mt-3">
+    <div class="col-md-3">
+        <img src="{{ url_for('static', filename='files/p_and_g_photos/'+ object.id +'.png') }}" alt="Zdjęcie Strażnika" style="width: 250px; height: 300px; margin-left: 50px">
+    </div>
+    <div class="col-md-9">
+        <h3>{{ object.name }}</h3>
+        <p><strong>Data Urodzenia:</strong> {{ object.b_date }}</p>
+        <p><strong>Data Rozpoczęcia Pracy:</strong> {{ object.start_date }}</p>
+        <p><strong>Stopień:</strong> {{ object.rank }}</p>
+        <p><strong>Pensja:</strong> {{ object.salary }} zł</p>
+        <p><strong>Przydzielone Bloki:</strong> {{ object.blok }}</p>
+        <p><strong>Numer Telefonu:</strong> {{ object.phone }}</p>
+    </div>
+</div>
+
+{% endblock %}
