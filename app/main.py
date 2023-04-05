@@ -233,9 +233,8 @@ def level_06():
 
 
 @app.route("/level7/dane/<id>")
-#id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
-    try:
+    #try:
         if int(id) >= 10:
             conn = get_db_connection()
             query = """select * from data_prisoners where id = ?"""
@@ -248,9 +247,9 @@ def level_07_dane(id):
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
             return render_template('level07_guard.html', object=p, page='Zadanie 4')
-    except Exception as e:
-        return render_template('404.html')
-    
+   # except Exception as e:
+   #     return render_template('404.html')
+
 
 """ @app.route('/level7', methods=['GET', 'POST'])
 def level_07():
