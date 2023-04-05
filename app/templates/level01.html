@@ -3,7 +3,34 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <h1>Tu nic nie ma!</h1>
-    <!--{{ flag }}-->
+    <html>
+    <head>
+        <title>Śmietnik</title>
+    </head>
+    <body>
+        <h1>Śmietnik więzienny</h1>
+        <ul>
+            <li>Zużyte chusteczki</li>
+            <li>Kartki z notatkami</li>
+            <li>Resztki jedzenia</li>
+            <li>Opakowanie po jedzeniu</li>
+            <li>Puste opakowania po lekach</li>
+            <li>Butelki po wodzie</li>
+            <li>Puste paczki po papierosach></li>
+            <li>Skrawki papieru</li>
+            <li>Opakowanie po kosmetykach<!--{{ flag }}--></li>
+            <li>Zużyte długopisy</li>
+            <li>Opakowanie po perfumach</li>
+            <li>Złamany widelec</li>
+            <li>Stara gazeta</li>
+            <li>Butelka po szamponie</li>
+            <li>Zniszczone karty do gry</li>
+            <li>Stary kebab</li>
+            <li>Opakowanie po kubku</li>
+        </ul>
+        <p>Znajdź klucz, aby wyjść z celi!</p>
+    </body>
+    </html>
+
     {% include 'flagSubmit.html' %}
 {% endblock %}
