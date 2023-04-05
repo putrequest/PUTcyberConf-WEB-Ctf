@@ -132,3 +132,4 @@ dmypy.json
 .app/static/files/flag.txt
 app/static/files/flag.txt
 .DS_Store
+**/.DS_Store
