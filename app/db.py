@@ -56,8 +56,6 @@ def init_database():
                         ('Zadanie {}'.format(i + 1), flag, hidden, 0)
                         )
 
-    with open('static\\files\\flag.txt', 'w') as file:
-        file.write(flags[4])
 
     cur.execute('''create table posts (
       key integer primary key autoincrement,

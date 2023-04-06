@@ -131,4 +131,11 @@ dmypy.json
 .idea/
 .app/static/files/flag.txt
 app/static/files/flag.txt
+.DS_Store
+app/.DS_Store
+app/static/.DS_Store
+rapp/static/files/.DS_Store
+app/static/files/p_and_g_photos/.DS_Store
+/**/*.DS_Store
+
 static\files\flag.txt

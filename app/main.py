@@ -128,6 +128,7 @@ def level_02():
     if request.method == 'POST':
         if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
             resp = make_response(render_template('level02_page.html', page='Zadanie 2'))
+            resp.set_cookie('admin', "false")
             return resp
         else:
             error = 'Niepoprawne dane logowania.'
