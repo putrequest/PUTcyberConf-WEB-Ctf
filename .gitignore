@@ -131,4 +131,4 @@ dmypy.json
 .idea/
 .app/static/files/flag.txt
 app/static/files/flag.txt
-
+static\files\flag.txt
