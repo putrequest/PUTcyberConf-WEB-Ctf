@@ -1,9 +1,11 @@
 import datetime
 
+import bcrypt as bcrypt
 import requests
 from flask import *
 import os
 import db
+import level4_db
 import sqlite3
 import base64
 from flask import make_response, session
@@ -114,79 +116,109 @@ def level_01():
 
     return render_template('level01.html', flag=flag, page='Zadanie 1')
 
-
-@app.route('/level2', methods=['GET', 'POST'])
+@app.route("/level2", methods=['GET', 'POST'])
 def level_02():
+    conn = get_db_connection()
+
+    flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+    if (request.method == 'POST'):
+        user_flag = request.form['flag']
+        return checkFlag(request, user_flag, conn, 2)
+
+    return render_template('level02.html', flag=flag, page='Zadanie 2')
+
+@app.route('/level3', methods=['GET', 'POST'])
+def level_03():
     error = None
     if request.cookies.get('admin'):
         if request.cookies.get('admin') == "true":
             conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
             conn.close()
-            resp = make_response(render_template('level02_flag.html', flag=flag, page='Zadanie 2'))
+            resp = make_response(render_template('level03_flag.html', flag=flag, page='Zadanie 3'))
             return resp
     if request.method == 'POST':
         if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
-            resp = make_response(render_template('level02_page.html', page='Zadanie 2'))
+            resp = make_response(render_template('level03_page.html', page='Zadanie 3'))
             resp.set_cookie('admin', "false")
             return resp
         else:
             error = 'Niepoprawne dane logowania.'
-            return render_template('level02_login.html', error=error, page='Zadanie 2')
-    return render_template('level02_login.html', page='Zadanie 2')
+            return render_template('level03_login.html', error=error, page='Zadanie 3')
+    return render_template('level03_login.html', page='Zadanie 3')
 
 
-@app.route("/level2flag", methods=['GET', 'POST'])
-def level_02_flag():
+@app.route("/level3flag", methods=['GET', 'POST'])
+def level_03_flag():
     if request.cookies.get('admin'):
         if request.cookies.get('admin') == "true":
 
             conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
             if request.method == 'POST':
 
-                return checkFlag(request, conn, 2)
+                return checkFlag(request, conn, 3)
             conn.close()
         else:
             return render_template('404.html')
     else:
         return render_template('404.html')
-    return render_template('level02_flag.html', flag=flag, page='Zadanie 2')
+    return render_template('level03_flag.html', flag=flag, page='Zadanie 3')
 
 
-@app.route("/level3")
-def level_03():
-    conn = get_db_connection()
-    flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
-    conn.close()
-    return render_template('level03.html', flag=base64.b64encode(flag.encode('ascii')).decode("ascii"),
-                           page='Zadanie 3')
-
-
-@app.route("/level4")
+@app.route("/level4", methods=['GET', 'POST'])
 def level_04():
-    conn = get_db_connection()
-    p = conn.execute('select * from posts where hidden = 0').fetchall()
-    conn.close()
-    return render_template('level04.html', posts=p, page='Zadanie 4')
+    if request.method == 'POST':
+        # Get form data
+        form_user = request.form['username']
+        form_pass = request.form['password']
 
-##def level_04():
-##    conn = get_db_connection()
-##    p = conn.execute('select * from posts where hidden = 0').fetchall()
-##    conn.close()
-##    return render_template('level04.html', posts=p, page='Zadanie 4')
+        # Query MySQL for user
+        conn = get_level4_db_connection()
+        r= conn.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (form_user, form_pass)).fetchone()
 
-
-@app.route("/level4/post/<id>")
-def level_04_post(id):
-    try:
-        conn = get_db_connection()
-        query = """select * from posts where id = ?"""
-        p = conn.execute(query, (id,)).fetchall()[0]
         conn.close()
-        return render_template('level04_post.html', object=p, page='Zadanie 4')
-    except Exception as e:
-        return render_template('404.html')
+
+        if r is not None:
+            query_user = r[1]
+            session['logged_in'] = True
+            session['username'] = query_user
+            ## test' OR 'a'='a';--
+            return redirect('/level4/welcome')
+        else:
+            # Show error message
+            error = "Zła nazwa użytkownika lub hasło"
+            return render_template('level06_login.html', error=error)
+        # Close cursor and connection
+    else:
+        # Show login form| test' OR 'a'='a';--
+        return render_template('level06_login.html')
+
+@app.route('/level4/welcome')
+def home():
+    if session.get('logged_in'):
+        if session.get('username') == "Administrator":
+
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 4"').fetchall()[0][0]
+            if request.method == 'POST':
+                return checkFlag(request, conn, 4)
+
+            conn.close()
+            return render_template('level04_page.html', user=session['username'], flag=flag, page='Zadanie 4')
+
+        else:
+            return render_template('level04_page.html',user=session['username'], page='Zadanie 4')
+
+
+    else:
+        return "Nie jesteś zalogowany."
+
+
+def get_level4_db_connection():
+    conn = sqlite3.connect('database_level4.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 @app.route('/level5')
@@ -252,19 +284,6 @@ def level_07_dane(id):
    #     return render_template('404.html')
 
 
-""" @app.route('/level7', methods=['GET', 'POST'])
-def level_07():
-    if request.method == 'POST':
-        if request.form['query'].lower().strip() == 'flag':
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
-            conn.close()
-            return render_template('level07_flag.html', data=flag, page='Zadanie 7')
-        else:
-            return render_template('level07_flag.html', data=request.form['query'].lower().strip(), page='Zadanie 7')
-    return render_template('level07.html', data={}, page='Zadanie 7') """
-
-
 @app.route('/hidden9182', methods=['GET', 'POST'])
 def level_08():
     if request.method == 'POST':
@@ -312,4 +331,5 @@ def flag():
 
 if __name__ == '__main__':
     db.init_database()
+    level4_db.init_database()
     app.run(host='127.0.0.1', port=8000, debug=True)
