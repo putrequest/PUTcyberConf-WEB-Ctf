@@ -116,16 +116,32 @@ def level_01():
 
     return render_template('level01.html', flag=flag, page='Zadanie 1')
 
-@app.route("/level2", methods=['GET', 'POST'])
+#@app.route("/level2", methods=['GET', 'POST'])
+#def level_02():
+#    conn = get_db_connection()
+#    flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+#    if (request.method == 'POST'):
+#        user_flag = request.form['flag']
+#        return checkFlag(request, user_flag, conn, 2)
+#
+#    return render_template('level02.html', flag=flag, page='Zadanie 2')
+
+@app.route("/robots.txt", methods=['GET', 'POST'])
+def robots():
+    robots = open('app/static/files/robots.txt', 'r').read()
+    return render_template('level02_robots.html', robots=robots)
+
+@app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
 def level_02():
-    conn = get_db_connection()
-
-    flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
-    if (request.method == 'POST'):
-        user_flag = request.form['flag']
-        return checkFlag(request, user_flag, conn, 2)
-
-    return render_template('level02.html', flag=flag, page='Zadanie 2')
+    if request.method == 'POST':
+        if request.form.get('button') == 'next':
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
+            checkFlag(request, flag, conn, 2)
+            conn.close()
+            return redirect(url_for('level_03'))
+            
+    return render_template('level02_flag.html', page='Zadanie 2')
 
 @app.route('/level3', methods=['GET', 'POST'])
 def level_03():
