@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /css/
+Disallow: /plugin/
+
+User-agent: więzień
+Disallow: /blok-D/cela-6132/Mopsik
+Disallow /blok-D/cela-2139/Żółty
+

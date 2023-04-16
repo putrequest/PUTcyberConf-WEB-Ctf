@@ -56,8 +56,7 @@ def init_database():
                         ('Zadanie {}'.format(i + 1), flag, hidden, 0)
                         )
 
-    with open('static\\files\\flag.txt', 'w') as file:
-        file.write(flags[4])
+    #cur.execute("update flags set flag ='PR{Dr0pp3r_MC_SteeringDoor_50252541965624420956295H' WHERE id = 4 ")
 
     cur.execute('''create table posts (
       key integer primary key autoincrement,
