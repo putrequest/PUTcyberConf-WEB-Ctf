@@ -6,6 +6,15 @@
 <div class="row mt-3">
     <div class="col-md-3">
         <img src="{{ url_for('static', filename='files/p_and_g_photos/'+ object.id +'.png') }}" alt="Zdjęcie Strażnika" style="width: 250px; height: 300px; margin-left: 50px">
+        <form method="post" action="{{ '/level7/dane/' + object.id }}">
+            <input type="submit" value="Ustaw Profil" name="next" class="btn btn-default btn-dark btn-lg m-2 col-12">
+        </form>
+        {% if error %}
+        <p class="error"><strong>Błąd:</strong> {{ error }}
+        {% endif %}
+        {% if success %}
+        <p class="success"><strong>Sukces:</strong> {{ success }}
+        {% endif %}
     </div>
     <div class="col-md-9">
         <h3>{{ object.name }}</h3>

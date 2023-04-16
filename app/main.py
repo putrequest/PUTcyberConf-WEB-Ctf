@@ -11,6 +11,7 @@ import base64
 from flask import make_response, session
 from flask_session import Session
 import jwt
+from time import sleep
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -289,23 +290,57 @@ def level_06():
     return resp
 
 
-@app.route("/level7/dane/<id>")
+
+@app.route("/level7/dane/<id>", methods=['GET', 'POST'])
+#id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
-    #try:
+    if request.method == 'POST':
+        if request.form.get('next') == 'Ustaw Profil':
+            conn = get_db_connection()
+            query = """select * from data_guards where id = ?"""
+            p = conn.execute(query, (id,)).fetchall()[0]
+            conn.close()
+            if id == '3':
+                conn = get_db_connection()
+                flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
+                #checkFlag(request, flag, conn, 7)
+                conn.close()
+                success = 'Gratulacje! Ustawiono profil.'
+                return render_template('level07_guard.html', success=success, page='Zadanie 7', object=p)
+                #return redirect("/")
+            else:
+                error = 'Nie udało się ustawić profilu. Osoba nie jest podobna do Makłowicza.'
+                return render_template('level07_guard.html', error=error, page='Zadanie 7', object=p)
+    try:
         if int(id) >= 10:
             conn = get_db_connection()
             query = """select * from data_prisoners where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
-            return render_template('level07_prisoner.html', object=p, page='Zadanie 4')
+            return render_template('level07_prisoner.html', object=p, page='Zadanie 7')
         else:
             conn = get_db_connection()
             query = """select * from data_guards where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
-            return render_template('level07_guard.html', object=p, page='Zadanie 4')
-   # except Exception as e:
-   #     return render_template('404.html')
+
+            return render_template('level07_guard.html', object=p, page='Zadanie 7')
+    except Exception as e:
+        return render_template('404.html')
+    
+
+""" @app.route('/level7', methods=['GET', 'POST'])
+def level_07():
+    if request.method == 'POST':
+        if request.form['query'].lower().strip() == 'flag':
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
+            conn.close()
+            return render_template('level07_flag.html', data=flag, page='Zadanie 7')
+        else:
+            return render_template('level07_flag.html', data=request.form['query'].lower().strip(), page='Zadanie 7')
+    return render_template('level07.html', data={}, page='Zadanie 7') """
+
 
 
 @app.route('/hidden9182', methods=['GET', 'POST'])
