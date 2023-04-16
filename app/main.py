@@ -112,7 +112,15 @@ def level_01():
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
         user_flag = request.form['flag']
-        return checkFlag(request, user_flag, conn, 1)
+        if user_flag == flag:
+            #checkFlag(request, user_flag, conn, 1)
+            return redirect(url_for('level_02'))
+        elif user_flag == '':
+            error = 'Nie podano klucza.'
+            return render_template('level01.html', error=error, flag=flag, page='Zadanie 1')
+        else:
+            error = 'Niepoprawny klucz.'
+            return render_template('level01.html', error=error, flag=flag, page='Zadanie 1')
 
     return render_template('level01.html', flag=flag, page='Zadanie 1')
 

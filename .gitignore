@@ -137,5 +137,3 @@ app/static/.DS_Store
 rapp/static/files/.DS_Store
 app/static/files/p_and_g_photos/.DS_Store
 /**/*.DS_Store
-
-static\files\flag.txt
