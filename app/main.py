@@ -173,22 +173,22 @@ def level_03():
     return render_template('level03_login.html', page='Zadanie 3')
 
 
-@app.route("/level3flag", methods=['GET', 'POST'])
-def level_03_flag():
-    if request.cookies.get('admin'):
-        if request.cookies.get('admin') == "true":
-
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
-            if request.method == 'POST':
-
-                return checkFlag(request, conn, 3)
-            conn.close()
-        else:
-            return render_template('404.html')
-    else:
-        return render_template('404.html')
-    return render_template('level03_flag.html', flag=flag, page='Zadanie 3')
+#@app.route("/level3flag", methods=['GET', 'POST'])
+#def level_03_flag():
+#    if request.cookies.get('admin'):
+#        if request.cookies.get('admin') == "true":
+#
+#            conn = get_db_connection()
+#            flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
+#            if request.method == 'POST':
+#
+#                return checkFlag(request, conn, 3)
+#            conn.close()
+#        else:
+#            return render_template('404.html')
+#    else:
+#        return render_template('404.html')
+#    return render_template('level03_flag.html', flag=flag, page='Zadanie 3')
 
 
 @app.route("/level4", methods=['GET', 'POST'])
@@ -358,17 +358,17 @@ def level_07_dane(id):
         return render_template('404.html')
     
 
-""" @app.route('/level7', methods=['GET', 'POST'])
-def level_07():
-    if request.method == 'POST':
-        if request.form['query'].lower().strip() == 'flag':
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
-            conn.close()
-            return render_template('level07_flag.html', data=flag, page='Zadanie 7')
-        else:
-            return render_template('level07_flag.html', data=request.form['query'].lower().strip(), page='Zadanie 7')
-    return render_template('level07.html', data={}, page='Zadanie 7') """
+#@app.route('/level7', methods=['GET', 'POST'])
+#def level_07():
+#    if request.method == 'POST':
+#        if request.form['query'].lower().strip() == 'flag':
+#            conn = get_db_connection()
+#            flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
+#            conn.close()
+#            return render_template('level07_flag.html', data=flag, page='Zadanie 7')
+#        else:
+#            return render_template('level07_flag.html', data=request.form['query'].lower().strip(), page='Zadanie 7')
+#    return render_template('level07.html', data={}, page='Zadanie 7') 
 
 
 
