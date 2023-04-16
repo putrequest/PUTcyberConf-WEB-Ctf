@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <title> Zmień swoje zdjęcie</title>
+    <form action="{{ url_for('level_05') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Wyślij">
+    </form>
+
+    {% if success %}
+        <h3><p class="success"><strong>Sukces:</strong> {{ success }}</p></h3>
+    {% endif %}
+
+    {% if error %}
+        <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+    {% endif %}
+    
+    <h1>Nagranie w kamerach</h1>
+    <img src="{{ rec }}" alt="nagranie z kamer">
+    
+    {% if done %}
+        <form method="post" action="level5">
+            <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!">
+    {% endif %}
+{% endblock %}

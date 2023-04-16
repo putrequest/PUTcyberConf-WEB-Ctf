@@ -134,10 +134,10 @@ def robots():
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
 def level_02():
     if request.method == 'POST':
-        if request.form.get('button') == 'next':
+        if request.form.get('Idziemy dalej') == 'Idziemy dalej!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
-            checkFlag(request, flag, conn, 2)
+            #checkFlag(request, flag, conn, 2)
             conn.close()
             return redirect(url_for('level_03'))
             
@@ -237,18 +237,47 @@ def get_level4_db_connection():
     return conn
 
 
-@app.route('/level5')
-def level_05():
-    filename = request.args.get('filename', default='test.txt', type=str)
-    path = 'static\\files\\{}'.format(filename)
-    if os.path.isdir(path):
-        return '''Zawartość folderu {}:\n{}'''.format(path, '\n'.join(os.listdir(path)))
-    elif os.path.isfile(path):
-        with open(path, 'r') as file:
-            return file.read()
-    else:
-        return "Nierozpoznane."
+#@app.route('/level5')
+#def level_05():
+#    filename = request.args.get('filename', default='test.txt', type=str)
+#    path = 'static\\files\\{}'.format(filename)
+#    if os.path.isdir(path):
+#        return '''Zawartość folderu {}:\n{}'''.format(path, '\n'.join(os.listdir(path)))
+#    elif os.path.isfile(path):
+#        with open(path, 'r') as file:
+#            return file.read()
+#    else:
+#        return "Nierozpoznane."
 
+@app.route('/level5', methods=['GET', 'POST'])
+def level_05():
+    rec = url_for('static', filename='files/camera_video.gif')
+    allowed_extensions = {'.png', '.jpg', '.jpeg'}
+    if request.method == 'POST':
+
+        if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 5"').fetchall()[0][0]
+            #checkFlag(request, flag, conn, 5)
+            conn.close()
+            return redirect(url_for('level_06'))
+        
+        fileName = request.files['file'].filename
+        fileExt= os.path.splitext(fileName)[1]
+        if fileName != '':
+            print(fileExt)
+            if fileExt == '.php5':
+                rec = url_for('static', filename='files/Never.gif')
+                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True)
+            elif fileExt not in allowed_extensions:
+                error = 'Zabronione rozszerzenie pliku'
+                return render_template('level05_upload.html', page='Zadanie 5',error=error, rec=rec)
+            else:
+                print('Załadowano plik')
+                success = 'Plik został załadowany pomyślnie'
+                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success)
+               
+    return render_template('level05_upload.html', page='Zadanie 5', rec=rec)
 
 @app.route('/level6', methods=['GET', 'POST'])
 # JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
