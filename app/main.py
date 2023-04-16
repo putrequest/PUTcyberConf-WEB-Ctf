@@ -137,7 +137,7 @@ def level_02():
         if request.form.get('button') == 'next':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
-            checkFlag(request, flag, conn, 2)
+            #checkFlag(request, flag, conn, 2)
             conn.close()
             return redirect(url_for('level_03'))
             
@@ -146,13 +146,20 @@ def level_02():
 @app.route('/level3', methods=['GET', 'POST'])
 def level_03():
     error = None
-    if request.cookies.get('admin'):
-        if request.cookies.get('admin') == "true":
+    #added button redirection
+    if request.method == 'POST':
+        if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
             conn.close()
-            resp = make_response(render_template('level03_flag.html', flag=flag, page='Zadanie 3'))
+            #checkFlag(request, flag, conn, 3)
+            return redirect(url_for('level_04'))
+        
+    if request.cookies.get('admin'):
+        if request.cookies.get('admin') == "true":
+            resp = make_response(render_template('level03_flag.html', page='Zadanie 3'))
             return resp
+        
     if request.method == 'POST':
         if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
             resp = make_response(render_template('level03_page.html', page='Zadanie 3'))

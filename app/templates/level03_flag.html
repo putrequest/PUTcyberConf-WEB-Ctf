@@ -3,7 +3,9 @@
 {% block title %}Zadanie 2{% endblock %}
 
 {% block body %}
-    <h1>{{ flag }}</h1>
-    {% include 'flagSubmit.html' %}
+    <h2> Udało ci się! Jesteś adminem</h2>
+
+    <form method="post" action="/level3">
+        <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!">
 
 {% endblock %}
