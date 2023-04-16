@@ -202,7 +202,7 @@ def home():
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 4"').fetchall()[0][0]
             if request.method == 'POST':
-                return checkFlag(request, conn, 4)
+                checkFlag(request,flag,conn, 4)
 
             conn.close()
             return render_template('level04_page.html', user=session['username'], flag=flag, page='Zadanie 4')
@@ -284,18 +284,18 @@ def level_07_dane(id):
    #     return render_template('404.html')
 
 
-@app.route('/hidden9182', methods=['GET', 'POST'])
+@app.route('/level8', methods=['FLAG'])
 def level_08():
-    if request.method == 'POST':
-        if 'alert(\'flag\')' in request.form['query'].lower().strip():
+    if request.method == 'FLAG':
+
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 8"').fetchall()[0][0]
             conn.close()
-            return render_template('level08_flag.html', data='<script>alert(\"' + flag + '\")</script>',
-                                   page='Zadanie 8')
-        else:
-            return render_template('level08_flag.html', data=request.form['query'].lower().strip(), page='Zadanie 8')
-    return render_template('level08.html', data={}, page='Zadanie 8')
+            return render_template('level08.html', data=flag, page='Zadanie 8')
+
+    else:
+        return render_template('level08.html', data="JUST GET THE FLAG :)", page='Zadanie 8')
+
 
 
 @app.route('/help')
