@@ -56,8 +56,7 @@ def init_database():
                         ('Zadanie {}'.format(i + 1), flag, hidden, 0)
                         )
 
-    with open('static\\files\\flag.txt', 'w') as file:
-        file.write(flags[4])
+    #cur.execute("update flags set flag ='PR{Dr0pp3r_MC_SteeringDoor_50252541965624420956295H' WHERE id = 4 ")
 
     cur.execute('''create table posts (
       key integer primary key autoincrement,
@@ -108,7 +107,7 @@ def init_database():
     );''')
 #przykładowe dane do tabeli data_prisoners
 ##########################################################################################################################################
-    cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('21', 'Robert Witold Makłowicz', '12.08.1963', '21.07.2037', 'D', 'D-2138', 'Mięsna', 'Kradziez z włamaniem', 'Kucharz')
+    cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('10', 'Robert Witold Makłowicz', '12.08.1963', '21.07.2037', 'D', 'D-2138', 'Mięsna', 'Kradziez z włamaniem', 'Kucharz')
                     )
     cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('11', 'Adam Kowalski', '01.01.1980', '15.01.2030', 'A', 'A-123', 'Bezmięsna', 'Kradzież', 'Elektryk')
                     )
@@ -130,7 +129,7 @@ def init_database():
                     )
     cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('20', 'Katarzyna Kowalska', '01.01.1980', '15.01.2030', 'A', 'A-123', 'Bezmięsna', 'Kradzież', 'Elektryk')
                     )
-    cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('10', 'Kamila Kowalczyk', '02.04.1993', '02.04.2033', 'D', 'D-234', 'Wegetariańska', 'Kradzież z włamaniem', 'Fotograf')
+    cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('21', 'Kamila Kowalczyk', '02.04.1993', '02.04.2033', 'D', 'D-234', 'Wegetariańska', 'Kradzież z włamaniem', 'Fotograf')
                     )
     cur.execute("insert into data_prisoners (id, name, b_date, r_date, blok, cellnumber, diet, sentence, job) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", ('22', 'Marek Szymański', '28.07.1987', '28.07.2032', 'C', 'C-678', 'Bezmięsna', 'Napad na bank', 'Programista')
                     )

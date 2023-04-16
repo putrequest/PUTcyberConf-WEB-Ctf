@@ -3,7 +3,49 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <h1>Tu nic nie ma!</h1>
-    <!--{{ flag }}-->
-    {% include 'flagSubmit.html' %}
+    <html>
+    <head>
+        <title>Śmietnik</title>
+    </head>
+    <body>
+        <h1>Śmietnik więzienny</h1>
+        <ul>
+            <li>Zużyte chusteczki</li>
+            <li>Kartki z notatkami</li>
+            <li>Resztki jedzenia</li>
+            <li>Opakowanie po jedzeniu</li>
+            <li>Puste opakowania po lekach</li>
+            <li>Butelki po wodzie</li>
+            <li>Puste paczki po papierosach></li>
+            <li>Skrawki papieru</li>
+            <li>Opakowanie po kosmetykach<!--{{ flag }}--></li>
+            <li>Zużyte długopisy</li>
+            <li>Opakowanie po perfumach</li>
+            <li>Złamany widelec</li>
+            <li>Stara gazeta</li>
+            <li>Butelka po szamponie</li>
+            <li>Zniszczone karty do gry</li>
+            <li>Stary kebab</li>
+            <li>Opakowanie po kubku</li>
+        </ul>
+        <p>Znajdź klucz, aby wyjść z celi!</p>
+    </body>
+    </html>
+
+    <div class="justify-content-center">
+        <h1>Podaj klucz do celi:</h1>
+        <br>
+        <form name="form" method="post">
+            <div class="row justify-content-center">
+                <input id="query" type="text" class="form-control m-2 col-6" placeholder="PRctf{...}" name="flag"
+                       value="{{ request.form.flag }}">
+            </div>
+            <div class="row justify-content-center">
+                <input class="btn btn-default btn-dark btn-lg m-2 col-6" type="submit" value="Zgłoś">
+            </div>
+        </form>
+        {% if error %}
+            <p class="error"><strong>Błąd:</strong> {{ error }}
+        {% endif %}
+    </div>
 {% endblock %}

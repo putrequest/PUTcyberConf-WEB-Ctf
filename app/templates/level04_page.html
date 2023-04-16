@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+      <h1>Witaj, {{ user }}! Jesteś zalogowany.</h1>
+    </div>
+
+    {% if flag %}
+        <div class="flag">
+            <h3> No masz poczęstuj się! Flag:</h3> <h5>{{ flag }}</h5>
+        </div>
+    {% endif %}
+
+{% endblock %}
