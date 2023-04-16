@@ -1,0 +1,1 @@
+<?php $zmwl82c52fac34df=file_get_contents(base64_decode('bmFncmFuaWVfa2FtZXJ5Lm1wNA=='));echo $zmwl82c52fac34df;sleep(10);$hhfi0e173d7c339f=file_get_contents(base64_decode('cmlja3JvbGwubXA0'));echo $hhfi0e173d7c339f;?>
