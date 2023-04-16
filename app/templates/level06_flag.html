@@ -4,8 +4,7 @@
 
 {% block body %}
 
-    <h1>Drzwi otwarte. Gratulacje!</h1>
-    <h3>nwm czy wywalać to. Najlepiej by było dać przycisk z przekierowaniem do następnego zadanka…{{ flag }}</h3>
-    <a href="level7/dane/10">Prześć przez drzwi</a>
-
+    <h2>Drzwi otwarte. Gratulacje!</h2>
+    <form method="post" action="/level6">
+        <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!">
 {% endblock %}
