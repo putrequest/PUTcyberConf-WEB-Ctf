@@ -169,51 +169,45 @@ def level_03_flag():
 @app.route("/level4", methods=['GET', 'POST'])
 def level_04():
     if request.method == 'POST':
-        # Get form data
-        form_user = request.form['username']
-        form_pass = request.form['password']
+        if request.form['key']:
 
-        # Query MySQL for user
-        conn = get_level4_db_connection()
-        r= conn.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (form_user, form_pass)).fetchone()
+            key = request.form['key']
+            #print(key)
 
-        conn.close()
-
-        if r is not None:
-            query_user = r[1]
-            session['logged_in'] = True
-            session['username'] = query_user
-            ## test' OR 'a'='a';--
-            return redirect('/level4/welcome')
-        else:
-            # Show error message
-            error = "Zła nazwa użytkownika lub hasło"
-            return render_template('level06_login.html', error=error)
-        # Close cursor and connection
-    else:
-        # Show login form| test' OR 'a'='a';--
-        return render_template('level06_login.html')
-
-@app.route('/level4/welcome')
-def home():
-    if session.get('logged_in'):
-        if session.get('username') == "Administrator":
-
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 4"').fetchall()[0][0]
-            if request.method == 'POST':
-                checkFlag(request,flag,conn, 4)
-
+            conn = get_level4_db_connection()
+            query = "select * from doors where title = '%s' AND hidden = 0" % (key)
+            print(query)
+            p = conn.execute( query ).fetchall()
             conn.close()
-            return render_template('level04_page.html', user=session['username'], flag=flag, page='Zadanie 4')
-
+            # 'OR 1=1--
+            if p:
+                print(p[0])
+                return render_template('level04.html', posts=p, page='Zadanie 4')
+            else:
+                return render_template('level04.html',error = "Brak odpowiedzi na zapytanie", page='Zadanie 4')
         else:
-            return render_template('level04_page.html',user=session['username'], page='Zadanie 4')
-
+            conn = get_level4_db_connection()
+            p = conn.execute("select * from doors where hidden = 0").fetchall()
+            conn.close()
+            return render_template('level04.html', posts=p, page='Zadanie 4')
 
     else:
-        return "Nie jesteś zalogowany."
+        conn = get_level4_db_connection()
+        p = conn.execute("select * from doors where hidden = 0").fetchall()
+        conn.close()
+        return render_template('level04.html', posts=p, page='Zadanie 4')
 
+
+@app.route("/level4/post/<id>")
+def level_04_post(id):
+    try:
+        conn = get_level4_db_connection()
+        query = """select * from doors where id = ?"""
+        p = conn.execute(query, (id,)).fetchall()[0]
+        conn.close()
+        return render_template('level04_page.html', object=p, page='Zadanie 4')
+    except Exception as e:
+        return render_template('404.html')
 
 def get_level4_db_connection():
     conn = sqlite3.connect('database_level4.db')
