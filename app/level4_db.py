@@ -12,29 +12,30 @@ def init_database():
 
     cur = connection.cursor()
 
-    cur.execute('drop table if exists users;')
+    cur.execute('drop table if exists doors;')
+    cur.execute('drop table if exists posts;')
 
-    cur.execute('''create table users(
-    id integer primary key autoincrement,
-    username TEXT unique not null,
-    password TEXT not null
-    );''')
-
-    cur.execute("insert into users (id, username, password) values (?, ?, ?)",
-                (1, 'Administrator', 'Cześć')
-                )
-    cur.execute("insert into users (id, username, password) values (?, ?, ?)",
-                (2, 'PHPPrzemo', 'ArkaGdynia...')
-                )
-    cur.execute("insert into users (id, username, password) values (?, ?, ?)",
-                (3, 'GordonRam', 'UżyjDropa')
-                )
-    cur.execute("insert into users (id, username, password) values (?, ?, ?)",
-                (4, 'ZnanyAgentKwadrat', 'PR{Dr0pp3r_MC_SteeringDoor_50252541965624420956295H')
-                )
-    cur.execute("insert into users (id, username, password) values (?, ?, ?)",
-                (5, 'test', 'test')
+    cur.execute('''create table doors (
+          key integer primary key autoincrement,
+          id integer,
+          author TEXT,
+          title TEXT not null,
+          content TEXT,
+          hidden int
+        );''')
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (1, 'Administrator', 'Kod do Spacerniaka', "Kod do klucza: 9326", 0)
                 )
 
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (2, 'Adam', 'Kod do Stołówki', "Kod do klucza: 7503", 0)
+                )
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (3, 'Drużyna AAA', 'Kod do Składziku', "Kod do klucza: 0572", 0)
+                )
+
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (133, 'Administrator', 'Kod do Sterowni', "Kod do klucza: 3341", 1)
+                )
     connection.commit()
     connection.close()

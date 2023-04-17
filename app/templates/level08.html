@@ -3,41 +3,11 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <h1>Wyświetl flagę:</h1>
-    <form name="form" method="post"  class="form-group" onsubmit="submitForm(event)">
-        <div class="form-group m-4 row justify-content-center">
-            <input id="query" type="text" class="form-control col-8" placeholder="Zapytanie" name="query" value="{{
-          request.form.query }}">
-        </div>
-        <div class="form-group m-2  row justify-content-center">
-            <input class="btn btn-dark btn-lg col-6" type="submit" value="Wyślij">
-        </div>
-    </form>
-      {% if error %}
-        <p class="error"><strong>Błąd:</strong> {{ error }}
-      {% endif %}
+    <div class="container">
+        <h2>Hidden ending</h2>
+        {% autoescape false %}
+            {{ data }}
+        {% endautoescape %}
+    </div>
 
-
-<script type="text/javascript">
-        function submitForm(event) {
-         event.preventDefault();
-            var restrictedWords = new Array("flag");
-            var txtInput = document.getElementById("query").value;
-            var error = 0;
-            for (var i = 0; i < restrictedWords.length; i++) {
-                var val = restrictedWords[i];
-                if ((txtInput.toLowerCase()).indexOf(val.toString()) > -1) {
-                    error = error + 1;
-                }
-            }
-
-            if (error > 0) {
-                alert('Nie wolno pytać o flagę!');
-            return false;
-            }
-            else {
-              document.form.submit();
-            }
-        }
-    </script>
 {% endblock %}
