@@ -79,7 +79,7 @@ def login():
         s = Session()
         s.user_id = user_hash
         s.ip = request.remote_addr
-        response = make_response(redirect('/'))
+        response = make_response(redirect('/level1'))
         response.set_cookie('user_id', result)
         response.set_cookie('session_id', s.user_id)
         return response
@@ -424,4 +424,4 @@ def flag():
 if __name__ == '__main__':
     db.init_database()
     level4_db.init_database()
-    app.run(host='127.0.0.1', port=8001, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True)
