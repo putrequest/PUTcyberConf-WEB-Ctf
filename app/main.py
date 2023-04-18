@@ -1,7 +1,5 @@
 import datetime
 
-import bcrypt as bcrypt
-import requests
 from flask import *
 import os
 import db
@@ -11,7 +9,6 @@ import base64
 from flask import make_response, session
 from flask_session import Session
 import jwt
-from time import sleep
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -109,12 +106,11 @@ def index():
 @app.route("/level1", methods=['GET', 'POST'])
 def level_01():
     conn = get_db_connection()
-
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
         user_flag = request.form['flag']
         if user_flag == flag:
-            #checkFlag(request, user_flag, conn, 1)
+            checkFlag(request, user_flag, conn, 1)
             return redirect(url_for('level_02'))
         elif user_flag == '':
             error = 'Nie podano klucza.'
@@ -143,11 +139,11 @@ def robots():
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
 def level_02():
     if request.method == 'POST':
-        if request.form.get('Idziemy dalej') == 'Idziemy dalej!':
+        if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
-            #checkFlag(request, flag, conn, 2)
             conn.close()
+            #checkFlag(request, flag, conn, 2)
             return redirect(url_for('level_03'))
             
     return render_template('level02_flag.html', page='Zadanie 2')
@@ -430,4 +426,4 @@ def flag():
 if __name__ == '__main__':
     db.init_database()
     level4_db.init_database()
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='127.0.0.1', port=8001, debug=True)

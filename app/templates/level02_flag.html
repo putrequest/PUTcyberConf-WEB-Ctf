@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Znalazłeś Pieska!!!</h1>
     <!-- Coś nie działa ten obrazek i nwm jak to zrobić -->
-    <img scr="{{url_for('static', filename='files/piesek_happy.png')}}" alt="Zdjęcie Pieska" >
+    <img src="{{ url_for('static', filename='files/piesek.png') }}" alt="Zdjęcie Pieska" style="width: 250px; height: 300px; margin-left: 50px">
     <form method="post" action="/blok-D/cela-6132/Mopsik">
         <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!">
 {% endblock %}
