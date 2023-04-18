@@ -56,6 +56,42 @@ def checkFlag(request, flag, conn, level):
                                congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
                                page='Zgłoś flagę')
 
+def checkPoints(level_id):
+    # Get the user ID from the users table by hash
+    conn = get_db_connection()
+    c = conn.cursor()
+    user_id = c.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+
+    # Calculate the time elapsed since the last attempt
+    if level_id == 1:
+        # For level 1, use the timestamp from userFlags table where level_id = 1 minus the timestamp from users table
+        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, 1)).fetchall()[0][0]
+        last_timestamp_user = c.execute('select timestamp from users where id=?', (user_id,)).fetchall()[0][0]
+        time_elapsed = (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_user, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+    else:
+        # For the other levels, use the timestamp from userFlags table where level_id = current level_id minus the timestamp from userFlags table where level_id = current level_id - 1
+        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()[0][0]
+        last_timestamp_prev = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id - 1)).fetchall()[0][0]
+        time_elapsed = (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_prev, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+
+    # Calculate the points based on the time elapsed and a constant for the level
+    if level_id == 1:
+        level_constant = 10000
+    elif level_id == 2:
+        level_constant = 20000
+    else:
+        level_constant = 30
+
+    points = int(level_constant / time_elapsed)
+
+    # Update the userFlags table with the new points
+    current_points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
+    c.execute('update users set points=? where id=?', (current_points + points, user_id))
+    conn.commit()
+
+    # Return the current points
+    return points
+
 
 @app.route("/favicon.ico")
 def main_css():
@@ -83,8 +119,9 @@ def login():
             return render_template('login.html', error=error, page='login')
         try:
             user_hash = str(hash(user_name))
-            query = """insert into users (username, hash) values(?, ?) RETURNING *"""
-            result = conn.execute(query, (user_name, user_hash,)).fetchall()[0][1]
+            query = """insert into users (username, hash, timestamp, points) values(?, ?, ?, ?) RETURNING *"""
+            # added timestamp to users table and points
+            result = conn.execute(query, (user_name, user_hash, datetime.datetime.now(), 0)).fetchall()[0][1]
             conn.commit()
         except sqlite3.IntegrityError as e:
             return render_template('login.html', error='db error ' + e.args[0])
@@ -126,6 +163,7 @@ def level_01():
         user_flag = request.form['flag']
         if user_flag == flag:
             checkFlag(request, user_flag, conn, 1)
+            print(checkPoints(1))
             return redirect(url_for('level_02'))
         elif user_flag == '':
             error = 'Nie podano klucza.'
