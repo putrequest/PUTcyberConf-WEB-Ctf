@@ -126,13 +126,17 @@ def level_01():
 #
 #    return render_template('level02.html', flag=flag, page='Zadanie 2')
 
+@app.route("/level2", methods=['GET', 'POST'])
+def level_02():
+    return render_template('level02.html', page='Zadanie 2')
+
 @app.route("/robots.txt", methods=['GET', 'POST'])
 def robots():
     robots = open('app/static/files/robots.txt', 'r').read()
     return render_template('level02_robots.html', robots=robots)
 
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
-def level_02():
+def level_02_Mops():
     if request.method == 'POST':
         if request.form.get('button') == 'next':
             conn = get_db_connection()
