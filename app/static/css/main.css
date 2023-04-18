@@ -4,6 +4,7 @@
 
 .navbar {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .btn {
@@ -45,4 +46,55 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 50px;
   background-color: transparent;
   text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 1900px;
+  min-width: 1850px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.window {
+  height: 950px;
+  width: 50%;
+  border: 1px solid black;
+  box-sizing: border-box;
+  padding: 0px 5px 20px 5px;
+  margin: 0px 20px 20px 20px ;
+}
+
+.window_left{
+  width: 100%;
+  min-width: 600px;
+  max-width: 700px;
+
+
+}
+
+.window_right {
+  flex: 2;
+  order: 5;
+  width: 100%;
+  min-width: 800px;
+  max-width: 1400px;
+}
+
+.btn-group-vertical {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+.form_container {
+  text-align: center;
+}
+
+.form-group {
+  display: inline-block;
+}
+.container_name{
+items-align: center;
+
 }
