@@ -21,6 +21,18 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def checkLevel(request, conn, reqLevel):
+    user_id = \
+        conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT MAX(level_id) FROM userFlags WHERE user_id = ?', (user_id,))
+    row = cursor.fetchone()
+
+    current_level = row[0] or 0
+    if not reqLevel == current_level + 1:
+        return url_for('level_0' + str(current_level + 1))
+    return None
 
 def checkFlag(request, flag, conn, level):
     user_id = \
@@ -106,6 +118,9 @@ def index():
 @app.route("/level1", methods=['GET', 'POST'])
 def level_01():
     conn = get_db_connection()
+    redirect_url = checkLevel(request, conn, 1)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
         user_flag = request.form['flag']
@@ -121,8 +136,9 @@ def level_01():
 
     return render_template('level01.html', flag=flag, page='Zadanie 1')
 
-#@app.route("/level2", methods=['GET', 'POST'])
-#def level_02():
+
+# @app.route("/level2", methods=['GET', 'POST'])
+# def level_02():
 #    conn = get_db_connection()
 #    flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
 #    if (request.method == 'POST'):
@@ -140,6 +156,7 @@ def robots():
     robots = open('app/static/files/robots.txt', 'r').read()
     return render_template('level02_robots.html', robots=robots)
 
+
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
 def level_02_Mops():
     if request.method == 'POST':
@@ -149,26 +166,29 @@ def level_02_Mops():
             conn.close()
             #checkFlag(request, flag, conn, 2)
             return redirect(url_for('level_03'))
-            
+    conn = get_db_connection()
+    checkLevel(request, conn, 2)
+
     return render_template('level02_flag.html', page='Zadanie 2')
+
 
 @app.route('/level3', methods=['GET', 'POST'])
 def level_03():
     error = None
-    #added button redirection
+    # added button redirection
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
             conn.close()
-            #checkFlag(request, flag, conn, 3)
+            # checkFlag(request, flag, conn, 3)
             return redirect(url_for('level_04'))
-        
+
     if request.cookies.get('admin'):
         if request.cookies.get('admin') == "true":
             resp = make_response(render_template('level03_flag.html', page='Zadanie 3'))
             return resp
-        
+
     if request.method == 'POST':
         if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
             resp = make_response(render_template('level03_page.html', page='Zadanie 3'))
@@ -180,43 +200,25 @@ def level_03():
     return render_template('level03_login.html', page='Zadanie 3')
 
 
-#@app.route("/level3flag", methods=['GET', 'POST'])
-#def level_03_flag():
-#    if request.cookies.get('admin'):
-#        if request.cookies.get('admin') == "true":
-#
-#            conn = get_db_connection()
-#            flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
-#            if request.method == 'POST':
-#
-#                return checkFlag(request, conn, 3)
-#            conn.close()
-#        else:
-#            return render_template('404.html')
-#    else:
-#        return render_template('404.html')
-#    return render_template('level03_flag.html', flag=flag, page='Zadanie 3')
-
-
 @app.route("/level4", methods=['GET', 'POST'])
 def level_04():
     if request.method == 'POST':
         if request.form['key']:
 
             key = request.form['key']
-            #print(key)
+            # print(key)
 
             conn = get_level4_db_connection()
             query = "select * from doors where title = '%s' AND hidden = 0" % (key)
             print(query)
-            p = conn.execute( query ).fetchall()
+            p = conn.execute(query).fetchall()
             conn.close()
             # 'OR 1=1--
             if p:
                 print(p[0])
                 return render_template('level04.html', posts=p, page='Zadanie 4')
             else:
-                return render_template('level04.html',error = "Brak odpowiedzi na zapytanie", page='Zadanie 4')
+                return render_template('level04.html', error="Brak odpowiedzi na zapytanie", page='Zadanie 4')
         else:
             conn = get_level4_db_connection()
             p = conn.execute("select * from doors where hidden = 0").fetchall()
@@ -241,23 +243,12 @@ def level_04_post(id):
     except Exception as e:
         return render_template('404.html')
 
+
 def get_level4_db_connection():
     conn = sqlite3.connect('database_level4.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-
-#@app.route('/level5')
-#def level_05():
-#    filename = request.args.get('filename', default='test.txt', type=str)
-#    path = 'static\\files\\{}'.format(filename)
-#    if os.path.isdir(path):
-#        return '''Zawartość folderu {}:\n{}'''.format(path, '\n'.join(os.listdir(path)))
-#    elif os.path.isfile(path):
-#        with open(path, 'r') as file:
-#            return file.read()
-#    else:
-#        return "Nierozpoznane."
 
 @app.route('/level5', methods=['GET', 'POST'])
 def level_05():
@@ -268,12 +259,12 @@ def level_05():
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 5"').fetchall()[0][0]
-            #checkFlag(request, flag, conn, 5)
+            # checkFlag(request, flag, conn, 5)
             conn.close()
             return redirect(url_for('level_06'))
-        
+
         fileName = request.files['file'].filename
-        fileExt= os.path.splitext(fileName)[1]
+        fileExt = os.path.splitext(fileName)[1]
         if fileName != '':
             print(fileExt)
             if fileExt == '.php5':
@@ -281,13 +272,14 @@ def level_05():
                 return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True)
             elif fileExt not in allowed_extensions:
                 error = 'Zabronione rozszerzenie pliku'
-                return render_template('level05_upload.html', page='Zadanie 5',error=error, rec=rec)
+                return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec)
             else:
                 print('Załadowano plik')
                 success = 'Plik został załadowany pomyślnie'
                 return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success)
-               
+
     return render_template('level05_upload.html', page='Zadanie 5', rec=rec)
+
 
 @app.route('/level6', methods=['GET', 'POST'])
 # JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
@@ -315,7 +307,7 @@ def level_06():
         if jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola'] == "strażnik":
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
-            #checkFlag(request, flag, conn, 6)
+            # checkFlag(request, flag, conn, 6)
             conn.close()
             resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6'))
 
@@ -323,9 +315,8 @@ def level_06():
     return resp
 
 
-
 @app.route("/level7/dane/<id>", methods=['GET', 'POST'])
-#id Makłowicza 21 trzeba zmienić na 3
+# id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
     if request.method == 'POST':
         if request.form.get('next') == 'Ustaw Profil':
@@ -336,11 +327,11 @@ def level_07_dane(id):
             if id == '3':
                 conn = get_db_connection()
                 flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
-                #checkFlag(request, flag, conn, 7)
+                # checkFlag(request, flag, conn, 7)
                 conn.close()
                 success = 'Gratulacje! Ustawiono profil.'
                 return render_template('level07_guard.html', success=success, page='Zadanie 7', object=p)
-                #return redirect("/")
+                # return redirect("/")
             else:
                 error = 'Nie udało się ustawić profilu. Osoba nie jest podobna do Makłowicza.'
                 return render_template('level07_guard.html', error=error, page='Zadanie 7', object=p)
@@ -360,34 +351,19 @@ def level_07_dane(id):
             return render_template('level07_guard.html', object=p, page='Zadanie 7')
     except Exception as e:
         return render_template('404.html')
-    
-
-#@app.route('/level7', methods=['GET', 'POST'])
-#def level_07():
-#    if request.method == 'POST':
-#        if request.form['query'].lower().strip() == 'flag':
-#            conn = get_db_connection()
-#            flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
-#            conn.close()
-#            return render_template('level07_flag.html', data=flag, page='Zadanie 7')
-#        else:
-#            return render_template('level07_flag.html', data=request.form['query'].lower().strip(), page='Zadanie 7')
-#    return render_template('level07.html', data={}, page='Zadanie 7') 
-
 
 
 @app.route('/level8', methods=['FLAG'])
 def level_08():
     if request.method == 'FLAG':
 
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 8"').fetchall()[0][0]
-            conn.close()
-            return render_template('level08.html', data=flag, page='Zadanie 8')
+        conn = get_db_connection()
+        flag = conn.execute('select flag from flags where level_name = "Zadanie 8"').fetchall()[0][0]
+        conn.close()
+        return render_template('level08.html', data=flag, page='Zadanie 8')
 
     else:
         return render_template('level08.html', data="JUST GET THE FLAG :)", page='Zadanie 8')
-
 
 
 @app.route('/help')
