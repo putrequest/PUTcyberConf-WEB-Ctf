@@ -21,7 +21,9 @@ def init_database():
     cur.execute('''create table users(
     id integer primary key autoincrement,
     username TEXT unique not null,
-    hash TEXT unique not null
+    hash TEXT unique not null,
+    timestamp timestamp,
+    points integer
     );''')
     cur.execute('''create table userFlags(
     id integer primary key autoincrement,
