@@ -9,6 +9,7 @@ import base64
 from flask import make_response, session
 from flask_session import Session
 import jwt
+import math
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -68,6 +69,8 @@ def checkPoints(level_id):
         last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, 1)).fetchall()[0][0]
         last_timestamp_user = c.execute('select timestamp from users where id=?', (user_id,)).fetchall()[0][0]
         time_elapsed = (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_user, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+    elif level_id == 0:
+        time_elapsed = 1
     else:
         # For the other levels, use the timestamp from userFlags table where level_id = current level_id minus the timestamp from userFlags table where level_id = current level_id - 1
         last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()[0][0]
@@ -75,19 +78,32 @@ def checkPoints(level_id):
         time_elapsed = (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_prev, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
 
     # Calculate the points based on the time elapsed and a constant for the level
-    if level_id == 1:
-        level_constant = 10000
-    elif level_id == 2:
-        level_constant = 20000
-    else:
-        level_constant = 30
+    
+    match(level_id):
+        case 0:
+            return 0
+        case 1:
+            level_constant = 10000
+        case 2:
+            level_constant = 20000
+        case 3:
+            level_constant = 30
 
     points = int(level_constant / time_elapsed)
 
-    # Update the userFlags table with the new points
-    current_points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
-    c.execute('update users set points=? where id=?', (current_points + points, user_id))
-    conn.commit()
+    # Check if points for this level have already been calculated
+    current_points = c.execute('select points from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()
+    if current_points != 0:
+        points = int(current_points[0][0])
+    else:
+        # Update the userFlags table with the new points
+        c.execute('insert or replace into userFlags (user_id, level_id, timestamp, points) values (user_id, level_id, current_timestamp, ?)', (points))
+        conn.commit()
+
+        # Update the points in the users table
+        current_points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
+        c.execute('update users set points=? where id=?', (current_points + points, user_id))
+        conn.commit()
 
     # Return the current points
     return points
@@ -156,6 +172,7 @@ def index():
 def level_01():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 1)
+    print(checkPoints(0))
     if redirect_url is not None:
         return redirect(redirect_url)
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
@@ -191,7 +208,7 @@ def level_02():
     redirect_url = checkLevel(request, conn, 2)
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    print(checkPoints(1))
     return render_template('level02.html', page='Zadanie 2')
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
@@ -209,6 +226,7 @@ def robots():
 def level_02_Mops():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 2)
+    print(checkPoints(1))
     if redirect_url is not None:
         return redirect(redirect_url)
     
@@ -218,6 +236,7 @@ def level_02_Mops():
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
             checkFlag(request, flag, conn, 2)
             conn.close()
+            print(checkPoints(2))
             return redirect(url_for('level_03'))
     conn = get_db_connection()
     checkLevel(request, conn, 2)
