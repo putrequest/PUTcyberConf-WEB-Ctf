@@ -21,13 +21,16 @@ def init_database():
     cur.execute('''create table users(
     id integer primary key autoincrement,
     username TEXT unique not null,
-    hash TEXT unique not null
+    hash TEXT unique not null,
+    timestamp timestamp,
+    points integer
     );''')
     cur.execute('''create table userFlags(
     id integer primary key autoincrement,
     user_id integer,
     level_id integer,
-    timestamp timestamp
+    timestamp timestamp,
+    points integer DEFAULT 0
     );''')
     cur.execute('''create table flags (
       id integer primary key autoincrement,
