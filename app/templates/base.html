@@ -13,24 +13,23 @@
 
   <div class="container">
       <div class="window_left window">
-            <h1> Witamy na naszych warsztatach z hakowania stron internetowych!</h1>
-          <h4> Motywem przewodnim jest nauczenie się technik podstawowych podatności siecowych.</h4>
-          Jest to przygoda fabularyzowana, więc bierzcie fabułę jako dodatkowy aspekt.
+            {% block opis %}{% endblock %}
       </div>
 
       <div class="window_right window">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container_name">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container_name_nav">
             {% if page is defined %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF: {{ page }}</span>
             {% else %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF</span>
             {% endif %}
 
-
-
-
             </div>
+              <div class="Points rounded-lg">
+                  <div class="username_nick">{{username}}</div>
+                  <div class="username_points">{{points}}</div>
+              </div>
         </nav>
 
         <div class="btn-group-vertical gap-2" >

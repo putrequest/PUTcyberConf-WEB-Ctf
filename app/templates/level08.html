@@ -3,11 +3,21 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h2>Hidden ending</h2>
+    <div class="container_name">
+        {% if info %}
+            <h1>{{ info }}</h1>
+        {% endif %}
+
         {% autoescape false %}
-            {{ data }}
+
         {% endautoescape %}
+
+
     </div>
+
+{% endblock %}
+{% block opis %}
+                <h1> {{page}}</h1>
+          <p>Makłowicz szybko biegnie do więziennej stołówki i piecze napoleonkę. Nasz bohater cieszy się wolnością i w końcu znajduje chwilę wytchnienia. Karmi psa zebranym przez Ciebie koperkiem. Ależ on żre koperek! To będzie zdrowy piesek. Hihihihi!</p>
 
 {% endblock %}

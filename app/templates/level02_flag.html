@@ -3,9 +3,17 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <h1>Znalazłeś Pieska!!!</h1>
+    <h1 class="mx-auto">Znalazłeś Pieska!!!</h1>
     <!-- Coś nie działa ten obrazek i nwm jak to zrobić -->
-    <img src="{{ url_for('static', filename='files/piesek.png') }}" alt="Zdjęcie Pieska" style="width: 250px; height: 300px; margin-left: 50px">
+    <img src="{{ url_for('static', filename='files/piesek.png') }}" alt="Zdjęcie Pieska" class="mx-auto" style="width: 250px; height: 300px; margin-left: 50px">
     <form method="post" action="/blok-D/cela-6132/Mopsik">
-        <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!">
+    <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!" class="mx-auto btn-primary">
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Brawo! Makłowicz odnajduje klucz do celi. Zwinnie i cicho otwiera drzwi i wychodzi na korytarz zakładu karnego, skradając się obok śpiącego strażnika na dyżurze.
+Kolejnym zadaniem jest włamanie się do bazy więziennej. Aby zdobyć informacje takie jak rozkład pomieszczeń więzienia czy dane przebywających w nim więźniów, zdobądź dostęp do uprawnień administratora, używając narzędzia Burp Suite.
+Do zalogowania się konieczna jest nazwa użytkownika (putrequest) i hasło (bardzotrudnehaslo).
+        </p>
+
 {% endblock %}

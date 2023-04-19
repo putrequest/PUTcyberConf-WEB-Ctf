@@ -4,9 +4,9 @@
 
 {% block body %}
     <title> Zmień swoje zdjęcie</title>
-    <form action="{{ url_for('level_05') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('level_05') }}" method="post" enctype="multipart/form-data" class="mx-auto">
         <input type="file" name="file">
-        <input type="submit" value="Wyślij">
+        <input type="submit" value="Wyślij" class="btn btn-secondary col-4 m-1">
     </form>
 
     {% if success %}
@@ -17,11 +17,19 @@
         <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
     {% endif %}
     
-    <h1>Nagranie w kamerach</h1>
-    <img src="{{ rec }}" alt="nagranie z kamer">
+    <h1 class="mx-auto">Nagranie w kamerach</h1>
+    <img src="{{ rec }}" alt="nagranie z kamer" class="mx-auto">
     
     {% if done %}
         <form method="post" action="level5">
-            <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!">
+            <input type="submit" class="btn btn-success mx-auto" value="Idziemy dalej!" id="fileInput" name="Idziemy dalej!">
+        </form>
     {% endif %}
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Makłowicz skutecznie włamuje się do sterowni. Ze stresu czuje się jak homar przed wrzuceniem do gorącej wody, ale z prędkością światła - jakby oporządzał mięso - grzebie w komputerze.
+Żeby Makłowicz nie został przyłapany przez władze więzienia, w następnym kroku konieczne jest zastąpienie pliku mp4 z kamer, które nagrały jego akcję.
+</p>
+
 {% endblock %}

@@ -7,7 +7,7 @@
             <h1>Dostępy do drzwi:</h1>
     </div>
     <div class="form_container">
-      <form method="post"  class="form-group">
+      <form method="get"  class="form-group">
           <h3>Wyszukaj klucz:</h3>
 
            <div class="form-group m-4 row justify-content-center">
@@ -16,14 +16,26 @@
                </div>
       </form>
     </div>
+
+<div class="container_lvlpost">
+
     {% for post in posts %}
-        <div class="row justify-content-center m-2">
-            <article class="media content-section col-10">
-                <div class="media-body">
-                    <h2><a class="article-title" href="level4/post/{{ post.id }}">{{ post.title }}</a></h2>
-                </div>
-            </article>
-        </div>
+
+
+  <div class="row justify-content-center">
+    <article class="media content-section bg-primary col-10">
+      <div class="media-body bg-primary">
+        <h2><a class="article-title" href="level4/post/{{ post.id }}">{{ post.title }}</a></h2>
+      </div>
+    </article>
+  </div>
     {% endfor %}
+</div>
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Makłowicz odnalazł lokalizację pieska – jest to cela numer 1337. Zwinnie przemykając się przez korytarze, biegnie go uratować.
+Twoim następnym zadaniem jest pomoc we włamaniu się do sterowni – głównego punktu monitoringu z podglądem nadzorujących kamer. Dzięki temu umożliwisz dostęp do archiwum nagrań. Odszukaj kod do drzwi sterowni.
+</p>
 
 {% endblock %}

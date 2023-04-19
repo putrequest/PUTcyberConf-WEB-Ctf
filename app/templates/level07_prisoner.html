@@ -9,9 +9,10 @@
     <title>Profil Więźnia</title>
   </head>
   <body>
+  <div class="bg-secondary rounded p-3">
     <h1>Profil Więźnia</h1>
     <div style="display: flex">
-      <table>
+      <table class="bg-secondary p-2">
         <tr>
           <td>Imię i nazwisko:</td>
           <td>{{ object.name }}</td>
@@ -47,6 +48,14 @@
       </table>
       <img src="{{ url_for('static', filename='files/p_and_g_photos/'+object.id+'.png') }}" alt="Zdjęcie Więźnia" style="width: 250px; height: 300px; margin-left: 50px">
     </div>
+  </div>
   </body>
 </html>
+{% endblock %}
+{% block opis %}
+        <h1>{{page}}</h1>
+        <p> Udało Ci się zdobyć uprawnienia strażnika na karcie Makłowicza!
+Bohater sprytnie przemieszcza się przez korytarze zakładu karnego. Szczęśliwy podchodzi do drzwi wejściowych i przykłada kartę do czytnika, aby przejść przez drzwi, ale coś go zatrzymuje… Okazuje się, że konieczny do przejścia przez drzwi proces identyfikacji jest dwuetapowy. Na karcie identyfikacyjnej wciąż widać jego dane osobowe. Kolejnym zadaniem jest szybka zmiana jego profilu na profil innego strażnika, żeby kucharz mógł się wydostać. Przejrzyj profile strażników i znajdź kogoś, za kogo Makłowicz mógłby się bezproblemowo podszyć, a następnie ustaw jego profil na karcie.</p>
+
+
 {% endblock %}
