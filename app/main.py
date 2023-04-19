@@ -108,6 +108,13 @@ def checkPoints(level_id):
     # Return the current points
     return points
 
+def getPoints():
+    conn = get_db_connection()
+    c = conn.cursor()
+    user_id = c.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+    points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
+    conn.close()
+    return [user_id, points]
 
 @app.route("/favicon.ico")
 def main_css():
@@ -172,7 +179,8 @@ def index():
 def level_01():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 1)
-    print(checkPoints(0))
+    user_id, points = getPoints()
+    #print(checkPoints(0))
     if redirect_url is not None:
         return redirect(redirect_url)
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
