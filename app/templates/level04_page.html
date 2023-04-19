@@ -4,13 +4,19 @@
 
 {% block body %}
         <div class="row  justify-content-center m-2">
-            <article class="media content-section col-10">
-                <div class="media-body">
+            <article class="media content-section col-10 bg-primary">
+                <div class="media-body bg-primary">
                     <h1><a class="article-title" href="{{ object.id }}">{{ object.title }}</a></h1>
                     <h4>Otrzymałeś dostęp do drzwi.</h4>
                 <p class="article-content">{{ object.content }}</p>
             </div>
             </article>
+            {%if object.hidden == 1 %}
+            <form method="post" action="/level4/post/{{ object.id }}">
+                <input type="submit" value="Następne zadanie!" name="btn-succes" class="mx-auto btn-primary">
+            </form>
+            {% endif %}
+
         </div>
 
 

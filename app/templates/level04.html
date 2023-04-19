@@ -16,14 +16,24 @@
                </div>
       </form>
     </div>
+
+<div class="container_lvlpost">
+
     {% for post in posts %}
-        <div class="row justify-content-center m-2">
-            <article class="media content-section col-10">
-                <div class="media-body">
-                    <h2><a class="article-title" href="level4/post/{{ post.id }}">{{ post.title }}</a></h2>
-                </div>
-            </article>
-        </div>
+
+
+  <div class="row justify-content-center">
+    <article class="media content-section bg-primary col-10">
+      <div class="media-body bg-primary">
+        <h2><a class="article-title" href="level4/post/{{ post.id }}">{{ post.title }}</a></h2>
+      </div>
+    </article>
+  </div>
     {% endfor %}
+</div>
+{% endblock %}
+{% block opis %}
+        <h1> Zadanie 4</h1>
+        <h4> Motywem przewodnim jest nauczenie się technik podstawowych podatności siecowych.</h4>
 
 {% endblock %}

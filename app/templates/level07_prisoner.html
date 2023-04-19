@@ -9,9 +9,10 @@
     <title>Profil Więźnia</title>
   </head>
   <body>
+  <div class="bg-secondary rounded p-3">
     <h1>Profil Więźnia</h1>
     <div style="display: flex">
-      <table>
+      <table class="bg-secondary p-2">
         <tr>
           <td>Imię i nazwisko:</td>
           <td>{{ object.name }}</td>
@@ -47,6 +48,12 @@
       </table>
       <img src="{{ url_for('static', filename='files/p_and_g_photos/'+object.id+'.png') }}" alt="Zdjęcie Więźnia" style="width: 250px; height: 300px; margin-left: 50px">
     </div>
+  </div>
   </body>
 </html>
+{% endblock %}
+{% block opis %}
+        <h1> Zadanie 7</h1>
+        <h4> Motywem przewodnim jest nauczenie się technik podstawowych podatności siecowych.</h4>
+
 {% endblock %}

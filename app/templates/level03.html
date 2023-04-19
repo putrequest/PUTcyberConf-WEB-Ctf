@@ -6,15 +6,15 @@
       <h1>Flaga dostępna po zalogowaniu.</h1>
 
       <form method="post"  class="form-group">
-           <div class="form-group m-4 row justify-content-center">
+           <div class="form-group col-10 m-4 row justify-content-center">
                 <input type="text" class="form-control col-8" placeholder="Nazwa użytkownika" name="username" value="{{
                     request.form.username }}">
                </div>
-          <div class="form-group m-4  row justify-content-center">
+          <div class="form-group col-10 m-4 row justify-content-center">
                 <input type="password" class="form-control col-8" placeholder="Hasło" name="password" value="{{
                     request.form.password }}">
               </div>
-          <div class="form-group m-2  row justify-content-center">
+          <div class="form-group col-10 m-2 row justify-content-center">
                <input class="btn btn-dark level2 btn-lg col-6" type="submit" value="Zaloguj">
            </div>
       </form>
@@ -22,4 +22,9 @@
         <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
       {% endif %}
 <!--Karol co chwila zapominasz hasła, zapisz je wreszcie: ce7664fdd1b2863dc28c718c15b911ed-->
+{% endblock %}
+{% block opis %}
+        <h1> Zadanie 3</h1>
+        <h4> Motywem przewodnim jest nauczenie się technik podstawowych podatności siecowych.</h4>
+
 {% endblock %}

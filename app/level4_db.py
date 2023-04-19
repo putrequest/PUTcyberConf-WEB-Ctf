@@ -33,6 +33,26 @@ def init_database():
     cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
                 (3, 'Drużyna AAA', 'Kod do Składziku', "Kod do klucza: 0572", 0)
                 )
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (4, 'Administrator', 'Kod do Warsztatu', "Kod do klucza: 9326", 0)
+                )
+
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (5, 'Adam', 'Kod do Piwnicy', "Kod do klucza: 7503", 0)
+                )
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (6, 'Drużyna AAA', 'Kod do Gabinetu', "Kod do klucza: 0572", 1)
+                )
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (7, 'Administrator', 'Kod do Łazienek', "Kod do klucza: 9326", 0)
+                )
+
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (8, 'Adam', 'Kod do Kaplicy', "Kod do klucza: 7503", 0)
+                )
+    cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
+                (9, 'Drużyna AAA', 'Kod do Izolatki', "Kod do klucza: 0572", 0)
+                )
 
     cur.execute("insert into doors (id, author, title, content, hidden) values (?, ?, ?, ?, ?)",
                 (133, 'Administrator', 'Kod do Sterowni', "Kod do klucza: 3341", 1)

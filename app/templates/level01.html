@@ -7,9 +7,9 @@
     <head>
         <title>Śmietnik</title>
     </head>
-    <body>
+    <body class="level1_div mx-auto">
         <h1>Śmietnik więzienny</h1>
-        <ul>
+        <ul class="mx-auto">
             <li>Zużyte chusteczki</li>
             <li>Kartki z notatkami</li>
             <li>Resztki jedzenia</li>
@@ -28,24 +28,30 @@
             <li>Stary kebab</li>
             <li>Opakowanie po kubku</li>
         </ul>
-        <p>Znajdź klucz, aby wyjść z celi!</p>
+        <p class="mx-auto text-danger">Znajdź klucz, aby wyjść z celi!</p>
     </body>
     </html>
 
-    <div class="justify-content-center">
+    <div class="justify-content-center mx-auto">
         <h1>Podaj klucz do celi:</h1>
         <br>
         <form name="form" method="post">
             <div class="row justify-content-center">
-                <input id="query" type="text" class="form-control m-2 col-6" placeholder="PRctf{...}" name="flag"
+                <input id="query" type="text" class="form-control m-2 col-10" placeholder="PRctf{...}" name="flag"
                        value="{{ request.form.flag }}">
             </div>
             <div class="row justify-content-center">
-                <input class="btn btn-default btn-dark btn-lg m-2 col-6" type="submit" value="Zgłoś">
+                <input class="btn btn-default btn-dark btn-md m-2 col-10" type="submit" value="Zgłoś">
             </div>
         </form>
         {% if error %}
             <p class="error"><strong>Błąd:</strong> {{ error }}
         {% endif %}
     </div>
+{% endblock %}
+
+{% block opis %}
+                <h1> Witamy na naszych warsztatach z hakowania stron internetowych!</h1>
+          <h4> Motywem przewodnim jest nauczenie się technik podstawowych podatności siecowych.</h4>
+          Jest to przygoda fabularyzowana, więc bierzcie fabułę jako dodatkowy aspekt.
 {% endblock %}

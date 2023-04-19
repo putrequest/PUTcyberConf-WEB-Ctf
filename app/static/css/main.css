@@ -17,8 +17,8 @@
 }
 
 body {
-  background: #fafafa;
-  color: #333333;
+  background-color: black;
+  color: white;
   margin-top: 5rem;
 }
 
@@ -59,16 +59,17 @@ h1, h2, h3, h4, h5, h6 {
 .window {
   height: 950px;
   width: 50%;
-  border: 1px solid black;
+  border: 1px solid white;
   box-sizing: border-box;
   padding: 0px 5px 20px 5px;
-  margin: 0px 20px 20px 20px ;
+  margin: 5px 20px 20px 20px;
 }
 
 .window_left{
   width: 100%;
   min-width: 600px;
   max-width: 700px;
+  padding: 5px;
 
 
 }
@@ -93,8 +94,24 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-group {
   display: inline-block;
+  width: 95%;
 }
 .container_name{
 items-align: center;
-
 }
+
+div{
+    background-color:black;
+    color:white;
+}
+
+.container_lvlpost {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Change the number of columns as needed */
+  grid-gap: 10px; /* Add desired gap between grid items */
+  align-items: center; /* Align items vertically in the center */
+  justify-items: center; /* Align items horizontally in the center */
+  color: grey;
+}
+.article-title{
+color: green;}
