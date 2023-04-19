@@ -262,7 +262,7 @@ def level_04_post(id):
     # if redirect_url is not None:
     #     return redirect(redirect_url)
 
-    if request.method == 'POST':
+    if request.method == 'GET':
         if request.form.get('btn-succes') == 'Następne zadanie!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]

@@ -17,8 +17,8 @@
       </div>
 
       <div class="window_right window">
-          <nav class="navbar navbar-expand-lg col-10 navbar-light bg-secondary">
-            <div class="container_name bg-secondary">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container_name_nav">
             {% if page is defined %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF: {{ page }}</span>
             {% else %}
@@ -26,6 +26,10 @@
             {% endif %}
 
             </div>
+              <div class="Points rounded-lg">
+                  <div class="username_nick">{{username}}</div>
+                  <div class="username_points">{{points}}</div>
+              </div>
         </nav>
 
         <div class="btn-group-vertical gap-2" >
