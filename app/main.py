@@ -35,6 +35,23 @@ def checkLevel(request, conn, reqLevel):
         return url_for('level_0' + str(current_level + 1))
     return None
 
+def getDiff(user_id, level_id):
+    conn = get_db_connection()
+    c = conn.cursor()
+    print(user_id)
+    if level_id == 1:
+        # For level 1, use the timestamp from userFlags table where level_id = 1 minus the timestamp from users table
+        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, 1)).fetchall()[0][0]
+        last_timestamp_user = c.execute('select timestamp from users where id=?', (user_id,)).fetchall()[0][0]
+        return (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_user, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+    elif level_id == 0:
+        return 1
+    else:
+        # For the other levels, use the timestamp from userFlags table where level_id = current level_id minus the timestamp from userFlags table where level_id = current level_id - 1
+        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()[0][0]
+        last_timestamp_prev = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id - 1)).fetchall()[0][0]
+        return (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_prev, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+
 def checkFlag(request, flag, conn, level):
     user_id = \
         conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
@@ -52,6 +69,11 @@ def checkFlag(request, flag, conn, level):
         e = conn.execute(q)
         # print(e)
         conn.commit()
+        minutes_elapsed = math.floor(getDiff(user_id, level)/60)
+        points_to_add = max(50, 500 - minutes_elapsed * 50)
+        conn.execute("update userFlags set points =? where user_id=? AND level_id=?", (points_to_add, user_id, level))
+        conn.execute("update users set points = points+? where id=?", (points_to_add, user_id))
+        conn.commit()
         conn.close()
         return render_template('flag.html',
                                congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
@@ -64,21 +86,7 @@ def checkPoints(level_id):
     user_id = c.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
 
     # Calculate the time elapsed since the last attempt
-    if level_id == 1:
-        # For level 1, use the timestamp from userFlags table where level_id = 1 minus the timestamp from users table
-        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, 1)).fetchall()[0][0]
-        last_timestamp_user = c.execute('select timestamp from users where id=?', (user_id,)).fetchall()[0][0]
-        time_elapsed = (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_user, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
-    elif level_id == 0:
-        time_elapsed = 1
-    else:
-        # For the other levels, use the timestamp from userFlags table where level_id = current level_id minus the timestamp from userFlags table where level_id = current level_id - 1
-        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()[0][0]
-        last_timestamp_prev = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id - 1)).fetchall()[0][0]
-        time_elapsed = (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_prev, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
-
     # Calculate the points based on the time elapsed and a constant for the level
-    
     match(level_id):
         case 0:
             return 0
@@ -180,7 +188,7 @@ def level_01():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 1)
     user_id, points = getPoints()
-    #print(checkPoints(0))
+    # print(checkPoints(0))
     if redirect_url is not None:
         return redirect(redirect_url)
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
@@ -188,7 +196,7 @@ def level_01():
         user_flag = request.form['flag']
         if user_flag == flag:
             checkFlag(request, user_flag, conn, 1)
-            print(checkPoints(1))
+            # print(checkPoints(1))
             return redirect(url_for('level_02'))
         elif user_flag == '':
             error = 'Nie podano klucza.'
@@ -216,7 +224,7 @@ def level_02():
     redirect_url = checkLevel(request, conn, 2)
     if redirect_url is not None:
         return redirect(redirect_url)
-    print(checkPoints(1))
+    # print(checkPoints(1))
     return render_template('level02.html', page='Zadanie 2')
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
@@ -234,7 +242,7 @@ def robots():
 def level_02_Mops():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 2)
-    print(checkPoints(1))
+    # print(checkPoints(1))
     if redirect_url is not None:
         return redirect(redirect_url)
     
@@ -244,7 +252,7 @@ def level_02_Mops():
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
             checkFlag(request, flag, conn, 2)
             conn.close()
-            print(checkPoints(2))
+            # print(checkPoints(2))
             return redirect(url_for('level_03'))
     conn = get_db_connection()
     checkLevel(request, conn, 2)
