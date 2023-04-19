@@ -150,18 +150,18 @@ def level_01():
 @app.route("/level2", methods=['GET', 'POST'])
 def level_02():
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 2)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 2)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     return render_template('level02.html', page='Zadanie 2')
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
 def robots():
     conn = get_db_connection()
-    #redirect_url = checkLevel(request, conn, 2)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 2)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     robots = open("static/files/robots.txt", 'r').read()
     return render_template('level02_robots.html', robots=robots)
@@ -170,9 +170,9 @@ def robots():
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
 def level_02_Mops():
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 2)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 2)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
@@ -192,9 +192,9 @@ def level_03():
     error = None
 
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 3)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 3)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
@@ -223,9 +223,9 @@ def level_03():
 @app.route("/level4", methods=['GET', 'POST'])
 def level_04():
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 4)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 4)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     if request.method == 'POST':
         if request.form['key']:
@@ -258,9 +258,9 @@ def level_04():
 @app.route("/level4/post/<id>", methods=['GET', 'POST'])
 def level_04_post(id):
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 4)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 4)
+    if redirect_url is not None:
+        return redirect(redirect_url)
 
     if request.method == 'GET':
         if request.form.get('btn-succes') == 'Następne zadanie!':
@@ -288,9 +288,9 @@ def get_level4_db_connection():
 @app.route('/level5', methods=['GET', 'POST'])
 def level_05():
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 5)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 5)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     rec = url_for('static', filename='files/camera_video.gif')
     allowed_extensions = {'.png', '.jpg', '.jpeg'}
@@ -325,9 +325,9 @@ def level_05():
 # JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
 def level_06():
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 6)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 6)
+    if redirect_url is not None:
+        return redirect(redirect_url)
     
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
     error = None
@@ -364,9 +364,9 @@ def level_06():
 # id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
     conn = get_db_connection()
-    # redirect_url = checkLevel(request, conn, 7)
-    # if redirect_url is not None:
-    #     return redirect(redirect_url)
+    redirect_url = checkLevel(request, conn, 7)
+    if redirect_url is not None:
+        return redirect(redirect_url)
 
     if request.method == 'POST':
         if request.form.get('next') == 'Ustaw Profil':
