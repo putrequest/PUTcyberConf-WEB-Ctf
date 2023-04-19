@@ -119,8 +119,8 @@ def checkFlag(request, flag, conn, level):
 def getPoints():
     conn = get_db_connection()
     c = conn.cursor()
-    user_id = c.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
-    points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
+    user_id = c.execute('select username from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+    points = c.execute('select points from users where username=?', (user_id,)).fetchall()[0][0]
     conn.close()
     return [user_id, points]
 
@@ -188,6 +188,7 @@ def level_01():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 1)
     user_id, points = getPoints()
+
     
     if redirect_url is not None:
         return redirect(redirect_url)
@@ -205,7 +206,7 @@ def level_01():
             error = 'Niepoprawny klucz.'
             return render_template('level01.html', error=error, flag=flag, page='Zadanie 1')
 
-    return render_template('level01.html', flag=flag, page='Zadanie 1')
+    return render_template('level01.html', flag=flag, page='Zadanie 1', username=user_id, points=points)
 
 
 # @app.route("/level2", methods=['GET', 'POST'])
@@ -225,7 +226,7 @@ def level_02():
     if redirect_url is not None:
         return redirect(redirect_url)
     user_id, points = getPoints()
-    return render_template('level02.html', page='Zadanie 2')
+    return render_template('level02.html', page='Zadanie 2',username=user_id, points=points)
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
 def robots():
@@ -256,7 +257,7 @@ def level_02_Mops():
     conn = get_db_connection()
     checkLevel(request, conn, 2)
 
-    return render_template('level02_flag.html', page='Zadanie 2')
+    return render_template('level02_flag.html', page='Zadanie 2',username=user_id, points=points)
 
 
 @app.route('/level3', methods=['GET', 'POST'])
@@ -290,7 +291,7 @@ def level_03():
         else:
             error = 'Niepoprawne dane logowania.'
             return render_template('level03_login.html', error=error, page='Zadanie 3')
-    return render_template('level03_login.html', page='Zadanie 3')
+    return render_template('level03_login.html', page='Zadanie 3',username=user_id, points=points)
 
 
 @app.route("/level4", methods=['GET', 'POST'])
@@ -320,13 +321,13 @@ def level_04():
             conn = get_level4_db_connection()
             p = conn.execute("select * from doors where hidden = 0").fetchall()
             conn.close()
-            return render_template('level04.html', posts=p, page='Zadanie 4')
+            return render_template('level04.html', posts=p, page='Zadanie 4',username=user_id, points=points)
 
     else:
         conn = get_level4_db_connection()
         p = conn.execute("select * from doors where hidden = 0").fetchall()
         conn.close()
-        return render_template('level04.html', posts=p, page='Zadanie 4')
+        return render_template('level04.html', posts=p, page='Zadanie 4',username=user_id, points=points)
 
 
 @app.route("/level4/post/<id>", methods=['GET', 'POST'])
@@ -353,7 +354,7 @@ def level_04_post(id):
         query = """select * from doors where id = ?"""
         p = conn.execute(query, (id,)).fetchall()[0]
         conn.close()
-        return render_template('level04_page.html', object=p, page='Zadanie 4')
+        return render_template('level04_page.html', object=p, page='Zadanie 4',username=user_id, points=points)
     except Exception as e:
         return render_template('404.html')
 
@@ -389,16 +390,16 @@ def level_05():
             print(fileExt)
             if fileExt == '.php5':
                 rec = url_for('static', filename='files/Never.gif')
-                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True)
+                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True,username=user_id, points=points)
             elif fileExt not in allowed_extensions:
                 error = 'Zabronione rozszerzenie pliku'
-                return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec)
+                return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
             else:
                 print('Załadowano plik')
                 success = 'Plik został załadowany pomyślnie'
-                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success)
+                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success,username=user_id, points=points)
 
-    return render_template('level05_upload.html', page='Zadanie 5', rec=rec)
+    return render_template('level05_upload.html', page='Zadanie 5', rec=rec, username=user_id, points=points)
 
 
 @app.route('/level6', methods=['GET', 'POST'])
@@ -420,7 +421,7 @@ def level_06():
                             'delfiny': "ahahahahahahahah"},
                            JWTsecret, algorithm='HS256')
 
-    resp = make_response(render_template('level06_page.html', page='Zadanie 6'))
+    resp = make_response(render_template('level06_page.html', page='Zadanie 6',username=user_id, points=points))
     set_token = request.cookies.get('token')
 
     if request.method == 'POST':
@@ -435,7 +436,7 @@ def level_06():
             flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
             checkFlag(request, flag, conn, 6)
             conn.close()
-            resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6'))
+            resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6',username=user_id, points=points))
 
             return resp
     return resp
@@ -462,25 +463,25 @@ def level_07_dane(id):
                 checkFlag(request, flag, conn, 7)
                 conn.close()
                 success = 'Gratulacje! Ustawiono profil.'
-                return render_template('level07_guard.html', success=success, page='Zadanie 7', object=p)
+                return render_template('level07_guard.html', success=success, page='Zadanie 7', object=p,username=user_id, points=points)
                 # return redirect("/")
             else:
                 error = 'Nie udało się ustawić profilu. Osoba nie jest podobna do Makłowicza.'
-                return render_template('level07_guard.html', error=error, page='Zadanie 7', object=p)
+                return render_template('level07_guard.html', error=error, page='Zadanie 7', object=p,username=user_id, points=points)
     try:
         if int(id) >= 10:
             conn = get_db_connection()
             query = """select * from data_prisoners where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
-            return render_template('level07_prisoner.html', object=p, page='Zadanie 7')
+            return render_template('level07_prisoner.html', object=p, page='Zadanie 7',username=user_id, points=points)
         else:
             conn = get_db_connection()
             query = """select * from data_guards where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
 
-            return render_template('level07_guard.html', object=p, page='Zadanie 7')
+            return render_template('level07_guard.html', object=p, page='Zadanie 7',username=user_id, points=points)
     except Exception as e:
         return render_template('404.html')
 
@@ -499,7 +500,7 @@ def level_08():
         return render_template('level08.html', page='Zadanie 8')
 
     else:
-        return render_template('level08.html', info="JUST GET THE FLAG :)", page='Zadanie 8')
+        return render_template('level08.html', info="JUST GET THE FLAG :)", page='Zadanie 8',username=user_id, points=points)
 
 
 @app.route('/help')
@@ -536,4 +537,4 @@ def flag():
 if __name__ == '__main__':
     db.init_database()
     level4_db.init_database()
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=False)
