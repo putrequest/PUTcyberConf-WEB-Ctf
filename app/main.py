@@ -31,11 +31,14 @@ def checkLevel(request, conn, reqLevel):
     row = cursor.fetchone()
 
     current_level = row[0] or 0
-    if not reqLevel == current_level + 1:
-        return url_for('level_0' + str(current_level + 1))
+    print(reqLevel)
+    if reqLevel < 5:
+        print(str(max(current_level + 1, 5)))
+        return url_for('level_0' + str(max(current_level + 1, 5)))
     return None
 
 def getDiff(user_id, level_id):
+    return 1
     conn = get_db_connection()
     c = conn.cursor()
     print(user_id)
@@ -79,6 +82,12 @@ def checkFlag(request, flag, conn, level):
                                congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
                                page='Zgłoś flagę')
 
+# @app.errorhandler(Exception)
+# def handle_error(e):
+#     code = 500
+#     if isinstance(e, HTTPException):
+#         code = e.code
+#     return jsonify(error=str(e)), code
 #def checkPoints(level_id):
 #    # Get the user ID from the users table by hash
 #    conn = get_db_connection()
@@ -406,9 +415,9 @@ def level_05():
 # JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
 def level_06():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 6)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    # redirect_url = checkLevel(request, conn, 6)
+    # if redirect_url is not None:
+    #     return redirect(redirect_url)
     user_id, points = getPoints()
 
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
@@ -446,9 +455,9 @@ def level_06():
 # id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 7)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    # redirect_url = checkLevel(request, conn, 7)
+    # if redirect_url is not None:
+    #     return redirect(redirect_url)
     user_id, points = getPoints()
 
     if request.method == 'POST':
