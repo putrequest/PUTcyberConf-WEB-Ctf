@@ -79,42 +79,42 @@ def checkFlag(request, flag, conn, level):
                                congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
                                page='Zgłoś flagę')
 
-def checkPoints(level_id):
-    # Get the user ID from the users table by hash
-    conn = get_db_connection()
-    c = conn.cursor()
-    user_id = c.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
-
-    # Calculate the time elapsed since the last attempt
-    # Calculate the points based on the time elapsed and a constant for the level
-    match(level_id):
-        case 0:
-            return 0
-        case 1:
-            level_constant = 10000
-        case 2:
-            level_constant = 20000
-        case 3:
-            level_constant = 30
-
-    points = int(level_constant / time_elapsed)
-
-    # Check if points for this level have already been calculated
-    current_points = c.execute('select points from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()
-    if current_points != 0:
-        points = int(current_points[0][0])
-    else:
-        # Update the userFlags table with the new points
-        c.execute('insert or replace into userFlags (user_id, level_id, timestamp, points) values (user_id, level_id, current_timestamp, ?)', (points))
-        conn.commit()
-
-        # Update the points in the users table
-        current_points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
-        c.execute('update users set points=? where id=?', (current_points + points, user_id))
-        conn.commit()
-
-    # Return the current points
-    return points
+#def checkPoints(level_id):
+#    # Get the user ID from the users table by hash
+#    conn = get_db_connection()
+#    c = conn.cursor()
+#    user_id = c.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+#
+#    # Calculate the time elapsed since the last attempt
+#    # Calculate the points based on the time elapsed and a constant for the level
+#    match(level_id):
+#        case 0:
+#            return 0
+#        case 1:
+#            level_constant = 10000
+#        case 2:
+#            level_constant = 20000
+#        case 3:
+#            level_constant = 30
+#
+#    points = int(level_constant / time_elapsed)
+#
+#    # Check if points for this level have already been calculated
+#    current_points = c.execute('select points from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()
+#    if current_points != 0:
+#        points = int(current_points[0][0])
+#    else:
+#        # Update the userFlags table with the new points
+#        c.execute('insert or replace into userFlags (user_id, level_id, timestamp, points) values (user_id, level_id, current_timestamp, ?)', (points))
+#        conn.commit()
+#
+#        # Update the points in the users table
+#        current_points = c.execute('select points from users where id=?', (user_id,)).fetchall()[0][0]
+#        c.execute('update users set points=? where id=?', (current_points + points, user_id))
+#        conn.commit()
+#
+#    # Return the current points
+#    return points
 
 def getPoints():
     conn = get_db_connection()
@@ -188,7 +188,7 @@ def level_01():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 1)
     user_id, points = getPoints()
-    # print(checkPoints(0))
+    
     if redirect_url is not None:
         return redirect(redirect_url)
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
@@ -224,7 +224,7 @@ def level_02():
     redirect_url = checkLevel(request, conn, 2)
     if redirect_url is not None:
         return redirect(redirect_url)
-    # print(checkPoints(1))
+    user_id, points = getPoints()
     return render_template('level02.html', page='Zadanie 2')
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
@@ -242,17 +242,16 @@ def robots():
 def level_02_Mops():
     conn = get_db_connection()
     redirect_url = checkLevel(request, conn, 2)
-    # print(checkPoints(1))
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    user_id, points = getPoints()
+
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 2"').fetchall()[0][0]
             checkFlag(request, flag, conn, 2)
             conn.close()
-            # print(checkPoints(2))
             return redirect(url_for('level_03'))
     conn = get_db_connection()
     checkLevel(request, conn, 2)
@@ -268,7 +267,8 @@ def level_03():
     redirect_url = checkLevel(request, conn, 3)
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    user_id, points = getPoints()
+
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             conn = get_db_connection()
@@ -299,7 +299,8 @@ def level_04():
     redirect_url = checkLevel(request, conn, 4)
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    user_id, points = getPoints()
+
     if request.method == 'POST':
         if request.form['key']:
 
@@ -336,7 +337,8 @@ def level_04_post(id):
     redirect_url = checkLevel(request, conn, 4)
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    user_id, points = getPoints()
+
     try:
         conn = get_level4_db_connection()
         query = """select * from doors where id = ?"""
@@ -359,7 +361,8 @@ def level_05():
     redirect_url = checkLevel(request, conn, 5)
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    user_id, points = getPoints()
+
     rec = url_for('static', filename='files/camera_video.gif')
     allowed_extensions = {'.png', '.jpg', '.jpeg'}
     if request.method == 'POST':
@@ -396,7 +399,8 @@ def level_06():
     redirect_url = checkLevel(request, conn, 6)
     if redirect_url is not None:
         return redirect(redirect_url)
-    
+    user_id, points = getPoints()
+
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
     error = None
     JWTsecret = "832p13c2ny_k1uc2"
@@ -435,6 +439,7 @@ def level_07_dane(id):
     redirect_url = checkLevel(request, conn, 7)
     if redirect_url is not None:
         return redirect(redirect_url)
+    user_id, points = getPoints()
 
     if request.method == 'POST':
         if request.form.get('next') == 'Ustaw Profil':
@@ -473,6 +478,7 @@ def level_07_dane(id):
 
 @app.route('/level8', methods=['FLAG'])
 def level_08():
+    user_id, points = getPoints()
     if request.method == 'FLAG':
 
         conn = get_db_connection()
