@@ -2,6 +2,8 @@ import datetime
 
 from flask import *
 import os
+
+from werkzeug.utils import secure_filename
 import db
 import level4_db
 import sqlite3
@@ -384,20 +386,27 @@ def level_05():
             conn.close()
             return redirect(url_for('level_06'))
 
-        fileName = request.files['file'].filename
+
+        # POST payload could be empty or the file could be missing a filename
+        if 'file' not in request.files or not request.files['file'].filename:
+            error = 'Nie wybrano pliku'
+            return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
+
+        # Sanitize the filename
+        # https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
+        fileName = secure_filename(request.files['file'].filename)
         fileExt = os.path.splitext(fileName)[1]
-        if fileName != '':
-            print(fileExt)
-            if fileExt == '.php5':
-                rec = url_for('static', filename='files/Never.gif')
-                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True,username=user_id, points=points)
-            elif fileExt not in allowed_extensions:
-                error = 'Zabronione rozszerzenie pliku'
-                return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
-            else:
-                print('Załadowano plik')
-                success = 'Plik został załadowany pomyślnie'
-                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success,username=user_id, points=points)
+
+        if fileExt == '.php5':
+            rec = url_for('static', filename='files/Never.gif')
+            return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True,username=user_id, points=points)
+        elif fileExt not in allowed_extensions:
+            error = 'Zabronione rozszerzenie pliku'
+            return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
+        else:
+            print('Załadowano plik')
+            success = 'Plik został załadowany pomyślnie'
+            return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success,username=user_id, points=points)
 
     return render_template('level05_upload.html', page='Zadanie 5', rec=rec, username=user_id, points=points)
 
