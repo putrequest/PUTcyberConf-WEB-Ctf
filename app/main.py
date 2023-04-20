@@ -436,18 +436,26 @@ def level_06():
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             return redirect('/level7/dane/21')
+
     if set_token is None:
         resp.set_cookie('token', def_token)
         return resp
-    else:
-        if jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola'] == "strażnik":
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
-            checkFlag(request, flag, conn, 6)
-            conn.close()
-            resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6',username=user_id, points=points))
 
-            return resp
+    key = ""
+    try:
+        key = jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola']
+    except (jwt.DecodeError, TypeError):
+        resp.set_cookie('token', def_token)
+        return resp
+
+    if key == "strażnik":
+        conn = get_db_connection()
+        flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
+        checkFlag(request, flag, conn, 6)
+        conn.close()
+        resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6',username=user_id, points=points))
+        return resp
+
     return resp
 
 
