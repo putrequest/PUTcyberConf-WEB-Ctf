@@ -1,17 +1,23 @@
 import datetime
-
-from flask import *
+import math
 import os
-
-from werkzeug.utils import secure_filename
-import db
-import level4_db
 import sqlite3
-import base64
-from flask import make_response, session
+
+from flask import (
+    Flask,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 from flask_session import Session
 import jwt
-import math
+from werkzeug.utils import secure_filename
+
+import db
+import level4_db
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -81,7 +87,7 @@ def checkFlag(request, flag, conn, level):
         conn.execute(q2, (user_id, level, datetime.datetime.now()))
         q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
         # print(q)
-        e = conn.execute(q)
+        conn.execute(q)
         # print(e)
         conn.commit()
         minutes_elapsed = math.floor(getDiff(user_id, level)/60)
@@ -370,7 +376,7 @@ def level_04_post(id):
         p = conn.execute(query, (id,)).fetchall()[0]
         conn.close()
         return render_template('level04_page.html', object=p, page='Zadanie 4',username=user_id, points=points)
-    except Exception as e:
+    except Exception:
         return render_template('404.html')
 
 
@@ -434,7 +440,6 @@ def level_06():
     user_id, points = getPoints()
 
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
-    error = None
     JWTsecret = "832p13c2ny_k1uc2"
     def_token = jwt.encode({'imie': "Robert Witold Makłowicz",
                             'data_ur': "12.07.1963",
@@ -513,7 +518,7 @@ def level_07_dane(id):
             conn.close()
 
             return render_template('level07_guard.html', object=p, page='Zadanie 7',username=user_id, points=points)
-    except Exception as e:
+    except Exception:
         return render_template('404.html')
 
 
@@ -551,7 +556,7 @@ def flag():
                 q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
                 # print(q)
 
-                e = conn.execute(q)
+                conn.execute(q)
                 # print(e)
                 conn.commit()
                 conn.close()
