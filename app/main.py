@@ -1,15 +1,23 @@
 import datetime
-
-from flask import *
+import math
 import os
-import db
-import level4_db
 import sqlite3
-import base64
-from flask import make_response, session
+
+from flask import (
+    Flask,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 from flask_session import Session
 import jwt
-import math
+from werkzeug.utils import secure_filename
+
+import db
+import level4_db
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -23,16 +31,29 @@ def get_db_connection():
     return conn
 
 def checkLevel(request, conn, reqLevel):
-    user_id = \
-        conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
     cursor = conn.cursor()
+    cursor.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id')))
+    user_id = cursor.fetchone()
 
-    cursor.execute('SELECT MAX(level_id) FROM userFlags WHERE user_id = ?', (user_id,))
+    if user_id is None:
+        response = redirect(url_for('login'))
+        response.set_cookie('user_id', 'resetting', expires=0)
+        response.set_cookie('session_id', 'resetting', expires=0)
+        return response
+
+    cursor = conn.cursor()
+    cursor.execute('SELECT MAX(level_id) FROM userFlags WHERE user_id = ?', (user_id[0],))
     row = cursor.fetchone()
+
+    if row is None:
+        response = redirect(url_for('login'))
+        response.set_cookie('user_id', 'resetting', expires=0)
+        response.set_cookie('session_id', 'resetting', expires=0)
+        return response
 
     current_level = row[0] or 0
     if not reqLevel == current_level + 1:
-        return url_for('level_0' + str(current_level + 1))
+        return redirect(url_for('level_0' + str(current_level + 1)))
     return None
 
 def getDiff(user_id, level_id):
@@ -66,7 +87,7 @@ def checkFlag(request, flag, conn, level):
         conn.execute(q2, (user_id, level, datetime.datetime.now()))
         q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
         # print(q)
-        e = conn.execute(q)
+        conn.execute(q)
         # print(e)
         conn.commit()
         minutes_elapsed = math.floor(getDiff(user_id, level)/60)
@@ -186,12 +207,12 @@ def index():
 @app.route("/level1", methods=['GET', 'POST'])
 def level_01():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 1)
-    user_id, points = getPoints()
-
+    redirect_resp = checkLevel(request, conn, 1)
     
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    if redirect_resp is not None:
+        return redirect_resp
+
+    user_id, points = getPoints()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
         user_flag = request.form['flag']
@@ -222,18 +243,18 @@ def level_01():
 @app.route("/level2", methods=['GET', 'POST'])
 def level_02():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 2)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 2)
+    if redirect_resp is not None:
+        return redirect_resp
     user_id, points = getPoints()
     return render_template('level02.html', page='Zadanie 2',username=user_id, points=points)
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
 def robots():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 2)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 2)
+    if redirect_resp is not None:
+        return redirect_resp
     
     robots = open("static/files/robots.txt", 'r').read()
     return render_template('level02_robots.html', robots=robots)
@@ -242,9 +263,9 @@ def robots():
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
 def level_02_Mops():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 2)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 2)
+    if redirect_resp is not None:
+        return redirect_resp
     user_id, points = getPoints()
 
     if request.method == 'POST':
@@ -265,9 +286,9 @@ def level_03():
     error = None
 
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 3)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 3)
+    if redirect_resp is not None:
+        return redirect_resp
     user_id, points = getPoints()
 
     if request.method == 'POST':
@@ -297,9 +318,9 @@ def level_03():
 @app.route("/level4", methods=['GET', 'POST'])
 def level_04():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 4)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 4)
+    if redirect_resp is not None:
+        return redirect_resp
     user_id, points = getPoints()
 
     if request.method == 'POST':
@@ -333,12 +354,12 @@ def level_04():
 @app.route("/level4/post/<id>", methods=['GET', 'POST'])
 def level_04_post(id):
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 4)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 4)
+    if redirect_resp is not None:
+        return redirect_resp
 
 
-    if request.method == 'GET':
+    if request.method == 'POST':
         if request.form.get('btn-succes') == 'Następne zadanie!':
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 3"').fetchall()[0][0]
@@ -355,7 +376,7 @@ def level_04_post(id):
         p = conn.execute(query, (id,)).fetchall()[0]
         conn.close()
         return render_template('level04_page.html', object=p, page='Zadanie 4',username=user_id, points=points)
-    except Exception as e:
+    except Exception:
         return render_template('404.html')
 
 
@@ -368,9 +389,9 @@ def get_level4_db_connection():
 @app.route('/level5', methods=['GET', 'POST'])
 def level_05():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 5)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 5)
+    if redirect_resp is not None:
+        return redirect_resp
     user_id, points = getPoints()
 
     rec = url_for('static', filename='files/camera_video.gif')
@@ -384,20 +405,27 @@ def level_05():
             conn.close()
             return redirect(url_for('level_06'))
 
-        fileName = request.files['file'].filename
+
+        # POST payload could be empty or the file could be missing a filename
+        if 'file' not in request.files or not request.files['file'].filename:
+            error = 'Nie wybrano pliku'
+            return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
+
+        # Sanitize the filename
+        # https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
+        fileName = secure_filename(request.files['file'].filename)
         fileExt = os.path.splitext(fileName)[1]
-        if fileName != '':
-            print(fileExt)
-            if fileExt == '.php5':
-                rec = url_for('static', filename='files/Never.gif')
-                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True,username=user_id, points=points)
-            elif fileExt not in allowed_extensions:
-                error = 'Zabronione rozszerzenie pliku'
-                return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
-            else:
-                print('Załadowano plik')
-                success = 'Plik został załadowany pomyślnie'
-                return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success,username=user_id, points=points)
+
+        if fileExt == '.php5':
+            rec = url_for('static', filename='files/Never.gif')
+            return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True,username=user_id, points=points)
+        elif fileExt not in allowed_extensions:
+            error = 'Zabronione rozszerzenie pliku'
+            return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
+        else:
+            print('Załadowano plik')
+            success = 'Plik został załadowany pomyślnie'
+            return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success,username=user_id, points=points)
 
     return render_template('level05_upload.html', page='Zadanie 5', rec=rec, username=user_id, points=points)
 
@@ -406,13 +434,12 @@ def level_05():
 # JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
 def level_06():
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 6)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 6)
+    if redirect_resp is not None:
+        return redirect_resp
     user_id, points = getPoints()
 
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
-    error = None
     JWTsecret = "832p13c2ny_k1uc2"
     def_token = jwt.encode({'imie': "Robert Witold Makłowicz",
                             'data_ur': "12.07.1963",
@@ -427,18 +454,26 @@ def level_06():
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
             return redirect('/level7/dane/21')
+
     if set_token is None:
         resp.set_cookie('token', def_token)
         return resp
-    else:
-        if jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola'] == "strażnik":
-            conn = get_db_connection()
-            flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
-            checkFlag(request, flag, conn, 6)
-            conn.close()
-            resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6',username=user_id, points=points))
 
-            return resp
+    key = ""
+    try:
+        key = jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola']
+    except (jwt.DecodeError, TypeError):
+        resp.set_cookie('token', def_token)
+        return resp
+
+    if key == "strażnik":
+        conn = get_db_connection()
+        flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
+        checkFlag(request, flag, conn, 6)
+        conn.close()
+        resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6',username=user_id, points=points))
+        return resp
+
     return resp
 
 
@@ -446,9 +481,10 @@ def level_06():
 # id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
     conn = get_db_connection()
-    redirect_url = checkLevel(request, conn, 7)
-    if redirect_url is not None:
-        return redirect(redirect_url)
+    redirect_resp = checkLevel(request, conn, 7)
+    if redirect_resp is not None:
+        return redirect_resp
+
     user_id, points = getPoints()
 
     if request.method == 'POST':
@@ -482,7 +518,7 @@ def level_07_dane(id):
             conn.close()
 
             return render_template('level07_guard.html', object=p, page='Zadanie 7',username=user_id, points=points)
-    except Exception as e:
+    except Exception:
         return render_template('404.html')
 
 
@@ -520,7 +556,7 @@ def flag():
                 q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
                 # print(q)
 
-                e = conn.execute(q)
+                conn.execute(q)
                 # print(e)
                 conn.commit()
                 conn.close()
