@@ -3,28 +3,130 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">#}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">#}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background: #181818;
+        }
+
+        .login-form-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 100vh;
+        }
+
+        .login-info {
+            height: 650px;
+            border-radius: 12px;
+            font-size: 36px;
+            color: #FFE600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #649568;
+            width: 40%;
+        }
+
+        .login-form {
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            background: #9CCC9C;
+            height: 650px;
+            width: 40%;
+            border-radius: 12px;
+
+        }
+
+        .error {
+            color: red;
+        }
+
+        .login-form-header {
+            height: 116px;
+            border-radius: 16px;
+            width: 100%;
+            background: #149414;
+            color: white;
+            font-size: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-button {
+            font-size: 36px;
+            height: 88px;
+            background: #149414;
+            border: none;
+            outline: none;
+            color: white;
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        .login-form-username-input-container {
+            display: flex;
+            flex-direction: column;
+            font-size: 36px;
+
+        }
+
+        .form-group {
+            margin-top: 56px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .login-form-username-input {
+            background: #149414;
+            outline: none;
+            border: none;
+            width: 500px;
+            height: 80px;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .login-form-button {
+        {#align-self: flex-end;#}
+        }
+    </style>
 </head>
 
 <body>
 <div class="login-form-container">
+    <div class="login-info">
+        <div>
+            <p>Czy uda ci się wyciągnąć</p>
+            <p>Makłowicza z więzenia</p>
+        </div>
+    </div>
     <div class="login-form">
-        <h2>Rejestracja:</h2>
+        <div class="login-form-header">Logowanie</div>
         <form method="post" class="form-group">
-            <div class="form-group m-4 row justify-content-center">
-                <input type="text" class="form-control col-8" placeholder="Nazwa użytkownika" name="username"
+            <div class="login-form-username-input-container">
+                <label>
+                    Username:
+                </label>
+                <input type="text" class="login-form-username-input" placeholder="Nazwa użytkownika" name="username"
                        value="{{ request.form.username }}">
+
             </div>
-            <div class="form-group m-2  row justify-content-center">
-                <input class="btn btn-dark level2 btn-lg col-6" type="submit" value="Zaloguj">
+            <div class="login-form-button">
+                <input class="login-button" type="submit" value="Zaloguj">
             </div>
-            {% if error %}
-                <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
-            {% endif %}
         </form>
+        {% if error %}
+            <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+        {% endif %}
 
     </div>
 </body>
