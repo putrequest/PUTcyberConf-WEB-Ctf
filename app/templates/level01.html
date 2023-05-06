@@ -8,27 +8,27 @@
         <title>Śmietnik</title>
     </head>
     <body class="level1_div mx-auto">
-        <h1>Śmietnik więzienny</h1>
-        <ul class="mx-auto">
-            <li>Zużyte chusteczki</li>
-            <li>Kartki z notatkami</li>
-            <li>Resztki jedzenia</li>
-            <li>Opakowanie po jedzeniu</li>
-            <li>Puste opakowania po lekach</li>
-            <li>Butelki po wodzie</li>
-            <li>Puste paczki po papierosach></li>
-            <li>Skrawki papieru</li>
-            <li>Opakowanie po kosmetykach<!--{{ flag }}--></li>
-            <li>Zużyte długopisy</li>
-            <li>Opakowanie po perfumach</li>
-            <li>Złamany widelec</li>
-            <li>Stara gazeta</li>
-            <li>Butelka po szamponie</li>
-            <li>Zniszczone karty do gry</li>
-            <li>Stary kebab</li>
-            <li>Opakowanie po kubku</li>
-        </ul>
-        <p class="mx-auto text-danger">Znajdź klucz, aby wyjść z celi!</p>
+    <h1>Śmietnik więzienny</h1>
+    <ul class="mx-auto">
+        <li>Zużyte chusteczki</li>
+        <li>Kartki z notatkami</li>
+        <li>Resztki jedzenia</li>
+        <li>Opakowanie po jedzeniu</li>
+        <li>Puste opakowania po lekach</li>
+        <li>Butelki po wodzie</li>
+        <li>Puste paczki po papierosach></li>
+        <li>Skrawki papieru</li>
+        <li>Opakowanie po kosmetykach<!--{{ flag }}--></li>
+        <li>Zużyte długopisy</li>
+        <li>Opakowanie po perfumach</li>
+        <li>Złamany widelec</li>
+        <li>Stara gazeta</li>
+        <li>Butelka po szamponie</li>
+        <li>Zniszczone karty do gry</li>
+        <li>Stary kebab</li>
+        <li>Opakowanie po kubku</li>
+    </ul>
+    <p class="mx-auto text-danger">Znajdź klucz, aby wyjść z celi!</p>
     </body>
     </html>
 
@@ -51,8 +51,42 @@
 {% endblock %}
 
 {% block opis %}
-                <h1> {{page}}</h1>
-          <p> Tajny agent Gordona Ramsey’a, mający kontakty w więzieniu, pozostawił dla Makłowicza klucz do jego celi wśród więziennych śmieci.
-Dyżurujący śmietniki kolega Makłowicza o kryptonimie „Żółty” pozwala naszemu bohaterowi przejrzeć ich zawartość. Makłowicz zaczyna przeszukiwać worki ze śmieciami, ale szybko zauważa, że są one pełne różnych odpadków i nie wiadomo, w którym z nich znajduje się jego klucz. Musi więc opracować plan działania. Postanawia przeszukać worki jeden po drugim, ale zdaje sobie sprawę, że to zajmie mu wiele czasu. Pomóż Makłowiczowi odnaleźć klucz, przeszukując śmietnik - kod źródłowy strony.
+    <h1> {{ page }}</h1>
+    <p> Tajny agent Gordona Ramsey’a, mający kontakty w więzieniu, pozostawił dla Makłowicza klucz do jego celi wśród
+    więziennych śmieci.
+    Dyżurujący śmietniki kolega Makłowicza o kryptonimie „Żółty” pozwala naszemu bohaterowi przejrzeć ich zawartość.
+    Makłowicz zaczyna przeszukiwać worki ze śmieciami, ale szybko zauważa, że są one pełne różnych odpadków i nie
+    wiadomo, w którym z nich znajduje się jego klucz. Musi więc opracować plan działania. Postanawia przeszukać worki
+    jeden po drugim, ale zdaje sobie sprawę, że to zajmie mu wiele czasu. Pomóż Makłowiczowi odnaleźć klucz,
+    przeszukując śmietnik - kod źródłowy strony.
 
-              {% endblock %}
+{% endblock %}
+{% block walkthrough %}
+    <h2>1.1 html kod źródłowy</h2>
+    <p>Tajny agent Gordona Ramsey’a, mający kontakty w więzieniu, pozostawił dla Makłowicza klucz do jego celi wśród
+        więziennych śmieci.</p>
+    <p>Dyżurujący śmietniki kolega Makłowicza o kryptonimie „Żółty” pozwala naszemu bohaterowi przejrzeć ich zawartość.
+        Makłowicz zaczyna przeszukiwać worki ze śmieciami, ale szybko zauważa, że są one pełne różnych odpadków i nie
+        wiadomo, w którym z nich znajduje się jego klucz. Musi więc opracować plan działania. Postanawia przeszukać
+        worki jeden po drugim, ale zdaje sobie sprawę, że to zajmie mu wiele czasu. Pomóż Makłowiczowi odnaleźć klucz,
+        przeszukując śmietnik - kod źródłowy strony.</p>
+    <p>Komentarze w kodzie HTML służą do opisywania elementów strony i są ignorowane przez przeglądarki internetowe.
+        Niestety, niektórzy programiści pozostawiają tam informacje, które powinny być poufne, takie jak hasła, klucze
+        szyfrujące czy tokeny autoryzacyjne. To z kolei stwarza ryzyko ich wykorzystania przez nieuprawnione osoby lub
+        boty, co może prowadzić do wycieku danych lub naruszenia prywatności użytkowników.</p>
+
+    <p>Wykorzystanie komentarzy do przechowywania poufnych informacji jest jednym z najprostszych sposobów, jakie można
+        wykorzystać do pozyskania nieautoryzowanego dostępu do systemów. Atakujący mogą przeszukać kod źródłowy strony
+        internetowej, aby znaleźć te informacje, a następnie wykorzystać je w celu zyskania dostępu do wrażliwych
+        danych.</p>
+    <p>
+        Dlatego ważne jest, aby programiści zachowywali ostrożność i nie pozostawiali poufnych informacji w kodzie HTML
+        jako komentarz. Zamiast tego, poufne dane powinny być przechowywane w bezpiecznych miejscach, takich jak bazy
+        danych, pliki konfiguracyjne lub zmienne środowiskowe.
+    </p>
+    <p>Warto pamiętać, że cyberbezpieczeństwo jest kluczowym elementem zarówno dla użytkowników, jak i programistów,
+        którzy tworzą aplikacje i strony internetowe. Pozostawianie poufnych informacji w kodzie HTML jako komentarz
+        jest poważnym zagrożeniem dla prywatności i bezpieczeństwa użytkowników, dlatego nie powinno mieć miejsca w
+        projektach z zakresu cyberbezpieczeństwa.</p>
+    <img style="max-width: 100%" src="/static/files/w1.png"/>
+{% endblock %}
