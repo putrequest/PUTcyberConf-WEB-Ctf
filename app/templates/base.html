@@ -1,47 +1,66 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
 
-  <body>
+<body>
 
 
-  <div class="container">
-      <div class="window_left window">
-            {% block opis %}{% endblock %}
-      </div>
-
-      <div class="window_right window">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container_name_nav">
+<div class="base-container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="navbar-walkthrough-button" id="navbar-walkthrough-button">
+            <img class="navbar-walkthrough-img" src="/static/files/read-book-icon.png">
+            Walkthrough
+        </div>
+        <div class="container_name_nav">
             {% if page is defined %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF: {{ page }}</span>
             {% else %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF</span>
             {% endif %}
 
-            </div>
-              <div class="Points rounded-lg">
-                  <div class="username_nick">{{username}}</div>
-                  <div class="username_points">{{points}}</div>
-              </div>
-        </nav>
-
-        <div class="btn-group-vertical gap-2" >
-            {% block body %}{% endblock %}
         </div>
-      </div>
-  </div>
+        <div class="Points rounded-lg">
+            <div class="username_nick">{{ username }}</div>
+            <div class="username_points">{{ points }}</div>
+        </div>
+    </nav>
+    <div class="window-container">
+        <div class="window_left window">
+            {% block opis %}{% endblock %}
+        </div>
+
+        <div class="window_right window">
+            <div class="btn-group-vertical gap-2">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+<div class="walkthrough-container" id="walkthrough-container" style="display: none;">
+<div class="walkthrough-container-close-button" id="close-button">X</div>
+                    {% block walkthrough %}{% endblock %}
+
+</div>
+</div>
 
 
-  </body>
-
-
-
+</body>
+<script>
+    const popup = document.querySelector('#walkthrough-container');
+    const closeButton = document.querySelector('#close-button');
+    const button = document.querySelector('#navbar-walkthrough-button');
+    closeButton.addEventListener('click', ()=>{
+        popup.style.display = 'none';
+    })
+    button.addEventListener('click', ()=>{
+        popup.style.display = 'block';
+    })
+</script>
 </html>
 

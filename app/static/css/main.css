@@ -3,151 +3,226 @@
  */
 
 .navbar {
-  margin-bottom: 20px;
-  width: 100%;
-  background-color:#649568;
-  border-radius:20px;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: #649568;
+    border-radius: 20px;
 }
 
 .btn {
-  border: 2px solid black;
-  background-color: white;
-  color: black;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 body {
-  background-color:#9CCC9C;
-  color:#000000;
-  margin-top: 5rem;
+    background-color: #9CCC9C;
+    color: #000000;
+    margin-top: 5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+    color: #444444;
 }
 
 .content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
 }
 
 .link-solved {
-  color: green;
-  font-size: 50px;
-  background-color: transparent;
-  text-decoration: none;
+    color: green;
+    font-size: 50px;
+    background-color: transparent;
+    text-decoration: none;
 }
 
 .link-unsolved {
-  color: red;
-  font-size: 50px;
-  background-color: transparent;
-  text-decoration: none;
+    color: red;
+    font-size: 50px;
+    background-color: transparent;
+    text-decoration: none;
 }
 
 .container {
-  width: 100%;
-  max-width: 1900px;
-  min-width: 1850px;
-  display: flex;
-  justify-content: flex-end;
+    width: 100%;
+    max-width: 1900px;
+    min-width: 1850px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .window {
-  height: 950px;
-  width: 50%;
-  border-radius:40px;
-  box-sizing: border-box;
-  padding: 0px 5px 20px 5px;
-  margin: 5px 20px 20px 20px;
+    width: 50%;
+    border-radius: 40px;
+    box-sizing: border-box;
+    padding: 0px 5px 20px 5px;
+    margin: 5px 20px 20px 20px;
 }
 
-.window_left{
-  width: 100%;
-  min-width: 600px;
-  max-width: 700px;
-  padding-left: 10px;
-  color: #FFE600;
-  background-color:#649568;
+.window_left {
+    width: 100%;
+    min-width: 600px;
+    max-width: 700px;
+    padding-left: 10px;
+    color: #FFE600;
+    background-color: #649568;
 
 }
 
 .window_right {
-  flex: 2;
-  order: 5;
-  width: 100%;
-  min-width: 800px;
-  max-width: 1400px;
-  padding: 0px;
+    flex: 2;
+    order: 5;
+    width: 100%;
+    min-width: 800px;
+    max-width: 1400px;
+    padding: 0px;
 
 }
 
 .btn-group-vertical {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
 }
+
 .form_container {
-  text-align: center;
+    text-align: center;
 }
 
 .form-group {
-  display: inline-block;
-  width: 95%;
-}
-.container_name_nav{
-items-align: center;
-background-color:#649568;
+    display: inline-block;
+    width: 95%;
 }
 
-div{
-    background-color:#9CCC9C;
-    color:#000000;
+.container_name_nav {
+    items-align: center;
+    background-color: #649568;
+}
+
+.base-container {
+    height: 100vh;
+    background-color: #9CCC9C;
+    color: #000000;
 }
 
 .container_lvlpost {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Change the number of columns as needed */
-  grid-gap: 10px; /* Add desired gap between grid items */
-  align-items: center; /* Align items vertically in the center */
-  justify-items: center; /* Align items horizontally in the center */
-  color: grey;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Change the number of columns as needed */
+    grid-gap: 10px; /* Add desired gap between grid items */
+    align-items: center; /* Align items vertically in the center */
+    justify-items: center; /* Align items horizontally in the center */
+    color: grey;
 }
-.article-title{
-color: green;}
 
-.Points{
-    width:30%;
-    height:40px;
-    margin-left:40%;
-    border-radius:40px;
-    background-color:#0E6B0E;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.article-title {
+    color: green;
 }
-.username_nick{
-    width:50%;
-    height:30px;
-    background-color:#0E6B0E;
 
+.Points {
+    width: 30%;
+    height: 40px;
+    margin-left: 40%;
+    border-radius: 40px;
+    background-color: #0E6B0E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.username_points{
-    width:40%;
-    height:30px;
-    background-color:#0E6B0E;
+
+.username_nick {
+    width: 50%;
+    height: 30px;
+    background-color: #0E6B0E;
 
 }
-.error{
-color:red;
-}
-.success{
-color:green;
 
+.username_points {
+    width: 40%;
+    height: 30px;
+    background-color: #0E6B0E;
+
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+
+}
+
+.window-container {
+    display: flex;
+}
+
+.navbar-walkthrough-button:hover {
+    cursor: pointer;
+}
+
+.navbar-walkthrough-button {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 20px;
+    border-radius: 9px;
+    background: #5B6C5D;
+    width: 170px;
+}
+
+.navbar-walkthrough-img {
+    height: 25px;
+    width: 24px;
+}
+
+.walkthrough-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 85vh;
+    width: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    position: absolute;
+    border-radius: 8px;
+    padding: 8px;
+    top: 77px;
+    left: 16px
+}
+
+.walkthrough-container::before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: 10%;
+    margin-left: -30px;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid #fff;
+}
+
+.walkthrough-container-close-button {
+    font-size: 28px;
+    width: 30px;
+    border-radius: 20px;
+    line-height: 30px;
+    height: 30px;
+    padding-left: 6px;
+    position: sticky;
+    top: 8px;
+    left: 100%;
+    display: flex;
+    justify-content: space-between;
+    background: #DDD;
+}
+.walkthrough-container-close-button:hover{
+    cursor: pointer;
 }
