@@ -453,6 +453,10 @@ def level_06():
 
     if request.method == 'POST':
         if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
+            conn = get_db_connection()
+            flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
+            checkFlag(request, flag, conn, 6)
+            conn.close()
             return redirect('/level7/dane/21')
 
     if set_token is None:
@@ -467,11 +471,7 @@ def level_06():
         return resp
 
     if key == "strażnik":
-        conn = get_db_connection()
-        flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
-        checkFlag(request, flag, conn, 6)
-        conn.close()
-        resp = make_response(render_template('level06_flag.html', flag=flag, page='Zadanie 6',username=user_id, points=points))
+        resp = make_response(render_template('level06_flag.html', page='Zadanie 6',username=user_id, points=points))
         return resp
 
     return resp
@@ -573,4 +573,4 @@ def flag():
 if __name__ == '__main__':
     db.init_database()
     level4_db.init_database()
-    app.run(host='127.0.0.1', port=8000, debug=False)
+    app.run(host='0.0.0.0', port=8000, debug=False)
