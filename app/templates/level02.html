@@ -3,14 +3,20 @@
 {% block title %}{{ page }}{% endblock %}
 
 {% block body %}
-    <h1>Bla Bla Bla znajdź Pieska Moze jest w robots.txt</h1>
+    <img src="{{ url_for('static', filename='files/missing_dog.png' ) }}" alt="Profil Pieska" style="width: 650px; height: 700px; margin-left: 50px">
 {% endblock %}
 
 {% block opis %}
-        <h1> {{page}}</h1>
+        <h1> {{ page }}</h1>
         <p> Brawo! Makłowicz odnajduje klucz do celi. Zwinnie i cicho otwiera drzwi i wychodzi na korytarz zakładu karnego, skradając się obok śpiącego strażnika na dyżurze.
 Kolejnym zadaniem jest włamanie się do bazy więziennej. Aby zdobyć informacje takie jak rozkład pomieszczeń więzienia czy dane przebywających w nim więźniów, zdobądź dostęp do uprawnień administratora, używając narzędzia Burp Suite.
 Do zalogowania się konieczna jest nazwa użytkownika (putrequest) i hasło (bardzotrudnehaslo).
         </p>
 
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>Plik robots.txt jest używany aby przekazywać instrukcje robotom internetowym dotyczące lokalizacji na stronie internetowej, gdzie mają dostęp do indeksowania czy skanowania. Samo istnienie pliku robots.txt nie stanowi żadnej podatności na zagrożenie bezpieczeństwa strony, ale często jest używany do identyfikowania ograniczonych lub prywatnych obszarów zawartości strony. Informacje zawarte w tym pliku mogą pomóc atakującemu w zmapowaniu zawartości strony. Jeśli strona polega na pliku robots.txt w celu ochrony dostępu do tych obszarów, zarazem nie stosując odpowiedniej kontroli dostępu do nich, to stanowi to poważną podatność.</p>
+        <img style="max-width: 100%" src="/static/files/w2.png"/>
 {% endblock %}

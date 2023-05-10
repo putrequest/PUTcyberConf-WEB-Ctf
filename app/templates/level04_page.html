@@ -28,3 +28,24 @@ Twoim następnym zadaniem jest pomoc we włamaniu się do sterowni – główneg
 </p>
 
 {% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>Wiele aplikacji, szczególnie tych, w których występuje opcja zalogowania, posiada dostęp do jakiejś bazy danych. Okazuje się, że znając podstawy języka SQL, hacker może bez problemu włamać się do niezabezpieczonej bazy i wykraść z niej różne wrażliwe informacje lub je zmodyfikować czy nawet usunąć. Istnieje wiele różnych sposobów na jakie atakujący może dopuścić się tego typu ataku.</p>
+        <p>Przyjrzyjmy się takiemu oto zapytaniu:</p>
+        <img style="max-width: 100%" src="/static/files/w4.1.png"/>
+        <p>Po wpisaniu powyższego tekstu w wyszukiwarkę, prosimy przykładowa-strona.pl o wywołaniu w ich bazie danych następującej komendy:</p>
+        <img style="max-width: 100%" src="/static/files/w4.2.png"/>
+        <p>Którą możemy przetłumaczyć jako: 
+          “Wyświetl wszystkie elementy z tabeli “sklep”, które są meblami (mają wpisaną wartość “meble” w kolumnie “rodzaj”) i są aktualnie w sprzedaży (ich wartość w kolumnie “w_sprzedaży” jest równa 1).”</p>
+        <p>Powyższa procedura dzieje się za każdym razem, gdy użytkownik wyszukuje jakiegoś produktu na stronie, lub filtruje wyniki wyszukiwania.</p>
+        <p>Gdyby atakujący zechciał uzyskać dostęp do produktów, które aktualnie nie są w sprzedaży (ich wartość w kolumnie w_sprzedaży jest równa 0), Mógłby spróbować wykomentować część dotyczącą informacji o sprzedaży danego produktu - wtedy owy warunek w ogóle nie byłby brany pod uwagę przy wyszukiwaniu elementów w bazie danych. Komentarze w SQL są poprzedzone dwoma myślnikami.</p>
+        <img style="max-width: 100%" src="/static/files/w4.3.png"/>
+        <p>Powyższy tekst zostałby przetłumaczony na zapytanie:</p>
+        <img style="max-width: 100%" src="/static/files/w4.4.png"/>
+        <p>Warto zauważyć, że tutaj cała fraza ‘AND w_sprzedaży = 1’ jest traktowana jako komentarz.</p>
+        <p>W przypadku gdyby atakujący chciał wyświetlić wszystkie produkty, niezależnie od ich rodzaju, mógłby zadać zapytanie w następujący sposób:</p>
+        <img style="max-width: 100%" src="/static/files/w4.5.png"/>
+        <p>Dodanie warunku do wyszukiwania “OR 1=1” sprawia, że zapytanie o rodzaj produktów zawsze będzie miało wartość prawdziwą, nieważne czy produkt będzie meblem czy też nie.</p>
+        <p>Na koniec należy wspomnieć, że tekst zapytania w adresie strony zmienia się w zależności od tego co zostanie wpisane w wyszukiwarkę na stronie lub na niej kliknięte.</p>
+{% endblock %}

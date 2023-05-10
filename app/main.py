@@ -283,6 +283,7 @@ def level_02_Mops():
 
 @app.route('/level3', methods=['GET', 'POST'])
 def level_03():
+    # Usename = Maklowicz Password = Koperek123!
     error = None
 
     conn = get_db_connection()
@@ -305,7 +306,7 @@ def level_03():
             return resp
 
     if request.method == 'POST':
-        if request.form['username'] == 'putrequest' and request.form['password'] == 'bardzotrudnehaslo':
+        if request.form['username'] == 'Maklowicz' and request.form['password'] == 'Koperek123!':
             resp = make_response(render_template('level03_page.html', page='Zadanie 3'))
             resp.set_cookie('admin', "false")
             return resp
@@ -476,6 +477,9 @@ def level_06():
 
     return resp
 
+@app.route("/level7")
+def level_07():
+    return redirect('/level7/dane/21')
 
 @app.route("/level7/dane/<id>", methods=['GET', 'POST'])
 # id Makłowicza 21 trzeba zmienić na 3
@@ -573,4 +577,4 @@ def flag():
 if __name__ == '__main__':
     db.init_database()
     level4_db.init_database()
-    app.run(host='0.0.0.0', port=8000, debug=False)
+    app.run(host='0.0.0.0', port=8000, debug=True)
