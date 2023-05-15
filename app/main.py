@@ -510,7 +510,7 @@ def level_07_dane(id):
             if id == '3':
                 conn = get_db_connection()
                 flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
-                #checkFlag(request, flag, conn, 7)
+                checkFlag(request, flag, conn, 7)
                 conn.close()
                 success = 'Gratulacje! Ustawiono profil.'
                 return render_template('level07_guard.html', success=success, page='Zadanie 7', object=p,username=user_id, points=points)
