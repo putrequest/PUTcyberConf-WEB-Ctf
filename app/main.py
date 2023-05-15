@@ -558,35 +558,35 @@ def level_08():
         return render_template('level08.html', info="JUST GET THE FLAG :)", page='Zadanie 8',username=user_id, points=points)
 
 
-@app.route('/help')
-def help():
-    return render_template('help.html', page='Podręcznik')
+#@app.route('/help')
+# def help():
+#    return render_template('help.html', page='Podręcznik')
 
 
-@app.route('/flag', methods=['GET', 'POST'])
-def flag():
-    if request.method == 'POST':
-        if request.form['flag']:
-            conn = get_db_connection()
-            row = conn.execute('select * from flags where flag = "{}"'.format(request.form['flag'])).fetchall()
-            conn.close()
-            if len(row) == 1:
-                conn = get_db_connection()
-                q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
-                # print(q)
-
-                conn.execute(q)
-                # print(e)
-                conn.commit()
-                conn.close()
-                return render_template('flag.html',
-                                       congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
-                                       page='Zgłoś flagę')
-            else:
-                return render_template('flag.html', congrats='Nieprawidowa flaga.', page='Zgłoś flagę')
-        else:
-            return redirect(url_for('flag'))
-    return render_template('flag.html', page='Złoś flagę')
+#@app.route('/flag', methods=['GET', 'POST'])
+#def flag():
+#    if request.method == 'POST':
+#        if request.form['flag']:
+#            conn = get_db_connection()
+#            row = conn.execute('select * from flags where flag = "{}"'.format(request.form['flag'])).fetchall()
+#           conn.close()
+#            if len(row) == 1:
+#                conn = get_db_connection()
+#                q = """update flags set solved = 1 where id = {}""".format(row[0]['id'])
+#                # print(q)
+#
+#                conn.execute(q)
+#                # print(e)
+#                conn.commit()
+#                conn.close()
+#                return render_template('flag.html',
+#                                       congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
+#                                       page='Zgłoś flagę')
+#            else:
+#                return render_template('flag.html', congrats='Nieprawidowa flaga.', page='Zgłoś flagę')
+#        else:
+#            return redirect(url_for('flag'))
+#    return render_template('flag.html', page='Złoś flagę')
 
 
 if __name__ == '__main__':
