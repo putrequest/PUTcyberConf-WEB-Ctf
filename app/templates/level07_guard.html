@@ -14,6 +14,9 @@
         {% endif %}
         {% if success %}
         <p class="success"><strong>Sukces:</strong> {{ success }}
+        <script>
+            setTimeout(() => {  window.location = "../../koniec"; }, 5000);
+        </script>
         {% endif %}
     </div>
     <div class="col-7">
