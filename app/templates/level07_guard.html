@@ -34,3 +34,14 @@
 Bohater sprytnie przemieszcza się przez korytarze zakładu karnego. Szczęśliwy podchodzi do drzwi wejściowych i przykłada kartę do czytnika, aby przejść przez drzwi, ale coś go zatrzymuje… Okazuje się, że konieczny do przejścia przez drzwi proces identyfikacji jest dwuetapowy. Na karcie identyfikacyjnej wciąż widać jego dane osobowe. Kolejnym zadaniem jest szybka zmiana jego profilu na profil innego strażnika, żeby kucharz mógł się wydostać. Przejrzyj profile strażników i znajdź kogoś, za kogo Makłowicz mógłby się bezproblemowo podszyć, a następnie ustaw jego profil na karcie.</p>
 
 {% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>Wrażliwość IDOR, której nazwę możemy przetłumaczyć jako “Niezabezpieczone Bezpośrednie Odwołanie do Obiektu”, występuje gdy twórcy strony, do której tylko określone osoby powinny mieć dostęp, nie zauważą, że każdy posiadając dokładny link do owej strony, również może się do niej dostać.</p>
+        <p>Przykładowo atakujący może spróbować zalogować się na swój profil na portalu społecznościowym:</p>
+        <img style="max-width: 100%" src="/static/files/w7.1.png"/>
+        <p></p>
+        <p>Po czym chcąc wyświetlić dane swej ofiary, podmienić tekst w adresie strony, tak by zostać przekierowanym do profilu ofiary:</p>
+        <img style="max-width: 100%" src="/static/files/w7.2.png"/>
+        <p>Jeśli strona nie została zabezpieczona, atakujący ujrzy wszystkie informacje, które powinne być widoczne tylko dla właściciela profilu.</p>
+{% endblock %}

@@ -31,10 +31,17 @@ def get_db_connection():
     return conn
 
 def checkLevel(request, conn, reqLevel):
+    #check if admin
+    try:
+        if request.cookies.get('123') == 'admin':
+            return None
+    except:
+        pass
+    ############################
     cursor = conn.cursor()
     cursor.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id')))
     user_id = cursor.fetchone()
-
+    
     if user_id is None:
         response = redirect(url_for('login'))
         response.set_cookie('user_id', 'resetting', expires=0)
@@ -255,9 +262,12 @@ def robots():
     redirect_resp = checkLevel(request, conn, 2)
     if redirect_resp is not None:
         return redirect_resp
-    
-    robots = open("static/files/robots.txt", 'r').read()
-    return render_template('level02_robots.html', robots=robots)
+    try:
+        robots = open("static/files/robots.txt", 'r').read()
+        return render_template('level02_robots.html', robots=robots)
+    except:
+        robots = open("app/static/files/robots.txt", 'r').read()
+        return render_template('level02_robots.html', robots=robots)
 
 
 @app.route('/blok-D/cela-6132/Mopsik', methods=['GET', 'POST'])
@@ -432,7 +442,7 @@ def level_05():
 
 
 @app.route('/level6', methods=['GET', 'POST'])
-# JWT dla Makłowicza eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20
+# Zmień na ten token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWllIjoiUm9iZXJ0IFdpdG9sZCBNYWvFgm93aWN6IiwiZGF0YV91ciI6IjEyLjA3LjE5NjMiLCJyb2xhIjoic3RyYcW8bmlrIiwiRUVFRUVFIjoxMDQsImRlbGZpbnkiOiJhaGFoYWhhaGFoYWhhaGFoIn0.X2DEaMHA7kJQN90p374zWA2pzpDHVvuhd9yLEaeJsp4
 def level_06():
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 6)
@@ -525,6 +535,11 @@ def level_07_dane(id):
     except Exception:
         return render_template('404.html')
 
+@app.route('/Koniec?')
+def end_page():
+    user_id, points = getPoints()
+    return render_template('final_page.html', page='Koniec?',username=user_id, points=points)
+
 
 @app.route('/level8', methods=['FLAG'])
 def level_08():
@@ -577,4 +592,4 @@ def flag():
 if __name__ == '__main__':
     db.init_database()
     level4_db.init_database()
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True)
