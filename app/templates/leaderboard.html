@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaderboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function refreshLeaderboard() {
+            $.ajax({
+                url: '/update_board',
+                type: 'GET',
+                success: function(data) {
+                    $('#leaderboard-table').html(data);
+                }
+            });
+        }
+
+        setInterval(refreshLeaderboard, 5000);
+    </script>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <table id="leaderboard-table">
+        {% for entry in leaderboard_data %}
+            <tr>
+                <td>{{ entry[0] }}</td>
+                <td>{{ entry[1] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
