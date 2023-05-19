@@ -1,6 +1,6 @@
-{% for entry in leaderboard_data %}
-    <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-    </tr>
-{% endfor %}
+<thead><tr><th>Username</th><th>Points</th></tr></thead>
+        <tbody>
+            {% for entry in leaderboard_data %}
+                <tr><td>{{ entry[0] }}</td><td>{{ entry[1] }}</td></tr>
+            {% endfor %}
+        </tbody>

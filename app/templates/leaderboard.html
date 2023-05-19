@@ -2,30 +2,34 @@
 <html>
 <head>
     <title>Leaderboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        // Function to refresh the leaderboard data
         function refreshLeaderboard() {
             $.ajax({
                 url: '/update_board',
                 type: 'GET',
                 success: function(data) {
+                    // Update the leaderboard table with the new data
                     $('#leaderboard-table').html(data);
                 }
             });
         }
 
+        // Refresh the leaderboard every 5 seconds
         setInterval(refreshLeaderboard, 5000);
     </script>
 </head>
 <body>
     <h1>Leaderboard</h1>
-    <table id="leaderboard-table">
-        {% for entry in leaderboard_data %}
-            <tr>
-                <td>{{ entry[0] }}</td>
-                <td>{{ entry[1] }}</td>
-            </tr>
-        {% endfor %}
+    <table id="leaderboard-table" class="content-section">
+        <thead><tr><th>Username</th><th>Points</th></tr></thead>
+        <tbody>
+            {% for entry in leaderboard_data %}
+                <tr><td>{{ entry[0] }}</td><td>{{ entry[1] }}</td></tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>
