@@ -11,7 +11,7 @@
                 <p class="article-content">{{ object.content }}</p>
             </div>
             </article>
-            {%if object.hidden == 1 %}
+            {%if object.id == 133 %}
             <form method="post" action="/level4/post/{{ object.id }}">
                 <input type="submit" value="Następne zadanie!" name="btn-succes" class="mx-auto btn-primary">
             </form>
