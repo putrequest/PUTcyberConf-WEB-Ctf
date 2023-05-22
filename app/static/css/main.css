@@ -135,18 +135,23 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Ubuntu', sans-serif;
+    font-family: 'VT323', monospace;
 }
 
 .username_nick {
     width: 50%;
-    height: 30px;
+    height: 25px;
+    font-size:1.1rem;
+    font-weight:bold;
     background-color: #0E6B0E;
-
 }
 
 .username_points {
     width: 40%;
-    height: 30px;
+    height: 25px;
+    font-size:1.1rem;
+    font-weight:bold;
     background-color: #0E6B0E;
 
 }
