@@ -558,9 +558,7 @@ def level_08():
         return render_template('level08.html', info="JUST GET THE FLAG :)", page='Zadanie 8',username=user_id, points=points)
 
 
-#@app.route('/help')
-# def help():
-#    return render_template('help.html', page='Podręcznik')
+
 
 
 #@app.route('/flag', methods=['GET', 'POST'])
