@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Leaderboard</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/lead.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Function to refresh the leaderboard data
@@ -17,17 +17,31 @@
             });
         }
 
-        // Refresh the leaderboard every 5 seconds
-        setInterval(refreshLeaderboard, 5000);
+        // Refresh the leaderboard every 30 seconds
+        setInterval(refreshLeaderboard, 30000);
     </script>
 </head>
 <body>
-    <h1>Leaderboard</h1>
+    <nav class="navbar navbar-expand-lg navbar-light">
+    PUTcyberCONF2023
+    </nav>
+    <div class=" leadertext_box">
+        <h1>Leaderboard</h1>
+    </div>
+
     <table id="leaderboard-table" class="content-section">
-        <thead><tr><th>Username</th><th>Points</th></tr></thead>
+        <thead>
+            <tr>
+                <th class="th_user">Username</th>
+                <th class="th_point">Points</th>
+            </tr>
+        </thead>
         <tbody>
             {% for entry in leaderboard_data %}
-                <tr><td>{{ entry[0] }}</td><td>{{ entry[1] }}</td></tr>
+                <tr>
+                    <td>{{ entry[0] }}</td>
+                    <td>{{ entry[1] }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

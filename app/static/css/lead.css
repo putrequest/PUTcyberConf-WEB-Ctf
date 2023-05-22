@@ -1,0 +1,82 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-family: 'VT323', monospace;
+  background-color: #9CCC9C;
+  color: #000000;
+  margin:-2px;
+
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+table {
+  margin: 5px auto;
+  border-collapse: collapse;
+  width: 1400px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+th {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.th_user{
+    border-radius: 5px 0px 0px 0px;
+}
+
+.th_point{
+    border-radius: 0px 5px 0px 0px;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+td:nth-child(odd) {
+  border-right: 1px solid #ddd;
+}
+
+tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e0e0e0;
+  border-color: white;
+}
+
+.navbar {
+    margin-bottom: 20px;
+    height:50px;
+    margin-left:1.5rem;
+    margin-right:1.5rem;
+    background-color: #649568;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.leadertext_box{
+    height:75px;
+    margin-left:3rem;
+    margin-right:3rem;
+    background-color: #149414;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
