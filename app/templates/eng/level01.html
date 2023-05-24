@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <html>
+    <head>
+        <title>Dumpster</title>
+    </head>
+    <body class="level1_div mx-auto">
+    <h1>Prison dumpster</h1>
+    <ul class="mx-auto">
+        <li>Used wipes</li>
+        <li>Notes</li>
+        <li>Food leftovers</li>
+        <li>Food packaging</li>
+        <li>Empty medicine packaging</li>
+        <li>Water bottles</li>
+        <li>Empty cigarette packs></li>
+        <li>Paper scraps</li>
+        <li>Cosmetics packaging<!--{{ flag }}--></li>
+        <li>Used pens</li>
+        <li>Perfume packaging</li>
+        <li>Bent fork</li>
+        <li>Old newspaper</li>
+        <li>Shampoo bottle</li>
+        <li>Destroyed cards</li>
+        <li>Old kebab</li>
+        <li>Cup packaging</li>
+    </ul>
+    <p class="mx-auto text-danger">Find the key to get out of the cell!</p>
+    </body>
+    </html>
+
+    <div class="justify-content-center mx-auto">
+        <h1>Enter the key to the cell</h1>
+        <br>
+        <form name="form" method="post">
+            <div class="row justify-content-center">
+                <input id="query" type="text" class="form-control m-2 col-10" placeholder="PRctf{...}" name="flag"
+                       value="{{ request.form.flag }}">
+            </div>
+            <div class="row justify-content-center">
+                <input class="btn btn-default btn-dark btn-md m-2 col-10" type="submit" value="Submit">
+            </div>
+        </form>
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block opis %}
+    <h1> {{ page }}</h1>
+    <p> Gordon Ramsay’s secret agent, who has contacts in prison, left a key to his cell for Makłowicz among the prison garbage.
+Makłowicz’s colleague, nicknamed “Yellow”, who is guarding the garbage cans, allows our hero to look through their contents.
+Makłowicz starts searching the garbage bags, but quickly notices that they are full of various wastes and it is not known
+which one contains his key. So he has to come up with a plan. He decides to search the bags one by one, but he
+realizes that it will take him a long time. Help Makłowicz find the key by searching the garbage - source code of the page.</p>
+
+{% endblock %}
+{% block walkthrough %}
+    <h2>{{ page }}</h2>
+    <p>Comments in HTML code are used to describe page elements and are ignored by web browsers.
+        Unfortunately, some programmers leave information there that should be confidential, such as passwords, keys
+        encryption or authorization tokens. This in turn creates the risk of their use by unauthorized persons or
+        bots, which can lead to data leakage or violation of user privacy.</p>
+
+    <p>Using comments to store confidential information is one of the easiest ways to
+        unauthorized access to systems. Attackers can search the page source code to find them
+        information and then use it to gain access to sensitive data.</p>
+    <p>
+        That is why it is important that programmers exercise caution and do not leave confidential information in HTML code
+        as a comment. Instead, confidential data should be stored in secure locations such as databases
+        configuration files or environment variables.
+    </p>
+    <p>It is worth remembering that cybersecurity is a key element for both users and programmers who create applications
+        and websites. Leaving confidential information in HTML code as a comment is a serious threat to the privacy and
+        security of users, so it should not take place in cybersecurity projects.</p>
+    <img style="max-width: 100%" src="/static/files/w1.png"/>
+{% endblock %}

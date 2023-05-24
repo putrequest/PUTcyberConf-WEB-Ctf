@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /css/
+Disallow: /plugin/
+
+User-agent: prisoner
+Disallow: /block-D/cell-1337/Pug
+Disallow /block-D/cell-2139/Yellow
+
