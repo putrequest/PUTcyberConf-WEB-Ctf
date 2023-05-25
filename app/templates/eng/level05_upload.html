@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <title> Zmień swoje zdjęcie</title>
+    <form action="{{ url_for('level_05') }}" method="post" enctype="multipart/form-data" class="mx-auto">
+        <input type="file" name="file">
+        <input type="submit" value="Wyślij" class="btn btn-secondary col-4 m-1">
+    </form>
+
+    {% if success %}
+        <h3><p class="success"><strong>Sukces:</strong> {{ success }}</p></h3>
+    {% endif %}
+
+    {% if error %}
+        <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+    {% endif %}
+    
+    <h1 class="mx-auto">Nagranie w kamerach</h1>
+    <img src="{{ rec }}" alt="nagranie z kamer" class="mx-auto">
+    
+    {% if done %}
+        <form method="post" action="level5">
+            <input type="submit" class="btn btn-success mx-auto" value="Idziemy dalej!" id="fileInput" name="Idziemy dalej!">
+        </form>
+    {% endif %}
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Makłowicz successfully breaks into the control room. He fills like a lobster before being thrown to hot water from stress, but at the speed of light - as if he was grooming the meat - digging through the computer.
+In order for Makłowicz not to be caught by the prison authorities, in the next step it is necessary to replace the mp4 file from the cameras that recorded his actions.
+</p>
+
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>The ability to transfer files is one of the most common features of web applications. This allows users to share their photos with others.</p>
+        <p>While this feature is extremely useful, it can be a source of vulnerability. Especially if the creators do not properly protect it by verifying the type of the uploaded file and its content. If this happens and the verification is too weak, attackers will have the opportunity to upload malicious scripts or other executable files.</p>
+        <img style="max-width: 100%" src="/static/files/w5.1.png"/>
+        <p></p>
+        <p>The attacker may try to upload a malicious file instead of a harmless file such as an image (.png or .jpg extension). If the target application runs on PHP, the attacker may try to upload a file ending in .php. However, developers may prevent the upload of files with certain extensions, considering them unsafe.  You can work around this by using alternative extensions.  For example, it is possible to upload a .php file by renaming it to file.php.jpg or file.PHp</p>
+        <p>Example modifications of extensions:</p>
+        <img style="max-width: 100%" src="/static/files/w5.2.png"/>
+{% endblock %}

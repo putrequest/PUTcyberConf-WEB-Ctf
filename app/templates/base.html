@@ -10,7 +10,33 @@
 </head>
 
 <body>
+<script>
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function onLanguageChange(e) {
+        setCookie('lang', e.value, 10);
+        window.location.reload();
+    }
+</script>
 
 <div class="base-container">
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -24,6 +50,14 @@
             {% else %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF</span>
             {% endif %}
+
+        </div>
+        <div class="language-selector">
+            Change language:
+            <select id="lang_select" onchange="onLanguageChange(this)">
+                <option value="eng">eng</option>
+                <option value="pl">pl</option>
+            </select>
 
         </div>
         <div class="Points rounded-lg">
@@ -42,11 +76,11 @@
             </div>
         </div>
     </div>
-<div class="walkthrough-container" id="walkthrough-container" style="display: none;">
-<div class="walkthrough-container-close-button" id="close-button">X</div>
-                    {% block walkthrough %}{% endblock %}
+    <div class="walkthrough-container" id="walkthrough-container" style="display: none;">
+        <div class="walkthrough-container-close-button" id="close-button">X</div>
+        {% block walkthrough %}{% endblock %}
 
-</div>
+    </div>
 </div>
 
 
@@ -55,12 +89,18 @@
     const popup = document.querySelector('#walkthrough-container');
     const closeButton = document.querySelector('#close-button');
     const button = document.querySelector('#navbar-walkthrough-button');
-    closeButton.addEventListener('click', ()=>{
+    const lang_select = document.querySelector('#lang_select');
+    const lang = getCookie('lang')
+    const selected = document.querySelector(`option[value="${lang}"]`)
+
+    selected.setAttribute('selected', true);
+    closeButton.addEventListener('click', () => {
         popup.style.display = 'none';
     })
-    button.addEventListener('click', ()=>{
+    button.addEventListener('click', () => {
         popup.style.display = 'block';
     })
+
 </script>
 </html>
 

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Zadanie 6{% endblock %}
+
+{% block body %}
+
+    <h2>Doors open! Congratulations!</h2>
+    <form method="post" action="/level6">
+        <input type="submit" value="Idziemy dalej!" class="btn btn-outline-warning" name="Idziemy dalej!">
+{% endblock %}
+{% block opis %}
+    <h1> {{ page }}</h1>
+    <p> Well done! The prison authorities, checking the cameras, will find there Robert Astley's iconic hit "Never gonna
+        give you up".
+        We have received information from Gordon Ramsay's classified intelligence regarding the secret key necessary to
+        perform the operation - it has the value "832p13c2ny_k1uc2"</p>
+
+{% endblock %}
+
+{% block walkthrough %}
+    <h2>{{ page }}</h2>
+    <p>One of the existing authentication tools is the JWT (Json Web Token).</p>
+    <p>When a user logs into a web application, the server generates a JWT that contains the user's identity and any
+        other relevant information such as their role or permissions. The token is then sent to the user, who stores it
+        locally, usually in a browser cookie or local storage. On subsequent requests to the server, the token is sent
+        back to the server as an authorization header, allowing the server to verify the user's identity and grant
+        access to protected resources or functionality.</p>
+    <p>This mechanism allows you to confirm the user's identity, but it can also be a vulnerability in the system. Data
+        sent in the form of cookies is encrypted</p>
+    <img style="max-width: 100%" src="/static/files/w6.1.png"/>
+    <p></p>
+    <p>There are services dedicated to debugging and verifying tokens. Just as they can be useful in testing
+        applications, an attacker can use them to decode encrypted cookies, as well as to modify them.An example of a
+        website that allows you to generate a JWT Token is <a href="https://jwt.io/">jwt.io</a>.</p>
+    <img style="max-width: 100%" src="/static/files/w6.2.png"/>
+    <p>Using the jwt.io tool, we can decode the original token and modify the payload to include the appropriate data or
+        permissions.
+        A secret key is often used for encryption.
+        After generating a new token, it is possible to replace the original value with it.
+        After sending a request with a modified token and accepting it by the server, the attacker is authenticated - he
+        can gain access to user accounts and related sensitive information or permissions.</p>
+{% endblock %}

@@ -117,6 +117,7 @@ def checkFlag(request, flag, conn, level):
 
 def getLangPage(html_template):
     lang = request.cookies.get('lang')
+    # print(request.cookies.get('lang'))
     if lang == 'eng':
         print(html_template)
         return 'eng/' + html_template

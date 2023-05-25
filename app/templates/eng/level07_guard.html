@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }} - {{ object.title }} {% endblock %}
+
+{% block body %}
+<div class="row col-10">
+    <div class="col-md-5">
+        <img src="{{ url_for('static', filename='files/p_and_g_photos/'+ object.id +'.png') }}" alt="Zdjęcie Strażnika" style="width: 250px; height: 300px; margin-left: 50px">
+        <form method="post" action="{{ '/level7/dane/' + object.id }}">
+            <input type="submit" value="Ustaw Profil" name="next" class="btn btn-default btn-dark btn-lg m-2 col-12">
+        </form>
+        {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
+        {% if success %}
+        <p class="success"><strong>Success:</strong> {{ success }}
+        <script>
+            setTimeout(() => {  window.location = "../../koniec"; }, 5000);
+        </script>
+        {% endif %}
+    </div>
+    <div class="col-7">
+        <h3>{{ object.name }}</h3>
+        <p><strong>Date of birth:</strong> {{ object.b_date }}</p>
+        <p><strong>Work Start Date:</strong> {{ object.start_date }}</p>
+        <p><strong>Degree:</strong> {{ object.rank }}</p>
+        <p><strong>Salary:</strong> {{ object.salary }} zł</p>
+        <p><strong>Blocks Assigned:</strong> {{ object.blok }}</p>
+        <p><strong>Phone number:</strong> {{ object.phone }}</p>
+    </div>
+</div>
+
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> You've earned the guardian's powers on the Makłowicz card!
+The hero cleverly moves through the corridors of the prison. With a good mood,goes to the front door and puts his card on the reader to go through the door, but something stops him... It turns out that the identification process necessary to get through the door is a two-step process. His ID card still shows his personal details. The next task is to quickly change his profile to that of another guard so that the cook can get out. Browse through the guard profiles and find someone Makłowicz could easily impersonate, then set their profile on the card.</p>
+
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>IDOR vulnerability, whose name can be translated as "Insecure Direct Object References", occurs when the creators of a page that only certain people should be able to access fail to notice that anyone with an exact link to that page can also access it.</p>
+        <p>For example, an attacker can try to log in to his profile on a social networking site:</p>
+        <img style="max-width: 100%" src="/static/files/w7.1.png"/>
+        <p></p>
+        <p>Then, wanting to display the victim's data, replace the text in the website address, so as to be redirected to the victim's profile:</p>
+        <img style="max-width: 100%" src="/static/files/w7.2.png"/>
+        <p>If the page is not secured, the attacker will see all the information that should only be visible to the profile owner.</p>
+{% endblock %}

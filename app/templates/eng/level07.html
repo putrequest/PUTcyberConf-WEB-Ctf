@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <h1>Po prostu zapytaj się o flagę:</h1>
+    <form name="form" method="post"  class="form-group" onsubmit="submitForm(event)">
+        <div class="form-group m-4 row justify-content-center">
+            <input id="query" type="text" class="form-control col-8" placeholder="Zapytanie" name="query" value="{{
+          request.form.query }}">
+        </div>
+        <div class="form-group m-2  row justify-content-center">
+            <input class="btn btn-dark btn-lg col-6" type="submit" value="Wyślij">
+        </div>
+    </form>
+      {% if error %}
+        <p class="error"><strong>Błąd:</strong> {{ error }}
+      {% endif %}
+
+
+<script type="text/javascript">
+        function submitForm(event) {
+         event.preventDefault();
+            var restrictedWords = new Array("flag");
+            var txtInput = document.getElementById("query").value;
+            var error = 0;
+            for (var i = 0; i < restrictedWords.length; i++) {
+                var val = restrictedWords[i];
+                if ((txtInput.toLowerCase()).indexOf(val.toString()) > -1) {
+                    error = error + 1;
+                }
+            }
+
+            if (error > 0) {
+                alert('Nie wolno pytać o flagę!');
+            return false;
+            }
+            else {
+              document.form.submit();
+            }
+        }
+    </script>
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Udało Ci się zdobyć uprawnienia strażnika na karcie Makłowicza!
+Bohater sprytnie przemieszcza się przez korytarze zakładu karnego. Szczęśliwy podchodzi do drzwi wejściowych i przykłada kartę do czytnika, aby przejść przez drzwi, ale coś go zatrzymuje… Okazuje się, że konieczny do przejścia przez drzwi proces identyfikacji jest dwuetapowy. Na karcie identyfikacyjnej wciąż widać jego dane osobowe. Kolejnym zadaniem jest szybka zmiana jego profilu na profil innego strażnika, żeby kucharz mógł się wydostać. Przejrzyj profile strażników i znajdź kogoś, za kogo Makłowicz mógłby się bezproblemowo podszyć, a następnie ustaw jego profil na karcie.</p>
+
+{% endblock %}
