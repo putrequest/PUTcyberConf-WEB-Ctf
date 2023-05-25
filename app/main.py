@@ -557,6 +557,26 @@ def level_08():
     else:
         return render_template('level08.html', info="JUST GET THE FLAG :)", page='Zadanie 8',username=user_id, points=points)
 
+# Leaderboard #####################################################################
+def update_leaderboard():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    leaderboard_data = c.execute('SELECT username, points FROM users ORDER BY points DESC').fetchall()
+    conn.close()
+
+    return leaderboard_data
+
+@app.route('/leaderboard')
+def leaderboard():
+    leaderboard_data = update_leaderboard()
+
+    return render_template('leaderboard.html', leaderboard_data=leaderboard_data)
+
+@app.route('/update_board')
+def update():
+    leaderboard_data = update_leaderboard()
+
+    return render_template('update_board.html', leaderboard_data=leaderboard_data)
 
 #@app.route('/help')
 # def help():
