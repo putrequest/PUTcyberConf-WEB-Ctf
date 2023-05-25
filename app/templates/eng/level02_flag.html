@@ -12,14 +12,12 @@
         <h1>{{ page }}</h1>
        <p>Makłowicz found the location of the puppy - it is cell number 1337. Agilely going through the corridors, he runs to save him.<br>
         <p></p>
-<p>Click the "Next!" button to go to the next task.</p>
+<p>Click the "Go further!" button to go to the next task.</p>
 
 {% endblock %}
 
 {% block walkthrough %}
         <h2>{{ page }}</h2>
-        <p>Cookie manipulation is a type of web exploitation that occurs when a website's authentication mechanism relies on cookie values to identify users and grant them access to specific areas or features. An attacker can manipulate cookie values to bypass the authentication process and gain unauthorized access to areas or features of the website that are restricted.</p>
-        <p>A website may have a cookie that identifies whether a user is an administrator or not by using the logical values of "true" or "false." An attacker can exploit this vulnerability by intercepting the cookie data and changing the logical value from "false" to "true," granting themselves administrator privileges on the website.</p>
-        <p>After gaining administrator access, the attacker can perform a variety of malicious actions such as stealing sensitive data, modifying or deleting content, or creating new user accounts with elevated privileges.</p>
+        <p>The robots.txt file is used to pass instructions to web "robots" regarding the location on the website, where they do not have access to for indexing or scanning. The existence of the robots.txt file itself does not constitute any security vulnerability on the website, but it is often used to identify limited or private areas of website content. The information contained in this file can help the attacker map the contents of the website. If the website relies on the robots.txt file to protect access to these areas, while not applying appropriate access control to them, it is a serious vulnerability.</p>
         <img style="max-width: 100%" src="/static/files/w2.png"/>
 {% endblock %}
