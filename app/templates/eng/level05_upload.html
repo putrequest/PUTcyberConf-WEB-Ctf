@@ -6,18 +6,18 @@
     <title> Zmień swoje zdjęcie</title>
     <form action="{{ url_for('level_05') }}" method="post" enctype="multipart/form-data" class="mx-auto">
         <input type="file" name="file">
-        <input type="submit" value="Wyślij" class="btn btn-secondary col-4 m-1">
+        <input type="submit" value="Send" class="btn btn-secondary col-4 m-1">
     </form>
 
     {% if success %}
-        <h3><p class="success"><strong>Sukces:</strong> {{ success }}</p></h3>
+        <h3><p class="success"><strong>Success:</strong> {{ success }}</p></h3>
     {% endif %}
 
     {% if error %}
-        <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+        <h3><p class="error"><strong>Error:</strong> {{ error }}</p></h3>
     {% endif %}
     
-    <h1 class="mx-auto">Nagranie w kamerach</h1>
+    <h1 class="mx-auto">cctv recording</h1>
     <img src="{{ rec }}" alt="nagranie z kamer" class="mx-auto">
     
     {% if done %}
@@ -27,7 +27,7 @@
     {% endif %}
 {% endblock %}
 {% block opis %}
-        <h1> {{page}}</h1>
+        <h1> Task 5</h1>
         <p> Makłowicz successfully breaks into the control room. He fills like a lobster before being thrown to hot water from stress, but at the speed of light - as if he was grooming the meat - digging through the computer.
 In order for Makłowicz not to be caught by the prison authorities, in the next step it is necessary to replace the mp4 file from the cameras that recorded his actions.
 </p>

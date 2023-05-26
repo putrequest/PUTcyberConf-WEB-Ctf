@@ -30,8 +30,9 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
 def checkLevel(request, conn, reqLevel):
-    #check if admin
+    # check if admin
     try:
         if request.cookies.get('123') == 'admin':
             return None
@@ -41,7 +42,7 @@ def checkLevel(request, conn, reqLevel):
     cursor = conn.cursor()
     cursor.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id')))
     user_id = cursor.fetchone()
-    
+
     if user_id is None:
         response = redirect(url_for('login'))
         response.set_cookie('user_id', 'resetting', expires=0)
@@ -63,25 +64,36 @@ def checkLevel(request, conn, reqLevel):
         return redirect(url_for('level_0' + str(current_level + 1)))
     return None
 
+
 def getDiff(user_id, level_id):
     conn = get_db_connection()
     c = conn.cursor()
     print(user_id)
     if level_id == 1:
         # For level 1, use the timestamp from userFlags table where level_id = 1 minus the timestamp from users table
-        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, 1)).fetchall()[0][0]
+        last_timestamp = \
+            c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, 1)).fetchall()[0][0]
         last_timestamp_user = c.execute('select timestamp from users where id=?', (user_id,)).fetchall()[0][0]
-        return (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_user, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+        return (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(
+            last_timestamp_user, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
     elif level_id == 0:
         return 1
     else:
         # For the other levels, use the timestamp from userFlags table where level_id = current level_id minus the timestamp from userFlags table where level_id = current level_id - 1
-        last_timestamp = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()[0][0]
-        last_timestamp_prev = c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id - 1)).fetchall()[0][0]
-        return (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(last_timestamp_prev, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+        last_timestamp = \
+            c.execute('select timestamp from userFlags where user_id=? and level_id=?', (user_id, level_id)).fetchall()[
+                0][
+                0]
+        last_timestamp_prev = \
+            c.execute('select timestamp from userFlags where user_id=? and level_id=?',
+                      (user_id, level_id - 1)).fetchall()[
+                0][0]
+        return (datetime.datetime.strptime(last_timestamp, '%Y-%m-%d %H:%M:%S.%f') - datetime.datetime.strptime(
+            last_timestamp_prev, '%Y-%m-%d %H:%M:%S.%f')).total_seconds()
+
 
 def checkFlag(request, flag, conn, level):
-    #check if admin
+    # check if admin
     try:
         if request.cookies.get('123') == 'admin':
             return None
@@ -105,7 +117,7 @@ def checkFlag(request, flag, conn, level):
         conn.execute(q)
         # print(e)
         conn.commit()
-        minutes_elapsed = math.floor(getDiff(user_id, level)/60)
+        minutes_elapsed = math.floor(getDiff(user_id, level) / 60)
         points_to_add = max(50, 500 - minutes_elapsed * 50)
         conn.execute("update userFlags set points =? where user_id=? AND level_id=?", (points_to_add, user_id, level))
         conn.execute("update users set points = points+? where id=?", (points_to_add, user_id))
@@ -114,6 +126,7 @@ def checkFlag(request, flag, conn, level):
         return render_template('flag.html',
                                congrats='Gratuluję! {} zostało rozwiązane.'.format(row[0]['level_name']),
                                page='Zgłoś flagę')
+
 
 def getLangPage(html_template):
     lang = request.cookies.get('lang')
@@ -124,7 +137,7 @@ def getLangPage(html_template):
     return 'pl/' + html_template
 
 
-#def checkPoints(level_id):
+# def checkPoints(level_id):
 #    # Get the user ID from the users table by hash
 #    conn = get_db_connection()
 #    c = conn.cursor()
@@ -162,7 +175,7 @@ def getLangPage(html_template):
 #    return points
 
 def getPoints():
-    #check if admin
+    # check if admin
     try:
         if request.cookies.get('123') == 'admin':
             return ['admin', 2137]
@@ -171,10 +184,13 @@ def getPoints():
     ############################
     conn = get_db_connection()
     c = conn.cursor()
-    user_id = c.execute('select username from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+    user_id = \
+        c.execute('select username from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[
+            0][0]
     points = c.execute('select points from users where username=?', (user_id,)).fetchall()[0][0]
     conn.close()
     return [user_id, points]
+
 
 @app.route("/favicon.ico")
 def main_css():
@@ -239,7 +255,7 @@ def index():
 def level_01():
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 1)
-    
+
     if redirect_resp is not None:
         return redirect_resp
 
@@ -253,10 +269,12 @@ def level_01():
             return redirect(url_for('level_02'))
         elif user_flag == '':
             error = 'Nie podano klucza.'
-            return render_template(getLangPage('level01.html'), error=error, flag=flag, page='Level 1', username=user_id, points=points)
+            return render_template(getLangPage('level01.html'), error=error, flag=flag, page='Level 1',
+                                   username=user_id, points=points)
         else:
             error = 'Niepoprawny klucz.'
-            return render_template(getLangPage('level01.html'), error=error, flag=flag, page='Level 1', username=user_id, points=points)
+            return render_template(getLangPage('level01.html'), error=error, flag=flag, page='Level 1',
+                                   username=user_id, points=points)
 
     return render_template(getLangPage('level01.html'), flag=flag, page='Level 1', username=user_id, points=points)
 
@@ -278,7 +296,8 @@ def level_02():
     if redirect_resp is not None:
         return redirect_resp
     user_id, points = getPoints()
-    return render_template(getLangPage('level02.html'), page='Level 2',username=user_id, points=points)
+    return render_template(getLangPage('level02.html'), page='Level 2', username=user_id, points=points)
+
 
 @app.route("/robots.txt", methods=['GET', 'POST'])
 def robots():
@@ -325,7 +344,7 @@ def level_02_Mops():
     conn = get_db_connection()
     checkLevel(request, conn, 2)
 
-    return render_template(getLangPage('level02_flag.html'), page='Level 2',username=user_id, points=points)
+    return render_template(getLangPage('level02_flag.html'), page='Level 2', username=user_id, points=points)
 
 
 @app.route('/level3', methods=['GET', 'POST'])
@@ -357,18 +376,21 @@ def level_03():
 
     if request.cookies.get('admin'):
         if request.cookies.get('admin') == "true":
-            resp = make_response(render_template(getLangPage('level03_flag.html'), page='Level 3',username=user_id, points=points))
+            resp = make_response(
+                render_template(getLangPage('level03_flag.html'), page='Level 3', username=user_id, points=points))
             return resp
 
     if request.method == 'POST':
         if request.form['username'] == 'Maklowicz' and request.form['password'] == password:
-            resp = make_response(render_template(getLangPage('level03_page.html'), page='Level 3',username=user_id, points=points))
+            resp = make_response(
+                render_template(getLangPage('level03_page.html'), page='Level 3', username=user_id, points=points))
             resp.set_cookie('admin', "false")
             return resp
         else:
             error = 'Niepoprawne dane logowania.'
-            return render_template(getLangPage('level03_login.html'), error=error, page='Level 3',username=user_id, points=points)
-    return render_template(getLangPage('level03_login.html'), page='Level 3',username=user_id, points=points)
+            return render_template(getLangPage('level03_login.html'), error=error, page='Level 3', username=user_id,
+                                   points=points)
+    return render_template(getLangPage('level03_login.html'), page='Level 3', username=user_id, points=points)
 
 
 @app.route("/level4", methods=['GET', 'POST'])
@@ -395,9 +417,11 @@ def level_04():
             # 'OR 1=1--
             if p:
                 print(p[0])
-                return render_template(getLangPage('level04.html'), posts=p, page='Level 4',username=user_id, points=points)
+                return render_template(getLangPage('level04.html'), posts=p, page='Level 4', username=user_id,
+                                       points=points)
             else:
-                return render_template(getLangPage('level04.html'), error="Brak odpowiedzi na zapytanie", page='Level 4',username=user_id, points=points)
+                return render_template(getLangPage('level04.html'), error="Brak odpowiedzi na zapytanie",
+                                       page='Level 4', username=user_id, points=points)
         else:
             conn = get_level4_db_connection()
             if lang == 'eng':
@@ -405,7 +429,8 @@ def level_04():
             else:
                 p = conn.execute("select * from doors where hidden = 0").fetchall()
             conn.close()
-            return render_template(getLangPage('level04.html'), posts=p, page='Level 4',username=user_id, points=points)
+            return render_template(getLangPage('level04.html'), posts=p, page='Level 4', username=user_id,
+                                   points=points)
 
     else:
         conn = get_level4_db_connection()
@@ -414,7 +439,7 @@ def level_04():
         else:
             p = conn.execute("select * from doors where hidden = 0").fetchall()
         conn.close()
-        return render_template(getLangPage('level04.html'), posts=p, page='Level 4',username=user_id, points=points)
+        return render_template(getLangPage('level04.html'), posts=p, page='Level 4', username=user_id, points=points)
 
 
 @app.route("/level4/post/<id>", methods=['GET', 'POST'])
@@ -440,7 +465,6 @@ def level_04_post(id):
 
     user_id, points = getPoints()
 
-
     try:
         conn = get_level4_db_connection()
         if lang == 'eng':
@@ -449,7 +473,8 @@ def level_04_post(id):
             query = """select * from doors where id = ?"""
         p = conn.execute(query, (id,)).fetchall()[0]
         conn.close()
-        return render_template(getLangPage('level04_page.html'), object=p, page='Level 4',username=user_id, points=points)
+        return render_template(getLangPage('level04_page.html'), object=p, page='Level 4', username=user_id,
+                               points=points)
     except Exception:
         return render_template('404.html')
 
@@ -467,7 +492,7 @@ def level_05():
     if redirect_resp is not None:
         return redirect_resp
     user_id, points = getPoints()
-
+    lang = request.cookies.get('lang')
     rec = url_for('static', filename='files/camera_video.gif')
     allowed_extensions = {'.png', '.jpg', '.jpeg'}
     if request.method == 'POST':
@@ -479,11 +504,11 @@ def level_05():
             conn.close()
             return redirect(url_for('level_06'))
 
-
         # POST payload could be empty or the file could be missing a filename
         if 'file' not in request.files or not request.files['file'].filename:
-            error = 'Nie wybrano pliku'
-            return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
+            error = 'Nie wybrano pliku' if lang == "pl" else "File not selected"
+            return render_template(getLangPage('level05_upload.html'), page='Zadanie 5', error=error, rec=rec,
+                                   username=user_id, points=points)
 
         # Sanitize the filename
         # https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
@@ -492,16 +517,20 @@ def level_05():
 
         if fileExt == '.php5':
             rec = url_for('static', filename='files/Never.gif')
-            return render_template('level05_upload.html', page='Zadanie 5', rec=rec, done=True,username=user_id, points=points)
+            return render_template(getLangPage('level05_upload.html'), page='Task 5', rec=rec, done=True, username=user_id,
+                                   points=points)
         elif fileExt not in allowed_extensions:
-            error = 'Zabronione rozszerzenie pliku'
-            return render_template('level05_upload.html', page='Zadanie 5', error=error, rec=rec,username=user_id, points=points)
+            error = 'Zabronione rozszerzenie pliku' if lang == "pl" else "Restricted file extension"
+            return render_template(getLangPage('level05_upload.html'), page='Task 5', error=error, rec=rec, username=user_id,
+                                   points=points)
         else:
             print('Załadowano plik')
-            success = 'Plik został załadowany pomyślnie'
-            return render_template('level05_upload.html', page='Zadanie 5', rec=rec, success=success,username=user_id, points=points)
+            success = 'Plik został załadowany pomyślnie' if lang == "pl" else "File uploaded successfully"
+            return render_template(getLangPage('level05_upload.html'), page='Task 5', rec=rec, success=success, username=user_id,
+                                   points=points)
 
-    return render_template('level05_upload.html', page='Zadanie 5', rec=rec, username=user_id, points=points)
+    return render_template(getLangPage('level05_upload.html'), page='Task 5', rec=rec, username=user_id,
+                           points=points)
 
 
 @app.route('/level6', methods=['GET', 'POST'])
@@ -522,7 +551,7 @@ def level_06():
                             'delfiny': "ahahahahahahahah"},
                            JWTsecret, algorithm='HS256')
 
-    resp = make_response(render_template('level06_page.html', page='Zadanie 6',username=user_id, points=points))
+    resp = make_response(render_template(getLangPage('level06_page.html'), page='Task 6', username=user_id, points=points))
     set_token = request.cookies.get('token')
 
     if request.method == 'POST':
@@ -545,18 +574,21 @@ def level_06():
         return resp
 
     if key == "strażnik":
-        resp = make_response(render_template('level06_flag.html', page='Zadanie 6',username=user_id, points=points))
+        resp = make_response(render_template(getLangPage('level06_flag.html'), page='Task 6', username=user_id, points=points))
         return resp
 
     return resp
+
 
 @app.route("/level7")
 def level_07():
     return redirect('/level7/dane/21')
 
+
 @app.route("/level7/dane/<id>", methods=['GET', 'POST'])
 # id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
+    lang = request.cookies.get('lang')
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 7)
     if redirect_resp is not None:
@@ -575,37 +607,41 @@ def level_07_dane(id):
                 flag = conn.execute('select flag from flags where level_name = "Zadanie 7"').fetchall()[0][0]
                 checkFlag(request, flag, conn, 7)
                 conn.close()
-                success = 'Gratulacje! Ustawiono profil.'
-                return render_template('level07_guard.html', success=success, page='Zadanie 7', object=p,username=user_id, points=points)
+                success = 'Gratulacje! Ustawiono profil.' if lang == "pl" else "Congratulations! Profile set."
+                return render_template(getLangPage('level07_guard.html'), success=success, page='Task 7', object=p,
+                                       username=user_id, points=points)
                 # return redirect("/")
             else:
-                error = 'Nie udało się ustawić profilu. Osoba nie jest podobna do Makłowicza.'
-                return render_template('level07_guard.html', error=error, page='Zadanie 7', object=p,username=user_id, points=points)
+                error = 'Nie udało się ustawić profilu. Osoba nie jest podobna do Makłowicza.' if lang == "pl" else "Unable to create profile. The person doesn't seem to be Makłowicz."
+                return render_template(getLangPage('level07_guard.html'), error=error, page='Task 7', object=p, username=user_id,
+                                       points=points)
     try:
         if int(id) >= 10:
             conn = get_db_connection()
             query = """select * from data_prisoners where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
-            return render_template('level07_prisoner.html', object=p, page='Zadanie 7',username=user_id, points=points)
+            return render_template(getLangPage('level07_prisoner.html'), object=p, page='Task 7', username=user_id, points=points)
         else:
             conn = get_db_connection()
             query = """select * from data_guards where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
             conn.close()
 
-            return render_template('level07_guard.html', object=p, page='Zadanie 7',username=user_id, points=points)
+            return render_template(getLangPage('level07_guard.html'), object=p, page='Task 7', username=user_id, points=points)
     except Exception:
         return render_template('404.html')
+
 
 @app.route('/koniec')
 def end_page():
     user_id, points = getPoints()
-    return render_template('final_page.html', page='Koniec?',username=user_id, points=points)
+    return render_template('final_page.html', page='Koniec?', username=user_id, points=points)
 
 
 @app.route('/level8', methods=['FLAG'])
 def level_08():
+    lang = request.cookies.get('lang')
     user_id, points = getPoints()
     if request.method == 'FLAG':
         if request.form.get('Klknij mnie!') == 'Klknij mnie!':
@@ -613,19 +649,18 @@ def level_08():
             flag = conn.execute('select flag from flags where level_name = "Zadanie 8"').fetchall()[0][0]
             checkFlag(request, flag, conn, 8)
             conn.close()
-            return render_template('Main_opis.html', page='Zadanie 8', data="Dziękujemy że byliście z nami! To już definitywny koniec:)")
+            return render_template(getLangPage('Main_opis.html'), page='Zadanie 8',
+                                   data="Dziękujemy że byliście z nami! To już definitywny koniec:)" if lang == "pl" else "Thank You for coming! This is the end!")
 
-        return render_template('level08.html', page='Zadanie 8')
+        return render_template(getLangPage('level08.html'), page='Zadanie 8')
 
     else:
-        return render_template('level08.html', info="JUST GET THE FLAG :)", page='Zadanie 8',username=user_id, points=points)
+        return render_template(getLangPage('level08.html'), info="JUST GET THE FLAG :)", page='Zadanie 8', username=user_id,
+                               points=points)
 
 
-
-
-
-#@app.route('/flag', methods=['GET', 'POST'])
-#def flag():
+# @app.route('/flag', methods=['GET', 'POST'])
+# def flag():
 #    if request.method == 'POST':
 #        if request.form['flag']:
 #            conn = get_db_connection()
