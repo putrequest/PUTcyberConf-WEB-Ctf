@@ -3,49 +3,62 @@
 {% block title %}{{ page }} - {{ object.title }} {% endblock %}
 
 {% block body %}
-        <div class="row  justify-content-center m-2">
-            <article class="media content-section col-10 bg-primary">
-                <div class="media-body bg-primary">
-                    <h1><a class="article-title" href="{{ object.id }}">{{ object.title }}</a></h1>
-                    <h4>You have gotten access to this door.</h4>
-                <p class="article-content">{{ object.content }}</p>
+    <div class="row  justify-content-center m-2">
+        <article class="media   level4-img-bg">
+            <div class="media-body ">
+                <h1 style=" margin-bottom: 80px"><a class="article-title" href="{{ object.id }}">{{ object.title }}</a></h1>
+                <h4 style="color: white; background: green; font-size: 1rem; ;">You have gotten access to this door.</h4>
+                <p style="color: white" class="article-content">{{ object.content }}</p>
             </div>
-            </article>
-            {%if object.id == 133 %}
+        </article>
+        {% if object.id == 133 %}
             <form method="post" action="/level4/post/{{ object.id }}">
                 <input type="submit" value="Next task!" name="btn-succes" class="mx-auto btn-primary">
             </form>
-            {% endif %}
+        {% endif %}
 
-        </div>
+    </div>
 
 
 {% endblock %}
 {% block opis %}
-        <h1> {{page}}</h1>
-        <p>You have successfully hacked into the prison system.<br>
-Your next task is to help break into The Control room – the main monitoring point with a view of the surveillance cameras. This will allow you to access the recording archive. Find the code for the control room door.
-</p>
+    <h1> {{ page }}</h1>
+    <p>You have successfully hacked into the prison system.<br>
+        Your next task is to help break into The Control room – the main monitoring point with a view of the
+        surveillance cameras. This will allow you to access the recording archive. Find the code for the control room
+        door.
+    </p>
 
 {% endblock %}
 
 {% block walkthrough %}
-        <h2>{{ page }}</h2>
-        <p>Many applications, especially those with the login option, have access to some database. It turns out that knowing the basics of SQL, a hacker can easily break into an unsecured base and steal from it various sensitive information or modify or even delete it. There are many different ways in which the attacker can commit this type of attack.</p>
-        <p>Let's look at the following query:</p>
-        <img style="max-width: 100%" src="/static/files/w4.1.png"/>
-        <p>After entering the above text in the search engine, we ask przykładowa-strona.pl to call in their database the following command:</p>
-        <img style="max-width: 100%" src="/static/files/w4.2.png"/>
-        <p>Which we can translate as:
-          "Display all items from the " shop "table, which are furniture (have the value" furniture "in the" type "column) and are currently on sale (their value in the column" in_sales "is equal to 1). "</p>
-        <p>The above procedure happens every time the user searches for a product on the site or filters search results.</p>
-        <p>If the attacker wanted to access products that are currently not on sale (their value in the column in_sales is equal to 0), He could try to comment out the part related to information about the sale of a given product - then this condition would not be taken into account at all when searching for items in the database. Comments in SQL are preceded by two dashes.</p>
-        <img style="max-width: 100%" src="/static/files/w4.3.png"/>
-        <p>The above text would be translated into a query:</p>
-        <img style="max-width: 100%" src="/static/files/w4.4.png"/>
-        <p>It is worth noting that here the whole phrase 'AND in_sales = 1' is treated as a comment.</p>
-        <p>In the event that the attacker wanted to display all products, regardless of their type, he could ask the query in the following way:</p>
-        <img style="max-width: 100%" src="/static/files/w4.5.png"/>
-        <p>Adding the condition to the search "OR 1 = 1" makes the query about the type of products always true, no matter whether the product is furniture or not.</p>
-        <p>Finally, it should be mentioned that the query text in the page address changes depending on what is entered in the search engine on the page or clicked on it.</p>
+    <h2>{{ page }}</h2>
+    <p>Many applications, especially those with the login option, have access to some database. It turns out that
+        knowing the basics of SQL, a hacker can easily break into an unsecured base and steal from it various sensitive
+        information or modify or even delete it. There are many different ways in which the attacker can commit this
+        type of attack.</p>
+    <p>Let's look at the following query:</p>
+    <img style="max-width: 100%" src="/static/files/w4.1.png"/>
+    <p>After entering the above text in the search engine, we ask przykładowa-strona.pl to call in their database the
+        following command:</p>
+    <img style="max-width: 100%" src="/static/files/w4.2.png"/>
+    <p>Which we can translate as:
+        "Display all items from the " shop "table, which are furniture (have the value" furniture "in the" type "column)
+        and are currently on sale (their value in the column" in_sales "is equal to 1). "</p>
+    <p>The above procedure happens every time the user searches for a product on the site or filters search results.</p>
+    <p>If the attacker wanted to access products that are currently not on sale (their value in the column in_sales is
+        equal to 0), He could try to comment out the part related to information about the sale of a given product -
+        then this condition would not be taken into account at all when searching for items in the database. Comments in
+        SQL are preceded by two dashes.</p>
+    <img style="max-width: 100%" src="/static/files/w4.3.png"/>
+    <p>The above text would be translated into a query:</p>
+    <img style="max-width: 100%" src="/static/files/w4.4.png"/>
+    <p>It is worth noting that here the whole phrase 'AND in_sales = 1' is treated as a comment.</p>
+    <p>In the event that the attacker wanted to display all products, regardless of their type, he could ask the query
+        in the following way:</p>
+    <img style="max-width: 100%" src="/static/files/w4.5.png"/>
+    <p>Adding the condition to the search "OR 1 = 1" makes the query about the type of products always true, no matter
+        whether the product is furniture or not.</p>
+    <p>Finally, it should be mentioned that the query text in the page address changes depending on what is entered in
+        the search engine on the page or clicked on it.</p>
 {% endblock %}
