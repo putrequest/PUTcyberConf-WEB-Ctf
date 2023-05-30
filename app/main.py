@@ -412,7 +412,10 @@ def level_04():
                 query = "select * from doors_eng where title = '%s' AND hidden = 0" % (key)
             else:
                 query = "select * from doors where title = '%s' AND hidden = 0" % (key)
-            p = conn.execute(query).fetchall()
+            try:
+                p = conn.execute(query).fetchall()
+            except:
+                p = conn.execute("select * from doors_eng where hidden = 0").fetchall() if lang == 'eng' else conn.execute("select * from doors where hidden = 0").fetchall()
             conn.close()
             # 'OR 1=1--
             if p:
