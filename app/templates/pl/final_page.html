@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <img src="{{ url_for('static', filename='files/mak_pies.png' ) }}" alt="Profil Pieska" style="width: 650px; height: 700px; margin-left: 50px">
+{% endblock %}
+
+{% block opis %}
+        <h1> {{ page }}</h1>
+        <h3> Gratulacje! Udało Ci się uwolnić Makłowicza z więzienia! Kucharz przechodzi więzienne drzwi i cieszy się wolnością. W oddali zauważa pewną znajomą twarz…
+
+         
+                
+        </h3>
+        <p></p>
+        <p>Szanowni Uczestnicy Warsztatów z Bezpieczeństwa Sieciowego,<p></p>
+
+                Dziękujemy za udział w naszych Warsztatach z Bezpieczeństwa Sieciowego! Cieszymy się, że byliście aktywnymi uczestnikami i z pasją podchodziliście do tematyki warsztatów. Mamy nadzieję, że zdobyliście wartościową wiedzę na temat bezpieczeństwa sieciowego. <p>       </p> 
+                        Chcielibyśmy podkreślić, jak istotne jest etyczne wykorzystywanie zdobytych umiejętności i wiedzy. Ważne jest, aby zawsze uzyskiwać odpowiednie zgody i przestrzegać zasad prawnych i etycznych podczas stosowania tych umiejętności. Szanowanie prywatności oraz zapewnienie bezpieczeństwa systemów i danych powinny być wyznacznikiem Waszych działań.
+        </p><p>        
+                Jeszcze raz dziękujemy za Wasze zaangażowanie i udział w warsztatach. Życzymy Wam powodzenia w przyszłych przedsięwzięciach i zachęcamy do dalszego priorytetowego traktowania tematyki bezpieczeństwa sieciowego we wszystkich swoich działaniach.</p>
+        </p>        
+{% endblock %}

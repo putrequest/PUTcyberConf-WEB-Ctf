@@ -585,7 +585,7 @@ def level_06():
     key = ""
     try:
         key = jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['role']
-    except (jwt.DecodeError, TypeError):
+    except:
         resp.set_cookie('token', def_token)
         return resp
 
@@ -652,7 +652,7 @@ def level_07_dane(id):
 @app.route('/koniec')
 def end_page():
     user_id, points = getPoints()
-    return render_template('final_page.html', page='Koniec?', username=user_id, points=points)
+    return render_template(getLangPage('final_page.html'), page='The End?', username=user_id, points=points)
 
 
 @app.route('/level8', methods=['FLAG'])
