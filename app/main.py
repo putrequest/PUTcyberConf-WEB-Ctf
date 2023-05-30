@@ -498,9 +498,15 @@ def level_05():
     lang = request.cookies.get('lang')
     rec = url_for('static', filename='files/camera_video.gif')
     allowed_extensions = {'.png', '.jpg', '.jpeg'}
+
+    if lang == 'eng':
+        button = 'Next task!'
+    else:
+        button = 'Idziemy dalej!'
+
     if request.method == 'POST':
 
-        if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
+        if request.form.get(button) == button:
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 5"').fetchall()[0][0]
             checkFlag(request, flag, conn, 5)
@@ -544,21 +550,28 @@ def level_06():
     if redirect_resp is not None:
         return redirect_resp
     user_id, points = getPoints()
+    lang = request.cookies.get('lang')
 
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
-    JWTsecret = "832p13c2ny_k1uc2"
-    def_token = jwt.encode({'imie': "Robert Witold Makłowicz",
-                            'data_ur': "12.07.1963",
-                            'rola': "więzień",
+    JWTsecret = "832p13c2ny_k1uc2" if request.cookies.get('lang') == 'pl' else "v32y_53cu23_k3y"
+    def_token = jwt.encode({'name': "Robert Witold Makłowicz",
+                            'Bd_date': "12.07.1963",
+                            'role': "prisoner",
                             'EEEEEE': 104,
-                            'delfiny': "ahahahahahahahah"},
+                            'dolphins': "ahahahahahahahah"},
                            JWTsecret, algorithm='HS256')
 
     resp = make_response(render_template(getLangPage('level06_page.html'), page='Task 6', username=user_id, points=points))
     set_token = request.cookies.get('token')
 
     if request.method == 'POST':
-        if request.form.get('Idziemy dalej!') == 'Idziemy dalej!':
+
+        if lang == 'eng':
+            button = 'Next task!'
+        else:
+            button = 'Idziemy dalej!'
+
+        if request.form.get(button) == button:
             conn = get_db_connection()
             flag = conn.execute('select flag from flags where level_name = "Zadanie 6"').fetchall()[0][0]
             checkFlag(request, flag, conn, 6)
@@ -571,12 +584,12 @@ def level_06():
 
     key = ""
     try:
-        key = jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['rola']
+        key = jwt.decode(set_token, JWTsecret, algorithms=['HS256'])['role']
     except (jwt.DecodeError, TypeError):
         resp.set_cookie('token', def_token)
         return resp
 
-    if key == "strażnik":
+    if key == "guard":
         resp = make_response(render_template(getLangPage('level06_flag.html'), page='Task 6', username=user_id, points=points))
         return resp
 
@@ -587,7 +600,7 @@ def level_06():
 def level_07():
     return redirect('/level7/dane/21')
 
-
+@app.route("/level7/data/<id>", methods=['GET', 'POST'])
 @app.route("/level7/dane/<id>", methods=['GET', 'POST'])
 # id Makłowicza 21 trzeba zmienić na 3
 def level_07_dane(id):
