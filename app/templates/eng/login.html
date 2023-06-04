@@ -1,0 +1,148 @@
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">#}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">#}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background: #181818;
+        }
+
+        .login-form-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 100vh;
+        }
+
+        .login-info {
+            height: 650px;
+            border-radius: 12px;
+            font-size: 36px;
+            color: #FFE600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #649568;
+            width: 40%;
+        }
+        .login-info h3{
+            margin-left:5%;
+            margin-right:5%;
+        }
+
+        .login-info h5{
+            margin-left:5%;
+            margin-right:5%;
+        }
+
+        .login-form {
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            background: #9CCC9C;
+            height: 650px;
+            width: 40%;
+            border-radius: 12px;
+
+        }
+
+        .error {
+            color: red;
+        }
+
+        .login-form-header {
+            height: 116px;
+            border-radius: 16px;
+            width: 100%;
+            background: #149414;
+            color: white;
+            font-size: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-button {
+            font-size: 36px;
+            height: 88px;
+            background: #149414;
+            border: none;
+            outline: none;
+            color: white;
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        .login-form-username-input-container {
+            display: flex;
+            flex-direction: column;
+            font-size: 36px;
+
+        }
+
+        .form-group {
+            margin-top: 56px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .login-form-username-input {
+            background: #149414;
+            outline: none;
+            border: none;
+            width: 500px;
+            height: 80px;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .login-form-button {
+        {#align-self: flex-end;#}
+        }
+    </style>
+</head>
+
+<body>
+<div class="login-form-container">
+    <div class="login-info">
+        <div>
+            <h2><p>Will you be able to get Robert Makłowicz out of prison?</p></h2>
+            <h3>Introduction<br></h3>
+            <h5>Well-known Polish food critic Robert Makłowicz,<br>
+                wanting to feed a hungry dog with dill, he broke the law by inadvertently breaking into a private property (the premises of a well-known restaurateur "u Fukiera"). The cook, beloved by the public, and the dill dog were sent to a maximum security prison. As a hacker, you were asked by Makłowicz's staff to help free him. To help Makłowicz, you will have to exploit vulnerabilities and security loopholes in the prison system. Will you take up the challenge and free poor Makłowicz and dill dog from prison?</h5>
+        </div>
+    </div>
+    <div class="login-form">
+        <div class="login-form-header">Login</div>
+        <form method="post" class="form-group">
+            <div class="login-form-username-input-container">
+                <!-- <label>
+                    Username:
+                </label> -->
+                <input type="text" class="login-form-username-input" placeholder="Username" name="username"
+                       value="{{ request.form.username }}">
+
+            </div>
+            <div class="login-form-button">
+                <input class="login-button" type="submit" value="Log in">
+            </div>
+        </form>
+        {% if error %}
+            <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+        {% endif %}
+
+    </div>
+</body>
+</div>
+
+
+</html>
+

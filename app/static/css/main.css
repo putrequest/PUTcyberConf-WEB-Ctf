@@ -123,7 +123,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-title {
-    color: green;
+    color: white;
+    font-size: 21px;
 }
 
 .Points {
@@ -142,16 +143,16 @@ h1, h2, h3, h4, h5, h6 {
 .username_nick {
     width: 50%;
     height: 25px;
-    font-size:1.1rem;
-    font-weight:bold;
+    font-size: 1.1rem;
+    font-weight: bold;
     background-color: #0E6B0E;
 }
 
 .username_points {
     width: 40%;
     height: 25px;
-    font-size:1.1rem;
-    font-weight:bold;
+    font-size: 1.1rem;
+    font-weight: bold;
     background-color: #0E6B0E;
 
 }
@@ -228,6 +229,17 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     background: #DDD;
 }
-.walkthrough-container-close-button:hover{
+
+.level4-img-bg {
+    padding: 8px;
+    margin-right: 40px;
+    border-radius: 16px;
+    width: 300px;
+    height: 190px;
+    background: url("/static/files/card.png") no-repeat;
+    background-size: contain;
+}
+
+.walkthrough-container-close-button:hover {
     cursor: pointer;
 }

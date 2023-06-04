@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <title> Zmień swoje zdjęcie</title>
+    <form action="{{ url_for('level_05') }}" method="post" enctype="multipart/form-data" class="mx-auto">
+        <input type="file" name="file">
+        <input type="submit" value="Wyślij" class="btn btn-secondary col-4 m-1">
+    </form>
+
+    {% if success %}
+        <h3><p class="success"><strong>Sukces:</strong> {{ success }}</p></h3>
+    {% endif %}
+
+    {% if error %}
+        <h3><p class="error"><strong>Błąd:</strong> {{ error }}</p></h3>
+    {% endif %}
+    
+    <h1 class="mx-auto">Nagranie w kamerach</h1>
+    <img src="{{ rec }}" alt="nagranie z kamer" class="mx-auto">
+    
+    {% if done %}
+        <form method="post" action="level5">
+            <input type="submit" class="btn btn-success mx-auto" value="Idziemy dalej!" id="fileInput" name="Idziemy dalej!">
+        </form>
+    {% endif %}
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Makłowicz skutecznie włamuje się do sterowni. Ze stresu czuje się jak homar przed wrzuceniem do gorącej wody, ale z prędkością światła - jakby oporządzał mięso - grzebie w komputerze.
+Żeby Makłowicz nie został przyłapany przez władze więzienia, w następnym kroku konieczne jest zastąpienie pliku mp4 z kamer, które nagrały jego akcję.
+</p>
+
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>Możliwość przesyłania plików jest jedną z najbardziej powszechnych funkcji aplikacji sieciowych. Użytkownicy dzięki temu mają możliwość np dzielenia się swoimi zdjęciami z innymi.</p>
+        <p>Pomimo tego, że ta funkcja jest niezwykle użyteczna, może być źródłem podatności na atak. Zwłaszcza jeżeli twórcy jej poprawnie nie zabezpieczą, poprzez weryfikację typu przesyłanego pliku i jego zawartości. Jeśli do tego dojdzie, lub weryfikacja będzie zbyt słaba, atakujący będą mieli możliwość przesłania szkodliwych skryptów lub innych plików wykonywalnych.</p>
+        <img style="max-width: 100%" src="/static/files/w5.1.png"/>
+        <p></p>
+        <p>Atakujący może spróbować przesłać złośliwy plik zamiast nieszkodliwego pliku np. obrazu (o rozszerzeniu .png lub .jpg). Jeśli docelowa aplikacja działa na PHP, atakujący może spróbować przesłać plik z końcówką .php. Deweloperzy mogą jednak uniemożliwiać przesyłanie plików o określonych rozszerzeniach, uznając je za niebezpieczne. Można to obejść, używając alternatywnych rozszerzeń. Przykładowo, możliwe jest przesłanie pliku .php zmieniając jego nazwę na file.php.jpg lub file.PHp</p>
+        <p>Przykładowe modyfikacje rozszerzeń:</p>
+        <img style="max-width: 100%" src="/static/files/w5.2.png"/>
+{% endblock %}

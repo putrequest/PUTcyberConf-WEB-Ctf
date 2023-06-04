@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Zadanie 6{% endblock %}
+
+{% block body %}
+
+    <h2>Drzwi otwarte. Gratulacje!</h2>
+    <form method="post" action="/level6">
+        <input type="submit" value="Idziemy dalej!" class="btn btn-success mx-auto" name="Idziemy dalej!">
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Brawo! Władze więzienia, sprawdzając kamery, zastaną tam umieszczony przez Roberta kultowy hit Ricka Astley’a pod tytułem „Never gonna give you up”.
+Do swobodnego przemieszczania się po więzieniu konieczna jest zmiana więziennej karty identyfikacyjnej Makłowicza ze statusu „prisoner” w status „guard”. Dostaliśmy informację od tajnego wywiadu Gordona Ramsay’a dotyczącą tajnego klucza, koniecznego do wykonania operacji - ma on wartość “832p13c2ny_k1uc2”. </p>
+
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>Jednym z istniejących narzędzi uwierzytelniających jest token JWT (Json Web Token).</p>
+        <p>Kiedy użytkownik loguje się do aplikacji internetowej, serwer generuje token JWT, który zawiera tożsamość użytkownika i wszelkie inne istotne informacje, takie jak jego rola lub uprawnienia. Token jest następnie wysyłany do użytkownika, który przechowuje go lokalnie, zwykle w pliku cookie przeglądarki lub w lokalnej pamięci masowej. Na kolejnych żądaniach do serwera token jest wysyłany z powrotem do serwera jako nagłówek autoryzacji, umożliwiając serwerowi weryfikację tożsamości użytkownika i przyznanie dostępu do chronionych zasobów lub funkcjonalności.</p>
+        <p>Mechanizm ten pozwala na potwierdzenie tożsamości użytkownika, natomiast może też być jednocześnie luką w systemie. Dane przesyłane w postaci ciasteczek są zaszyfrowane.</p>
+        <img style="max-width: 100%" src="/static/files/w6.1.png"/>
+        <p></p>
+        <p>Istnieją serwisy poświęcone debugowaniu i weryfikacji tokenów. Tak jak mogą się przydać przy testowaniu aplikacji, atakujący może je wykorzystać do zdekodowania zaszyfrowanych ciastek, a także do ich modyfikacji. Przykładem serwisu pozwalającego na wygenerowanie JWT Token jest <a href="https://jwt.io/">jwt.io</a>.</p>
+        <img style="max-width: 100%" src="/static/files/w6.2.png"/>
+        <p>Używając narzędzia jwt.io, możemy zdekodować oryginalny token i zmodyfikować payload, aby zawierał odpowiednie dane czy uprawnienia. Często do zakodowania stosowany jest secret key. Po modyfikacji payload’u narzędzie może go zakodować i utworzyć nowy token. Po wygenerowaniu nowego tokena możliwe jest zastąpienie nim wartości oryginalnego. Po przesłaniu żądania ze zmodyfikowanym tokenem i zaakceptowaniu go przez serwer, atakujący zostaje uwierzytelniony - może otrzymać dostęp do kont użytkowników oraz związanych z nim wrażliwych informacji czy uprawnień.</p>
+{% endblock %}

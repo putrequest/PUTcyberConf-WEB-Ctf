@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <div class="container_lvl3">
+      <h1>Flag available only for administrator.</h1>
+    </div>
+{% endblock %}
+{% block opis %}
+        <h1> {{page}}</h1>
+        <p> Your next task is to break into the prison system. To get information such as the layout of the prison rooms or the data of the prisoners, gain access to administrator privileges.</p>
+        <p>Logging in requires a username (Maklowicz) and password (Dill123!).</p>
+
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>Cookie tampering is a type of web attack that occurs when a website authentication mechanism, usually based on cookies, is exploited by an attacker to gain unauthorized access to information or impersonate another user. The attacker can change the content of a cookie to forge relationships with a website or to modify information stored in that cookie.</p>
+        <p>For example, a website may have a cookie that identifies whether a user is an administrator or not, using a logical value of “true” or “false”. An attacker can exploit this vulnerability by intercepting the cookie data and changing the logical value from “false” to “true”, granting themselves administrator privileges on the website.</p>
+        <p>After gaining administrator access, the attacker can perform a variety of malicious actions, such as stealing sensitive data, modifying or deleting content, or creating new user accounts with elevated privileges.</p>
+{% endblock %}

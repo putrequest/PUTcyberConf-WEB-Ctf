@@ -4,16 +4,16 @@
 
 {% block body %}
         <div class="row  justify-content-center m-2">
-            <article class="media content-section col-10 bg-primary">
-                <div class="media-body bg-primary">
-                    <h1><a class="article-title" href="{{ object.id }}">{{ object.title }}</a></h1>
-                    <h4>Otrzymałeś dostęp do drzwi.</h4>
-                <p class="article-content">{{ object.content }}</p>
+        <article class="media   level4-img-bg">
+            <div class="media-body ">
+                <h1 style=" margin-bottom: 80px"><a class="article-title" href="{{ object.id }}">{{ object.title }}</a></h1>
+                <h4 style="color: white; background: green; font-size: 1rem; ;">Otrzymałeś dostęp do drzwi.</h4>
+                <p style="color: white" class="article-content">{{ object.content }}</p>
             </div>
-            </article>
+        </article>
             {%if object.id == 133 %}
             <form method="post" action="/level4/post/{{ object.id }}">
-                <input type="submit" value="Następne zadanie!" name="btn-succes" class="mx-auto btn-primary">
+                <input type="submit" value="Następne zadanie!" name="btn-succes" class="btn btn-success mx-auto">
             </form>
             {% endif %}
 

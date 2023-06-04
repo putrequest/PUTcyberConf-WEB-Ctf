@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <div class="container_name">
+        {% if info %}
+            <h1>{{ info }}</h1>
+        {% endif %}
+
+        {% autoescape false %}
+
+        {% endautoescape %}
+
+
+    </div>
+
+{% endblock %}
+{% block opis %}
+                <h1> {{page}}</h1>
+          <p> Makłowicz notices Żółtego, standing by the gate. It turns out that Żółty is not selfless. He threatens Makłowicz that he will expose him.He will let him go free under one condition... Makłowicz, as the best cook in Poland, has to prepare his favorite delicacy - napoleon cake.</p>
+
+          <p>Makłowicz runs to the prison canteen and bakes a Napoleon cake. Our hero enjoys freedom and finally finds a moment of respite. He feeds the dog dill that you have collected. He's eating dill! It will be a healthy puppy. Hihihihi!</p>
+
+{% endblock %}

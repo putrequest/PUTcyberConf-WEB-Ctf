@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <img src="{{ url_for('static', filename='files/mak_pies.png' ) }}" alt="Profil Pieska" style="width: 650px; height: 700px; margin-left: 50px">
+{% endblock %}
+
+{% block opis %}
+        <h1> {{ page }}</h1>
+        <h3> Congratulations!!! You managed to free Makłowicz from the prison! Cook walks through the prison door and enjoys his freedom. He sees a familiar face in the distance...
+
+         
+                
+        </h3>
+        <p></p>
+        <p>Dear Workshop Participants,
+
+        </p>Thank you for joining us in the Web Security Workshop! Your active participation and enthusiasm were greatly appreciated. We hope you found the workshop insightful and gained valuable knowledge about web security.<p></p>
+        <p>        
+                We want to emphasize the importance of ethical use of the skills and knowledge you have acquired. It is crucial to always obtain proper permissions and adhere to legal and ethical guidelines when applying these skills. Respecting privacy and ensuring the security of systems and data should be the guiding principles in all your endeavors.
+        </p><p>        
+                Once again, thank you for your participation and commitment. We wish you success in your future endeavors and hope you continue to prioritize web security in all your activities.</p>
+        </p>        
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page }}{% endblock %}
+
+{% block body %}
+    <h1 class="mx-auto">YOU FOUND THE DOG!!!</h1>
+    <img src="{{ url_for('static', filename='files/piesek.png') }}" alt="Photo of the dog" class="mx-auto" style="width: 450px; height: 530px; margin-left: 50px">
+    <form method="post" action="/block-D/cell-1337/Pug">
+    <input type="submit" value="Go further!" name="Go further!" class="btn btn-success mx-auto">
+{% endblock %}
+{% block opis %}
+        <h1>{{ page }}</h1>
+       <p>Makłowicz found the location of the puppy - it is cell number 1337. Agilely going through the corridors, he runs to save him.<br>
+        <p></p>
+<p>Click the "Go further!" button to go to the next task.</p>
+
+{% endblock %}
+
+{% block walkthrough %}
+        <h2>{{ page }}</h2>
+        <p>The robots.txt file is used to pass instructions to web "robots" regarding the location on the website, where they do not have access to for indexing or scanning. The existence of the robots.txt file itself does not constitute any security vulnerability on the website, but it is often used to identify limited or private areas of website content. The information contained in this file can help the attacker map the contents of the website. If the website relies on the robots.txt file to protect access to these areas, while not applying appropriate access control to them, it is a serious vulnerability.</p>
+        <img style="max-width: 100%" src="/static/files/w2.png"/>
+{% endblock %}
