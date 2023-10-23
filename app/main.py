@@ -305,9 +305,9 @@ def robots():
     redirect_resp = checkLevel(request, conn, 2)
     lang = request.cookies.get('lang')
     if lang == 'eng':
-        file = "static/files/robots_eng.txt"
+        file = "/home/warsztaty/Desktop/Warsztaty/PUTcyberConf-WEB-Ctf/app/static/files/robots_eng.txt"
     else:
-        file = "static/files/robots.txt"
+        file = "/home/warsztaty/Desktop/Warsztaty/PUTcyberConf-WEB-Ctf/app/static/files/robots.txt"
 
     if redirect_resp is not None:
         return redirect_resp
@@ -315,7 +315,7 @@ def robots():
         robots = open(file, 'r').read()
         return render_template('level02_robots.html', robots=robots)
     except:
-        robots = open("app/" + file, 'r').read()
+        robots = open(file, 'r').read()
         return render_template('level02_robots.html', robots=robots)
 
 
