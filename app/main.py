@@ -19,7 +19,6 @@ from werkzeug.utils import secure_filename
 import db
 import level4_db
 
-walk=False
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -95,7 +94,7 @@ def getDiff(user_id, level_id):
 
 def checkFlag(request, flag, conn, level):
     # check if admin
-    global walk
+    
     try:
         if request.cookies.get('123') == 'admin':
             return None
@@ -105,6 +104,8 @@ def checkFlag(request, flag, conn, level):
 
     user_id = \
         conn.execute('select id from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
+    walk = \
+        conn.execute('select walk from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[0][0]
 
     # print(request.cookies.get('session_id'));
     row = conn.execute('select * from flags where flag = "{}"'.format(flag)).fetchall()
@@ -121,10 +122,11 @@ def checkFlag(request, flag, conn, level):
         conn.commit()
         minutes_elapsed = math.floor(getDiff(user_id, level) / 60)
         points_to_add = max(50, 500 - minutes_elapsed * 50)
-        if walk:
+        if walk==1:
             points_to_add=0
+
         conn.execute("update userFlags set points =? where user_id=? AND level_id=?", (points_to_add, user_id, level))
-        conn.execute("update users set points = points+? where id=?", (points_to_add, user_id))
+        conn.execute("update users set points = points+?, walk=? where id=?", (points_to_add, 0, user_id))
         conn.commit()
         conn.close()
         return render_template('flag.html',
@@ -182,7 +184,7 @@ def getPoints():
     # check if admin
     try:
         if request.cookies.get('123') == 'admin':
-            return ['admin', 2137]
+            return ['admin', 2137, 0]
     except:
         pass
     ############################
@@ -192,9 +194,9 @@ def getPoints():
         c.execute('select username from users where hash ="{}"'.format(request.cookies.get('session_id'))).fetchall()[
             0][0]
     points = c.execute('select points from users where username=?', (user_id,)).fetchall()[0][0]
+    walk = c.execute('select walk from users where username=?', (user_id,)).fetchall()[0][0]
     conn.close()
-    return [user_id, points]
-
+    return [user_id, points, walk]
 
 @app.route("/favicon.ico")
 def main_css():
@@ -222,9 +224,9 @@ def login():
             return render_template(getLangPage('login.html'), error=error, page='login')
         try:
             user_hash = str(hash(user_name))
-            query = """insert into users (username, hash, timestamp, points) values(?, ?, ?, ?) RETURNING *"""
+            query = """insert into users (username, hash, timestamp, points, walk) values(?, ?, ?, ?, ?) RETURNING *"""
             # added timestamp to users table and points
-            result = conn.execute(query, (user_name, user_hash, datetime.datetime.now(), 0)).fetchall()[0][1]
+            result = conn.execute(query, (user_name, user_hash, datetime.datetime.now(), 0, 0)).fetchall()[0][1]
             conn.commit()
         except sqlite3.IntegrityError as e:
             return render_template(getLangPage('login.html'), error='db error ' + e.args[0])
@@ -256,22 +258,25 @@ def index():
 
 @app.route("/level1", methods=['GET', 'POST'])
 def level_01():
-    global walk
+    
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 1)
 
     if redirect_resp is not None:
         return redirect_resp
 
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
     flag = conn.execute('select flag from flags where level_name = "Zadanie 1"').fetchall()[0][0]
     if (request.method == 'POST'):
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
+
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
             return render_template(getLangPage('level01.html'), page='Level 1', flag=flag,
                                    username=user_id, points=points, walk=walk)
-        except:
+        except Exception as e:
+            print(e)
             pass
         user_flag = request.form['flag']
         if user_flag == flag:
@@ -303,17 +308,16 @@ def level_01():
 
 @app.route("/level2", methods=['GET', 'POST'])
 def level_02():
-    global walk
-    print(walk)
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 2)
     if redirect_resp is not None:
         return redirect_resp
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
     if (request.method == 'POST'):
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
             return render_template(getLangPage('level02.html'), page='Level 2',
                                    username=user_id, points=points, walk=walk)
         except:
@@ -327,9 +331,9 @@ def robots():
     redirect_resp = checkLevel(request, conn, 2)
     lang = request.cookies.get('lang')
     if lang == 'eng':
-        file = "/home/warsztaty/Desktop/Warsztaty/PUTcyberConf-WEB-Ctf/app/static/files/robots_eng.txt"
+        file = os.path.join(app.root_path, 'static', 'files', 'robots_eng.txt')
     else:
-        file = "/home/warsztaty/Desktop/Warsztaty/PUTcyberConf-WEB-Ctf/app/static/files/robots.txt"
+        file = os.path.join(app.root_path, 'static', 'files', 'robots.txt')
 
     if redirect_resp is not None:
         return redirect_resp
@@ -348,7 +352,7 @@ def level_02_Mops():
     redirect_resp = checkLevel(request, conn, 2)
     if redirect_resp is not None:
         return redirect_resp
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
 
     lang = request.cookies.get('lang')
     if lang == 'eng':
@@ -373,27 +377,20 @@ level3_progress=0
 def level_03():
     # Username = Maklowicz; Password = Koperek123!
     error = None
-    global level3_progress
-    global walk
+
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 3)
     if redirect_resp is not None:
         return redirect_resp
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
 
     if request.method == 'POST':
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
-            if level3_progress==0:
-                return render_template(getLangPage('level03_login.html'), page='Level 3',
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
+            return render_template(getLangPage('level03_login.html'), page='Level 3',
                                    username=user_id, points=points, walk=walk)
-            elif level3_progress ==1:
-                return render_template(getLangPage('level03_page.html'), page='Level 3',
-                                       username=user_id, points=points, walk=walk)
-            elif level3_progress ==2:
-                return render_template(getLangPage('level03_flag.html'), page='Level 3',
-                                       username=user_id, points=points, walk=walk)
         except:
             pass
         lang = request.cookies.get('lang')
@@ -435,18 +432,19 @@ def level_03():
 
 @app.route("/level4", methods=['GET', 'POST'])
 def level_04():
-    global walk
+
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 4)
     lang = request.cookies.get('lang')
     if redirect_resp is not None:
         return redirect_resp
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
 
     if request.method == 'POST':
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
 
             conn = get_level4_db_connection()
             if lang == 'eng':
@@ -502,7 +500,7 @@ def level_04():
 
 @app.route("/level4/post/<id>", methods=['GET', 'POST'])
 def level_04_post(id):
-    global walk
+
     lang = request.cookies.get('lang')
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 4)
@@ -522,7 +520,7 @@ def level_04_post(id):
             conn.close()
             return redirect(url_for('level_05'))
 
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
 
     try:
         conn = get_level4_db_connection()
@@ -546,12 +544,12 @@ def get_level4_db_connection():
 
 @app.route('/level5', methods=['GET', 'POST'])
 def level_05():
-    global walk
+
     conn = get_db_connection()
     redirect_resp = checkLevel(request, conn, 5)
     if redirect_resp is not None:
         return redirect_resp
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
     lang = request.cookies.get('lang')
     rec = url_for('static', filename='files/camera_video.gif')
     allowed_extensions = {'.png', '.jpg', '.jpeg'}
@@ -564,7 +562,8 @@ def level_05():
     if request.method == 'POST':
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
             return render_template(getLangPage('level05_upload.html'), page='Level 5',rec=rec,
                                    username=user_id, points=points, walk=walk)
         except:
@@ -613,7 +612,7 @@ def level_06():
     redirect_resp = checkLevel(request, conn, 6)
     if redirect_resp is not None:
         return redirect_resp
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
     lang = request.cookies.get('lang')
 
     # def_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWnEmSI6IlJvYmVydCBXaXRvbGQgTWFrxYJvd2ljeiIsImRhdGFfdXJvZHplbmlhIjoiMTIuMDcuMTk2MyIsInJvbGEiOiJ3acSZemllxYQiLCJFRUVFRUVFIjoxMDQsIkRlbGZpbnkiOiJhaGFoaGFoYWhhaGFoYWhhaGEifQ.deyO8lu_qgRY6y_AFHRIc8C0ChpG_bdsgFwSggn9E20'
@@ -632,7 +631,8 @@ def level_06():
 
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
             return render_template(getLangPage('level06_page.html'), page='Level 6',
                                    username=user_id, points=points, walk=walk)
         except:
@@ -682,13 +682,14 @@ def level_07_dane(id):
     if redirect_resp is not None:
         return redirect_resp
 
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
 
     if request.method == 'POST':
 
         try:
             a=request.form["walkthrough-button-clicked"]
-            walk=True
+            conn.execute('update users set walk=? where username=?', (1, user_id))
+            conn.commit()
 
             if int(id) >= 10:
                 conn = get_db_connection()
@@ -746,14 +747,14 @@ def level_07_dane(id):
 
 @app.route('/koniec')
 def end_page():
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
     return render_template(getLangPage('final_page.html'), page='The End?', username=user_id, points=points)
 
 
 @app.route('/level8', methods=['FLAG'])
 def level_08():
     lang = request.cookies.get('lang')
-    user_id, points = getPoints()
+    user_id, points, walk = getPoints()
     if request.method == 'FLAG':
         if request.form.get('Klknij mnie!') == 'Klknij mnie!':
             conn = get_db_connection()
