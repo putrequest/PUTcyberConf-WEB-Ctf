@@ -709,7 +709,7 @@ def level_07_dane(id):
 
         except:
             pass
-        if request.form.get('next') == 'Ustaw Profil':
+        if request.form.get('next') == 'Ustaw Profil' or request.form.get('next') == 'Set Profile':
             conn = get_db_connection()
             query = """select * from data_guards where id = ?"""
             p = conn.execute(query, (id,)).fetchall()[0]
