@@ -1,36 +1,37 @@
 # PUTcyberCONF
-## OneDrive:
-https://putpoznanpl-my.sharepoint.com/:f:/g/personal/piotr_kontowicz_put_poznan_pl/EpxFXjgjMXJHoesM0Th_-NYBsmkXtHzCgy_8689qD7UcMA?e=dkCzBg
+## Prison Escape of Mr. Makłowicz
 
-## 127.0.0.1 ctf.pl w pliku C:\Windows\System32\drivers\etc\hosts
-To będzie można się w przeglądarce odwoływać po nazwie.
+## About This CTF
 
-## Podstawowe zadania:
-   1. Grzebanie w kodzie źródłowym strony - śmietnik html
-   2. admin true/false - włamanie admina - Work in Progress
-   3. Robots.txt - odzyskanie pieska. 
-       - Lokalizacja pieska/flagi pieskowej w tym pliku.
-       - Następnie udać się do wskazanego subdir
-   4. Sqli - kod do drzwi w bazie więźniów - Work in Progress
-   5. File upload - plik zastępujący nagranie z kamer. Chcemy dodać mp4 a się nie da
-   6. JWT token - stały secretkey - zawartość karty z prisoner na guard - Work in Progress
-   7. IDOR - subdomena  - wychodzi z więzienia i na podglądzie karty widać jego dane i trzeba je zmienić. ID więźniów jest for example od 10-50 a strażników od 0-10. - Work in Progress
-   8. Zrobić stronkę z wyświetlaniem profilu więźnia i po zmianie id w url-u zmieniać profile na inne.
+Welcome to our Capture The Flag (CTF) challenge, where hacking meets culinary adventures! Imagine this: the famous explorer and food enthusiast Robert Makłowicz has been imprisoned in a high-security jail. His only hope? Your exceptional hacking skills!
 
-### Dodatkowe zadania (będzie trzeba ich sobie poszukać samemu):
-   Ukryte zakończenie:
-   Wysłanie metody FLAG w burpie - do pomyślenia
+### The Story
 
-## Co jest teraz? Spis zadań:
-   1. Flaga ukryta w źródle strony. (gotowe)
-   2. Aby zdobyć flagę będzie trzeba się zalogować, dane do logowania będą na stronie w komentarzu, login w pliku strony, hasło w czymś dodatkowym. (gotowe)
-   3. Flaga ukryta w źródle strony, ale zakodowane w base64. (gotowe)
-   4. Prosty IDOR np lista postów i jeden "ukryty". (można powiedziec ze gotowe - postów zawsze może być więcej)
-   5. Jakiś błąd z directory traversal. (gotowe)
-   6. Ciasteczko z polem admin 0, zmiana na 1 i po odświeżeniu dostanie się flagę. Dodałem jeszcze brute force logowania. (gotowe) 
-   7. Strona posiada pole tekstowe, atakujący ma zapytać sie o flagę wtedy ją dostanie, jednak słowo będzie to blokowane na froncie, będzie musiał zmodyfikować sobie request. (gotowe)
-   8. jedno zadanie hidden
+You can find out more about the story when you play ;)
 
-# TODO: Zliczanie punktów dla adminów
-# TODO: Pomoc: opis tego jak należy zgłaszać flagi, format flagi
-# TODO: Opis podatności/błędów: information disclosure, idor, directory travelsal, ciasteczka, potrzebne narzędzia: przeglądarka, burp 
+### Your Mission
+
+Your mission, should you choose to accept it, is to navigate through a series of hacking challenges and decrypt the digital locks guarding Robert's freedom. Each challenge you overcome brings you closer to freeing Robert and uncovering the secret recipe. Are you up for the challenge?
+
+### How to Play
+
+1. Clone this repository to your local machine.
+2. Make sure you have python installed.
+3. Navigate to the challenge directory and run "start.sh".
+   `./start.sh`
+4. Go to the `localhost:8000` website
+5. Have fun!
+
+### Disclaimer
+
+This CTF is purely fictional and meant for educational and entertainment purposes only. Any resemblance to actual persons, living or digital, is purely coincidental.
+
+
+## Basic challenges:
+   1. Pantry
+   2. Admin page
+   3. Where's the dog?
+   4. What did you do?!
+   5. Oh, what a prank.
+   6. Elon you chipping bastard!
+   7. A mix-up
