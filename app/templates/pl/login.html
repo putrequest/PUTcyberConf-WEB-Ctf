@@ -9,7 +9,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         body {
-            background: #181818;
+            background: #9CCC9C;
         }
 
         .login-form-container {
@@ -22,7 +22,7 @@
         .login-info {
             height: 650px;
             border-radius: 12px;
-            font-size: 36px;
+            font-size: 1em;
             color: #FFE600;
             display: flex;
             justify-content: center;
@@ -30,6 +30,12 @@
             background: #649568;
             width: 40%;
         }
+
+        .login-info h2{
+            margin-left:5%;
+            margin-right:5%;
+        }
+
         .login-info h3{
             margin-left:5%;
             margin-right:5%;
@@ -44,7 +50,7 @@
             padding: 26px;
             display: flex;
             flex-direction: column;
-            background: #9CCC9C;
+            background: #649568;
             height: 650px;
             width: 40%;
             border-radius: 12px;
@@ -78,11 +84,11 @@
             width: 200px;
         }
 
-        .login-form-username-input-container {
+        .login-form-username-input-container { 
             display: flex;
             flex-direction: column;
             font-size: 36px;
-
+            align-items: center;
         }
 
         .form-group {
@@ -95,18 +101,22 @@
         }
 
         .login-form-username-input {
-            background: #149414;
+            background: white;
             outline: none;
             border: none;
-            width: 500px;
-            height: 80px;
-            border-radius: 12px;
+            width: 135%; 
+            height: 116px;
+            border-radius: 16px;
             color: white;
         }
 
-        .login-form-button {
-        {#align-self: flex-end;#}
+        ::placeholder{
+        color: #649568;
+        opacity: 0.5;
+        text-align: center;
         }
+
+
     </style>
 </head>
 
