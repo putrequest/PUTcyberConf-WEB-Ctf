@@ -236,6 +236,7 @@ def login():
         response = make_response(redirect('/level1'))
         response.set_cookie('user_id', result)
         response.set_cookie('session_id', s.user_id)
+        response.set_cookie('lang', 'pl')
         return response
         # return redirect(url_for('index'))
     else:
@@ -624,7 +625,7 @@ def level_06():
                             'dolphins': "ahahahahahahahah"},
                            JWTsecret, algorithm='HS256')
 
-    resp = make_response(render_template(getLangPage('level06_page.html'), page='Task 6', username=user_id, points=points))
+    resp = make_response(render_template(getLangPage('level06_page.html'), page='Task 6', username=user_id, points=points, walk=walk))
     set_token = request.cookies.get('token')
 
     if request.method == 'POST':
