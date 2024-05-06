@@ -25,6 +25,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
+
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
@@ -335,7 +336,7 @@ def robots():
         file = os.path.join(app.root_path, 'static', 'files', 'robots_eng.txt')
     else:
         file = os.path.join(app.root_path, 'static', 'files', 'robots.txt')
-
+        
     if redirect_resp is not None:
         return redirect_resp
     try:
