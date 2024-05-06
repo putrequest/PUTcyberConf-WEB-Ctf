@@ -40,10 +40,12 @@
 
 <div class="base-container">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="navbar-walkthrough-button" id="navbar-walkthrough-button">
-            <img class="navbar-walkthrough-img" src="/static/files/read-book-icon.png">
-            Walkthrough
-        </div>
+
+        <form name="form" method="post">
+            <input class="navbar-walkthrough-button" id="navbar-walkthrough-button" value="Walkthrough" type="submit" name="walkthrough-button-clicked">
+        </form>
+
+
         <div class="container_name_nav">
             {% if page is defined %}
                 <span class="navbar-brand mb-0 h1 col-lg-2">PUTcyberCONF: {{ page }}</span>
@@ -86,12 +88,14 @@
 
 </body>
 <script>
+    const walk = "{{ walk }}";
     const popup = document.querySelector('#walkthrough-container');
     const closeButton = document.querySelector('#close-button');
     const button = document.querySelector('#navbar-walkthrough-button');
     const lang_select = document.querySelector('#lang_select');
     const lang = getCookie('lang')
     const selected = document.querySelector(`option[value="${lang}"]`)
+
 
     selected.setAttribute('selected', true);
     closeButton.addEventListener('click', () => {
@@ -100,7 +104,9 @@
     button.addEventListener('click', () => {
         popup.style.display = 'block';
     })
+    if (walk) {
+                popup.style.display = 'block';
+            }
 
 </script>
 </html>
-

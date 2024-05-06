@@ -23,7 +23,8 @@ def init_database():
     username TEXT unique not null,
     hash TEXT unique not null,
     timestamp timestamp,
-    points integer
+    points integer,
+    walk integer
     );''')
     cur.execute('''create table userFlags(
     id integer primary key autoincrement,
