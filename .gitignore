@@ -128,6 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.db
+/**/*.db
 .idea/
 .app/static/files/flag.txt
 app/static/files/flag.txt
