@@ -1,15 +1,19 @@
 /*
- * Login: putrequest
+ *sizing issue was partially caused by min wid.
+ *make right cont. contents scale with the page 
+ *page extends past the <body> tag somehow
+ *
+ * Login: putrequest; login css seemingly in pl>login.html
  */
 
-.navbar {
+.navbar {  /*top bar, works ^^ */
     margin-bottom: 20px;
     width: 100%;
     background-color: #649568;
     border-radius: 20px;
 }
 
-.btn {
+.btn { /*button, which?*/
     border: 2px solid black;
     background-color: white;
     color: black;
@@ -20,16 +24,61 @@
 
 body {
     background-color: #9CCC9C;
-    color: #000000;
+    color: #9CCC9C;
     margin-top: 5rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* text related styles */
+h1, h2, h3, h4, h5, h6 { /*headers, cor size*/
     color: #444444;
+    
 }
 
+h1{
+    font-size: 3vw;
+    text-align: center;
+}
+
+h2{
+    margin-top: 1vw;
+    text-align: center;
+    font-size: 1.9vw !important ;
+}
+
+h4{
+    color: white; 
+    background: green; 
+    font-size: 1rem;
+}
+
+p{
+    font-size: 1.25vw;
+    padding: 2%;
+}
+
+/* lvl 1 list */
+.u-list
+{
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    font-size: 1.25vw;
+    padding: 2%;
+}
+
+/* lvl 4 link boxes */
+
+.container_lvlpost{
+    width: 15vw;
+    height: 7vw;
+    padding: 1.5vw;
+}
+
+
+/* */
+
 .content-section {
-    background: #ffffff;
+    background: #9CCC9C;
     padding: 10px 20px;
     border: 1px solid #dddddd;
     border-radius: 3px;
@@ -53,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
 .container {
     width: 100%;
     max-width: 1900px;
-    min-width: 1850px;
+    /*min-width: 1850px;*/
     display: flex;
     justify-content: flex-end;
 }
@@ -68,29 +117,31 @@ h1, h2, h3, h4, h5, h6 {
 
 .window_left {
     width: 100%;
-    min-width: 600px;
+   /* min-width: 600px;*/
     max-width: 700px;
-    padding-left: 10px;
+    padding: 5px;
     color: #FFE600;
     background-color: #649568;
 
 }
 
 .window_right {
-    flex: 2;
+    /*flex: 2;*/
     order: 5;
     width: 100%;
-    min-width: 800px;
+    /*min-width: 800px;*/
     max-width: 1400px;
-    padding: 0px;
-
+    padding: 5px;
+    contain: layout;
 }
 
 .btn-group-vertical {
+    margin: 1em;
+    box-sizing: border-box;
     width: 100%;
     display: flex;
     justify-content: center;
-
+    align-items: unset !important;
 }
 
 .form_container {
@@ -100,15 +151,15 @@ h1, h2, h3, h4, h5, h6 {
 .form-group {
     display: inline-block;
     width: 95%;
+    height: 2.5vw;
 }
 
 .container_name_nav {
-    items-align: center;
     background-color: #649568;
 }
 
 .base-container {
-    height: 100vh;
+    height: 100vh; 
     background-color: #9CCC9C;
     color: #000000;
 }
@@ -122,9 +173,17 @@ h1, h2, h3, h4, h5, h6 {
     color: grey;
 }
 
+.img{
+    object-fit: contain !important;
+    width: 45vw;
+}
+
+
 .article-title {
     color: white;
-    font-size: 21px;
+    font-size: 1.25vw;
+    text-align: center;
+
 }
 
 .Points {
@@ -135,7 +194,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #0E6B0E;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     font-family: 'Ubuntu', sans-serif;
     font-family: 'VT323', monospace;
 }
@@ -168,6 +227,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .window-container {
     display: flex;
+    height: 80%;
 }
 
 .navbar-walkthrough-button:hover {
@@ -230,16 +290,18 @@ h1, h2, h3, h4, h5, h6 {
     background: #DDD;
 }
 
-.level4-img-bg {
-    padding: 8px;
-    margin-right: 40px;
-    border-radius: 16px;
-    width: 300px;
-    height: 190px;
-    background: url("/static/files/card.png") no-repeat;
-    background-size: contain;
-}
+
 
 .walkthrough-container-close-button:hover {
     cursor: pointer;
+}
+
+.level4-img-bg {
+    /* padding: 8px; */
+    margin-right: 40px;
+    border-radius: 16px;
+    width: 14.5vw;
+    height: 7vw;
+    background: url("/static/files/card.png") no-repeat;
+    background-size: cover;
 }
