@@ -13,13 +13,14 @@
     border-radius: 20px;
 }
 
-.btn { /*button, which?*/
+.btn { 
     border: 2px solid black;
     background-color: white;
     color: black;
     padding: 14px 28px;
     font-size: 16px;
     cursor: pointer;
+    min-width: 20vw;
 }
 
 body {
@@ -177,7 +178,9 @@ p{
 .img{
     object-fit: contain !important;
     width: 45vw;
-    max-height: 30vw;
+    object-position: center;
+    max-height: 29vw;
+    padding-left: 3vw;
 }
 
 

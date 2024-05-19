@@ -5,9 +5,15 @@
 {% block body %}
     <h1 class="mx-auto">Znalazłeś Pieska!!!</h1>
     <img src="{{ url_for('static', filename='files/piesek.png') }}" alt="Zdjęcie Pieska" class="img">
+    <div class="row justify-content-center mx-auto">
     <form method="post" action="/blok-D/cela-1337/Mopsik">
-    <input type="submit" value="Idziemy dalej!" name="Idziemy dalej!" class="btn btn-success mx-auto">
-{% endblock %}
+ <div class="row justify-content-center mx-auto">
+
+    <input type="submit" value="Idziemy dalej!" class="btn btn-default btn-dark btn-md m-2 col-10" name="Idziemy dalej!">
+</div>
+    </div>
+
+    {% endblock %}
 {% block opis %}
         <h1>{{ page }}</h1>
         <p> Makłowicz odnalazł lokalizację pieska – jest to cela numer 1337. Zwinnie przemykając się przez korytarze, biegnie go uratować.<br>
