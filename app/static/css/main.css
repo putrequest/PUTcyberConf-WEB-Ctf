@@ -141,6 +141,7 @@ p{
     width: 100%;
     display: flex;
     justify-content: center;
+    contain: layout;
     align-items: unset !important;
 }
 
@@ -176,6 +177,7 @@ p{
 .img{
     object-fit: contain !important;
     width: 45vw;
+    max-height: 30vw;
 }
 
 
